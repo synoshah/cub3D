@@ -2,20 +2,33 @@
 
 ## Description
 
-Start -> Working on the direction vectors / camera movement. I use functions COS(To how much of the horizontal axis we are keeping),
- and SIN(To see how much we are bleeding in the perpendicual axis, and where on the radious we will land vertically).
-We feed these functions radians. let's say we want to shift our pov by 30 degrees, we will first convert the degree value into radians, 30 degrees is radians 0.5236~, cos(0.5236) = 0.866, sin(0.5236) = 0.5.
+## Direction Vectors & Camera Movement
 
-if our starting postion is let's say 3x, 4y. We will plop the old cordnites into our formula with the new value we just got.
- new_x = (3(old_x position * 0.866) - (4(old_y postion) * 0.5))
- for the first part we are saying take my original x and keep 86% of it. That gives us 2.5980. The original Y was 4. Since we are turning counter clockwise, the Y value is pushing the arrow further to the left (reducing X). This says, "Take 50% of my Y value and subtract it from X". 2.5980 - 2.0000 = 0.5980.
- The X value shrunk heavily from 3 down to 0.5980.
+To handle camera rotation, we need to calculate how our direction vectors shift when the player turns. We achieve this using a 2D rotation matrix, which relies on the trigonometric functions Sine and Cosine.
 
-Cos measures how much of the original direction you keep along its own axis. At 30, you keep approx 86.6% of the length.
+Because these functions expect radians rather than degrees, any degree value must first be converted. For example, $30^\circ$ is approximately $0.5236$ radians.
 
-Sine measures how much "bleeds" or transfers over into the perpendicular axis. At 30, exactly 50% transfers over.
+### The Core Concepts
+*   **Cosine ($\cos$)**: Measures how much of the original direction you keep along its own axis. For a $30^\circ$ turn, you retain approximately $86.6\%$ of the length ($\cos(0.5236) \approx 0.866$).
+*   **Sine ($\sin$)**: Measures how much the vector "bleeds" or transfers over into the perpendicular axis. For a $30^\circ$ turn, exactly $50\%$ transfers over ($\sin(0.5236) = 0.5$).
 
+### The Rotation Formula
+To find our new direction vector, we pass our old coordinates into the standard 2D rotation formulas:
 
+$$x' = x \cos(\theta) - y \sin(\theta)$$
+$$y' = x \sin(\theta) + y \cos(\theta)$$
+
+### Step-by-Step Example
+Let's assume our starting position is $(x: 3, y: 4)$ and we want to shift our POV by $30^\circ$ counter-clockwise. Let's calculate our new $x$ position ($x'$):
+
+1. **Calculate the X retention:** Take the original $x$ and keep $86.6\%$ of it. 
+   $3 \times 0.866 = 2.598$
+2. **Calculate the Y transfer:** Since we are turning counter-clockwise, the $y$ value pushes the vector further to the left, which reduces our total $x$. We take $50\%$ of our $y$ value to subtract from $x$.
+   $4 \times 0.5 = 2.0$
+3. **Calculate the final X:** 
+   $2.598 - 2.0 = 0.598$
+
+Through this rotation, the $x$ value shrinks heavily from $3$ down to $0.598$ because the $30^\circ$ turn redirected a large portion of the vector's magnitude into the $y$-axis.
 
 ## Instructions
 
