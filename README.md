@@ -2,20 +2,32 @@
 
 ## Description
 
-Start -> Working on the direction vectors / camera movement. I use functions COS(To how much of the horizontal axis we are keeping),
- and SIN(To see how much we are bleeding in the perpendicual axis, and where on the radious we will land vertically).
-We feed these functions radians. let's say we want to shift our pov by 30 degrees, we will first convert the degree value into radians, 30 degrees is radians 0.5236~, cos(0.5236) = 0.866, sin(0.5236) = 0.5.
+### Camera Movement & Direction Vectors
 
-if our starting postion is let's say 3x, 4y. We will plop the old cordnites into our formula with the new value we just got.
- new_x = (3(old_x position * 0.866) - (4(old_y postion) * 0.5))
- for the first part we are saying take my original x and keep 86% of it. That gives us 2.5980. The original Y was 4. Since we are turning counter clockwise, the Y value is pushing the arrow further to the left (reducing X). This says, "Take 50% of my Y value and subtract it from X". 2.5980 - 2.0000 = 0.5980.
- The X value shrunk heavily from 3 down to 0.5980.
+To handle the camera movement and shifting direction vectors, I'm using two main functions: 
+*   **COS**: Determines how much of the original horizontal axis we are keeping.
+*   **SIN**: Determines how much we are "bleeding" into the perpendicular axis, and where on the radius we will land vertically.
 
-Cos measures how much of the original direction you keep along its own axis. At 30, you keep approx 86.6% of the length.
+In short: **Cos** measures how much of the original direction you keep along its own axis, while **Sine** measures how much transfers over into the perpendicular axis. 
 
-Sine measures how much "bleeds" or transfers over into the perpendicular axis. At 30, exactly 50% transfers over.
+Because we feed these functions radians instead of degrees, we have to convert them first. Let's say we want to shift our POV by 30 degrees. 30 degrees is roughly 0.5236 radians:
+*   `cos(0.5236) = 0.866` (At 30 degrees, you keep approx 86.6% of the length)
+*   `sin(0.5236) = 0.5` (At 30 degrees, exactly 50% transfers over)
 
+#### The Math in Action
+If our starting position is `x = 3`, `y = 4`, we just plop the old coordinates into our formula with the new values we got. 
 
+To find our new X:
+`new_x = (old_x * 0.866) - (old_y * 0.5)`
+`new_x = (3 * 0.866) - (4 * 0.5)`
+
+**Breaking it down:**
+For the first part, we are basically saying "take my original X and keep 86% of it." That gives us `2.5980`. 
+
+The original Y was 4. Since we are turning counter-clockwise, the Y value is pushing the arrow further to the left, which reduces X. This says, "Take 50% of my Y value and subtract it from X." 
+`2.5980 - 2.0000 = 0.5980`
+
+Through this turn, the X value shrunk heavily from 3 down to 0.5980.
 
 ## Instructions
 
