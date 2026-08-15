@@ -12,6 +12,8 @@
 #define KEY_A 97
 #define KEY_D 100
 #define KEY_ESC 65307
+#define KEY_LEFT 65361
+#define KEY_RIGHT 65363
 
 typedef struct s_player
 {
