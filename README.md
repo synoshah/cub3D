@@ -2,33 +2,32 @@
 
 ## Description
 
-## Direction Vectors & Camera Movement
+### Camera Movement & Direction Vectors
 
-To handle camera rotation, we need to calculate how our direction vectors shift when the player turns. We achieve this using a 2D rotation matrix, which relies on the trigonometric functions Sine and Cosine.
+To handle the camera movement and shifting direction vectors, I'm using two main functions: 
+*   **COS**: Determines how much of the original horizontal axis we are keeping.
+*   **SIN**: Determines how much we are "bleeding" into the perpendicular axis, and where on the radius we will land vertically.
 
-Because these functions expect radians rather than degrees, any degree value must first be converted. For example, $30^\circ$ is approximately $0.5236$ radians.
+In short: **Cos** measures how much of the original direction you keep along its own axis, while **Sine** measures how much transfers over into the perpendicular axis. 
 
-### The Core Concepts
-*   **Cosine ($\cos$)**: Measures how much of the original direction you keep along its own axis. For a $30^\circ$ turn, you retain approximately $86.6\%$ of the length ($\cos(0.5236) \approx 0.866$).
-*   **Sine ($\sin$)**: Measures how much the vector "bleeds" or transfers over into the perpendicular axis. For a $30^\circ$ turn, exactly $50\%$ transfers over ($\sin(0.5236) = 0.5$).
+Because we feed these functions radians instead of degrees, we have to convert them first. Let's say we want to shift our POV by 30 degrees. 30 degrees is roughly 0.5236 radians:
+*   `cos(0.5236) = 0.866` (At 30 degrees, you keep approx 86.6% of the length)
+*   `sin(0.5236) = 0.5` (At 30 degrees, exactly 50% transfers over)
 
-### The Rotation Formula
-To find our new direction vector, we pass our old coordinates into the standard 2D rotation formulas:
+#### The Math in Action
+If our starting position is `x = 3`, `y = 4`, we just plop the old coordinates into our formula with the new values we got. 
 
-$$x' = x \cos(\theta) - y \sin(\theta)$$
-$$y' = x \sin(\theta) + y \cos(\theta)$$
+To find our new X:
+`new_x = (old_x * 0.866) - (old_y * 0.5)`
+`new_x = (3 * 0.866) - (4 * 0.5)`
 
-### Step-by-Step Example
-Let's assume our starting position is $(x: 3, y: 4)$ and we want to shift our POV by $30^\circ$ counter-clockwise. Let's calculate our new $x$ position ($x'$):
+**Breaking it down:**
+For the first part, we are basically saying "take my original X and keep 86% of it." That gives us `2.5980`. 
 
-1. **Calculate the X retention:** Take the original $x$ and keep $86.6\%$ of it. 
-   $3 \times 0.866 = 2.598$
-2. **Calculate the Y transfer:** Since we are turning counter-clockwise, the $y$ value pushes the vector further to the left, which reduces our total $x$. We take $50\%$ of our $y$ value to subtract from $x$.
-   $4 \times 0.5 = 2.0$
-3. **Calculate the final X:** 
-   $2.598 - 2.0 = 0.598$
+The original Y was 4. Since we are turning counter-clockwise, the Y value is pushing the arrow further to the left, which reduces X. This says, "Take 50% of my Y value and subtract it from X." 
+`2.5980 - 2.0000 = 0.5980`
 
-Through this rotation, the $x$ value shrinks heavily from $3$ down to $0.598$ because the $30^\circ$ turn redirected a large portion of the vector's magnitude into the $y$-axis.
+Through this turn, the X value shrunk heavily from 3 down to 0.5980.
 
 ## Instructions
 
