@@ -4,8 +4,8 @@ int handle_key(int keycode, t_player *player)
 {
     double olddir_x = player->dir_x;
     double olddir_y = player->dir_y;
-    double oldcam_x = player->camera_x;
-    double oldcam_y = player->camera_y;
+    // double oldcam_x = player->camera_x;
+    // double oldcam_y = player->camera_y;
     if (keycode == KEY_W)
     {
         player->pypos_x = player->pypos_x + (player->dir_x * player->move_speed);
@@ -54,16 +54,18 @@ int handle_key(int keycode, t_player *player)
 
 int close_game(t_player *player)
 {
+    (void)player;
     printf("Game closed\n");
     exit(0);
     return (0);
 }
 
+#include "include/map.h"
 int main(void)
 {
 	void		*mlx;
 	void		*mlx_win;
-	t_player 	player;
+	t_player 	player = {0};
 	t_data      img;
 
 	mlx = mlx_init();
@@ -72,9 +74,9 @@ int main(void)
 	img.img = mlx_new_image(mlx, 800, 600);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 
-	draw_hexagon(&img, 50, 50, 0x00FFFF, 50);
-	draw_circle(&img, 100, 100, 0x554053, 100);
-	draw_square(&img, 500, 500, 0x0F325478, 20);
+    draw_map(&img);
+    draw_player(&img, &player);
+
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	(void)mlx_win;
 	mlx_key_hook(mlx_win, handle_key, &player);
