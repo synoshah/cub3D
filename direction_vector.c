@@ -54,6 +54,7 @@ int dir(int angle)
     int old_x = x;
     int old_y = y;
 
+    angle = angle * (3.14/180);
     x = (old_x * cos(angle)) - (old_y * sin(angle));
     y = (old_x * sin(angle)) + (old_y * cos(angle));
 }
