@@ -2,10 +2,14 @@
 #define CUB3D_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/time.h>
 #include <mlx.h>
 #include <math.h>
+
+#include "include/image.h"
+#include "include/shapes.h"
 
 #define KEY_W 119
 #define KEY_S 115
