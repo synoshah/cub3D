@@ -16,33 +16,33 @@ int handle_key(int keycode, t_player *player)
     {
         player->pypos_x = player->pypos_x - (player->camera_x * player->move_speed);
         player->pypos_y = player->pypos_y - (player->camera_y * player->move_speed);
-        printf("Moving Left\n");
+        printf("Moving Left %f, %f\n", player->pypos_x, player->pypos_y); 
     }
     else if (keycode == KEY_S)
     {
         player->pypos_x = player->pypos_x - (player->dir_x * player->move_speed);
         player->pypos_y = player->pypos_y - (player->dir_y * player->move_speed);
-        printf("Moving Backward\n");
+        printf("Moving Backward %f, %f\n", player->pypos_x, player->pypos_y); 
     }
     else if (keycode == KEY_D)
     {
         player->pypos_x = player->pypos_x + (player->camera_x * player->move_speed);
         player->pypos_y = player->pypos_y + (player->camera_y * player->move_speed);
-        printf("Moving Right\n");
+        printf("Moving Right %f, %f\n", player->pypos_x, player->pypos_y); 
     }
     else if (keycode == KEY_RIGHT)
     {
         player->dir_x = (olddir_x * cos(player->rotation_speed) - (olddir_y * sin(player->rotation_speed)));
         player->dir_y = (olddir_x * sin(player->rotation_speed) + (olddir_y * cos(player->rotation_speed)));
-        player->dir_x = (olddir_x * cos(player->camera_x) - (olddir_y * sin(player->camera_y)));
-        player->dir_y = (olddir_x * sin(player->camera_x) + (olddir_y * cos(player->camera_y)));
+        player->camera_x = (oldcam_x * cos(player->rotation_speed) - (oldcam_y * sin(player->rotation_speed)));
+        player->camera_y = (oldcam_x * sin(player->rotation_speed) + (oldcam_y * cos(player->rotation_speed)));
     }
     else if (keycode == KEY_LEFT)
     {
         player->dir_x = (olddir_x * cos(player->rotation_speed) + (olddir_y * sin(player->rotation_speed)));
-        player->dir_y = (olddir_x * sin(player->rotation_speed) - (olddir_y * cos(player->rotation_speed)));
-        player->dir_x = (olddir_x * cos(player->camera_x) - (olddir_y * sin(player->camera_y)));
-        player->dir_y = (olddir_x * sin(player->camera_x) + (olddir_y * cos(player->camera_y)));
+        player->dir_y = (olddir_x * sin(player->rotation_speed) + (olddir_y * cos(player->rotation_speed)));
+        player->camera_x = (oldcam_x * cos(player->rotation_speed) + (oldcam_y * sin(player->rotation_speed)));
+        player->camera_y = (oldcam_x * sin(player->rotation_speed) + (oldcam_y * cos(player->rotation_speed)));
     }
     else if (keycode == KEY_ESC)
     {
