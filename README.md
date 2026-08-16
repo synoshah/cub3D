@@ -14,7 +14,7 @@ Because we feed these functions radians instead of degrees, we have to convert t
 *   `cos(0.5236) = 0.866` (At 30 degrees, you keep approx 86.6% of the length)
 *   `sin(0.5236) = 0.5` (At 30 degrees, exactly 50% transfers over)
 
-#### The Math in Action
+#### The Math
 If our starting position is `x = 3`, `y = 4`, we just plop the old coordinates into our formula with the new values we got. 
 
 To find our new X:
