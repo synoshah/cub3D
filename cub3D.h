@@ -38,4 +38,12 @@ typedef struct s_player
     void *player;
 }   t_player;
 
+typedef struct s_context
+{
+    t_player    *player;
+    t_data      *img;
+    void        *mlx;
+    void        *mlx_win;
+}   t_context;
+
 #endif
