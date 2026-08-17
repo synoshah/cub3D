@@ -7,7 +7,7 @@ int render_frame(t_context *ctx)
     t_player *player = ctx->player;
     t_data *img = ctx->img;
     int x = 0;
-    double camera_x;
+    double multiplier;
     double ray_dir_x;
     double ray_dir_y;
 
@@ -18,13 +18,13 @@ int render_frame(t_context *ctx)
     // draw 800 rays
     while (x < 800)
     {
-        camera_x = (2.0 * x / (double)800) - 1.0;
-        ray_dir_x = player->dir_x + (player->camera_x * camera_x);
-        ray_dir_y = player->dir_y + (player->camera_y * camera_x);
-        // Calculate line coordinates for the 2D map
-        int start_x = player->pypos_x * TILE_SIZE; 
+        multiplier = (2.0 * x / 800.0) - 1.0;
+        ray_dir_x = player->dir_x + (player->camera_x * multiplier);
+        ray_dir_y = player->dir_y + (player->camera_y * multiplier);
+        // calculate line coordinates for the 2d map
+        int start_x = player->pypos_x * TILE_SIZE;
         int start_y = player->pypos_y * TILE_SIZE;
-        // Multiply ray_dir by 50 just to make the line long enough to see
+        // multiply ray_dir by 50 just to make the line long enough to see
         int end_x = start_x + (ray_dir_x * 50);
         int end_y = start_y + (ray_dir_y * 50);
         draw_line(img, start_x, start_y, end_x, end_y, 0x00FF00); // green lasers
