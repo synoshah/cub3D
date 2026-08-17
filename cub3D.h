@@ -18,6 +18,7 @@
 #define KEY_ESC 65307
 #define KEY_LEFT 65361
 #define KEY_RIGHT 65363
+#define TILE_SIZE 16
 
 typedef struct s_player
 {
@@ -37,6 +38,8 @@ typedef struct s_player
 
     void *player;
 }   t_player;
+
+int render_frame(t_player *player);
 
 typedef struct s_context
 {

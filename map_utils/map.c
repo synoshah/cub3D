@@ -5,7 +5,6 @@
 
 #define HEIGHT 24
 #define WIDTH 24
-#define TILE_SIZE 16
 
 // It's temporarily a global variable.
 int MAP[WIDTH][HEIGHT]=
@@ -35,6 +34,24 @@ int MAP[WIDTH][HEIGHT]=
   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
+
+void	clear_display(t_data *img)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 800)
+	{
+		j = 0;
+		while (j < 600)
+		{
+			my_pixel_put(img, i, j, 0);
+			j++;
+		}
+		i++;
+	}
+}
 
 void	draw_map(t_data *img)
 {

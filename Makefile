@@ -7,7 +7,7 @@ MLX_DIR     = ./minilibx-linux
 MLX_FLAGS   = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 INCLUDES    = -I. -I$(MLX_DIR)
 
-SRCS        = main.c  my_pixel_put.c  shapes.c  draw_line.c  map_utils/map.c
+SRCS        = main.c  my_pixel_put.c  shapes.c  draw_line.c  map_utils/map.c render_frame.c
 OBJS        = $(SRCS:.c=.o)
 
 all: $(NAME)
