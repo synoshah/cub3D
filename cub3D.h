@@ -39,8 +39,6 @@ typedef struct s_player
     void *player;
 }   t_player;
 
-int render_frame(t_player *player);
-
 typedef struct s_context
 {
     t_player    *player;
@@ -48,5 +46,7 @@ typedef struct s_context
     void        *mlx;
     void        *mlx_win;
 }   t_context;
+
+int render_frame(t_context *ctx);
 
 #endif

@@ -97,7 +97,7 @@ int main(void)
 	t_context   ctx = {&player, &img, mlx, mlx_win};
 	mlx_key_hook(mlx_win, handle_key, &ctx);
 	mlx_hook(mlx_win, 17, 0, close_game, &ctx);
-	mlx_loop_hook(mlx, render_frame, &player);
+	mlx_loop_hook(mlx, render_frame, &ctx);
 	mlx_loop(mlx);
 	return 0;
 }

@@ -1,22 +1,36 @@
 #include "cub3D.h"
+#include "include/map.h"
+#include "include/draw.h"
 
-int render_frame(t_player *player)
+int render_frame(t_context *ctx)
 {
+    t_player *player = ctx->player;
+    t_data *img = ctx->img;
     int x = 0;
-    double camera_x; // Tracking (-1.0 to 1.0)
-    double ray_dir_x; // The x vector of ray
-    double ray_dir_y; // The y vector of ray
+    double camera_x;
+    double ray_dir_x;
+    double ray_dir_y;
+
+    clear_display(img);
+    // draw the map
+    draw_map(img);
+    draw_player(img, player);
+    // draw 800 rays
     while (x < 800)
     {
-        // Find pixel position between -1 and 1;
         camera_x = (2.0 * x / (double)800) - 1.0;
-        // shoot ray from that point
         ray_dir_x = player->dir_x + (player->camera_x * camera_x);
         ray_dir_y = player->dir_y + (player->camera_y * camera_x);
-        if (x == 400)
-            printf("Center %f, %f\n", ray_dir_x, ray_dir_y);
+        // Calculate line coordinates for the 2D map
+        int start_x = player->pypos_x * TILE_SIZE; 
+        int start_y = player->pypos_y * TILE_SIZE;
+        // Multiply ray_dir by 50 just to make the line long enough to see
+        int end_x = start_x + (ray_dir_x * 50);
+        int end_y = start_y + (ray_dir_y * 50);
+        draw_line(img, start_x, start_y, end_x, end_y, 0x00FF00); // green lasers
         x++;
     }
-    return 0;
-    // center = (2 * num of pixels / total screen width) - 1
+    // push the final completed image to the window
+    mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, img->img, 0, 0);
+    return (0);
 }
