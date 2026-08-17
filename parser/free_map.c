@@ -4,24 +4,29 @@
 void	free_map(t_map *map)
 {
 	int	i;
-	int	j;
 
-	if (map->path_e)
-		free(map->path_e);
-	if (map->path_n)
-		free(map->path_n);
-	if (map->path_s)
-		free(map->path_s);
-	if (map->path_w)
-		free(map->path_w);
-	if (map->map)
+	if (map)
 	{
-		i = 0;
-		while (i < map->height)
+		if (map->path_e)
+			free(map->path_e);
+		if (map->path_n)
+			free(map->path_n);
+		if (map->path_s)
+			free(map->path_s);
+		if (map->path_w)
+			free(map->path_w);
+		if (map && map->map != NULL && map->map[0])
 		{
-			free(map->map[i]);
-			i++;
+				printf("%s\n", map->map[0]);
+			i = 0;
+			while (i < (int)map->height)
+			{
+				if (map->map[i])
+					free(map->map[i]);
+				i++;
+			}
+			free(map->map);
 		}
-		free(map->map);
+		free(map);
 	}
 }

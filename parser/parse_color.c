@@ -1,7 +1,9 @@
 
 #include "include/map.h"
 
-int	parse_color(char *c)
+int	get_color(t_map *map, char *line)
 {
-	
+    (void)map;
+    (void)line;
+    return (0);
 }

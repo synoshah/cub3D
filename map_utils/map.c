@@ -54,7 +54,7 @@ void	draw_map(t_data *img)
 			if (MAP[i][j] > 0)
 			{
 				if (MAP[i][j] == 2)
-						draw_square(img, j *TILE_SIZE, i*TILE_SIZE, 0xFF0025, TILE_SIZE);
+					draw_square(img, j *TILE_SIZE, i*TILE_SIZE, 0xFF0025, TILE_SIZE);
 				else if (MAP[i][j] == 3)
 					draw_square(img, j *TILE_SIZE, i*TILE_SIZE, 0xFF0025, TILE_SIZE);
 				else if (MAP[i][j] == 4)
@@ -80,4 +80,22 @@ void	draw_player(t_data *img, t_player *player)
 	if (player->pypos_y > 0)
 		y_pos = player->pypos_y * TILE_SIZE;
 	draw_circle(img, x_pos, y_pos, 0xFF0000FF, 4);
+}
+
+void	clear_display(t_data *img)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < 800)
+	{
+		j = 0;
+		while (j < 600)
+		{
+			my_pixel_put(img, i, j, 0);
+			j++;
+		}
+		i++;
+	}
 }
