@@ -9,10 +9,11 @@ INCLUDES    = -I. -I$(MLX_DIR) -I./libft -I./include
 
 SRCS        = 	my_pixel_put.c  shapes.c  draw_line.c  map_utils/map.c  parser/free_map.c\
 				parser/get_texture_path.c  parser/parse_cub_file.c\
-				parser/get_map_dimension.c  parser/parse_color.c parser/parse_main.c\
+				parser/get_map_dimension.c  parser/parse_color.c \
 				parser/parse_helper.c\
-				#main.c
-				main.c render_frame.c
+				render_frame.c \
+				main.c \
+				# parser/parse_main.c
 OBJS        = $(SRCS:.c=.o)
 
 LIBFT = ./libft/libft.a

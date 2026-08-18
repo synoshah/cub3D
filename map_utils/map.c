@@ -98,21 +98,3 @@ void	draw_player(t_data *img, t_player *player)
 		y_pos = player->pypos_y * TILE_SIZE;
 	draw_circle(img, x_pos, y_pos, 0xFF0000FF, 4);
 }
-
-void	clear_display(t_data *img)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < 800)
-	{
-		j = 0;
-		while (j < 600)
-		{
-			my_pixel_put(img, i, j, 0);
-			j++;
-		}
-		i++;
-	}
-}
