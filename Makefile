@@ -1,7 +1,7 @@
 NAME        = cub3D
 
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror
+CFLAGS      = -Wall -Wextra -Werror -g
 
 MLX_DIR     = ./minilibx-linux
 MLX_FLAGS   = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
@@ -9,8 +9,11 @@ INCLUDES    = -I. -I$(MLX_DIR) -I./libft -I./include
 
 SRCS        = 	my_pixel_put.c  shapes.c  draw_line.c  map_utils/map.c  parser/free_map.c\
 				parser/get_texture_path.c  parser/parse_cub_file.c\
-				parser/get_map_dimension.c  parser/parse_color.c parser/parse_main.c\
-				main.c render_frame.c
+				parser/get_map_dimension.c  parser/parse_color.c \
+				parser/parse_helper.c\
+				render_frame.c \
+				main.c \
+				# parser/parse_main.c
 OBJS        = $(SRCS:.c=.o)
 
 LIBFT = ./libft/libft.a
@@ -27,12 +30,12 @@ $(LIBFT):
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	make clean -C ./libft 
 	rm -f $(OBJS)
+# make clean -C ./libft 
 
 fclean: clean
-	make fclean -C ./libft
 	rm -f $(NAME)
+# make fclean -C ./libft
 
 re: fclean all
 

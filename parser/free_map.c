@@ -15,14 +15,12 @@ void	free_map(t_map *map)
 			free(map->path_s);
 		if (map->path_w)
 			free(map->path_w);
-		if (map && map->map != NULL && map->map[0])
+		if (map->map != NULL)
 		{
-				printf("%s\n", map->map[0]);
 			i = 0;
-			while (i < (int)map->height)
+			while (i < (int)map->height && map->map[i])
 			{
-				if (map->map[i])
-					free(map->map[i]);
+				free(map->map[i]);
 				i++;
 			}
 			free(map->map);
