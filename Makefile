@@ -12,6 +12,7 @@ SRCS        = 	my_pixel_put.c  shapes.c  draw_line.c  map_utils/map.c  parser/fr
 				parser/get_map_dimension.c  parser/parse_color.c parser/parse_main.c\
 				parser/parse_helper.c\
 				#main.c
+				main.c render_frame.c
 OBJS        = $(SRCS:.c=.o)
 
 LIBFT = ./libft/libft.a
