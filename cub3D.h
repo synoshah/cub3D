@@ -22,29 +22,40 @@
 
 typedef struct s_player
 {
-    double pypos_x; // double because we need to implement small steps.
-    double pypos_y;
+	double pypos_x; // double because we need to implement small steps.
+	double pypos_y;
 
-    double dir_x; // the dda algorithm needs to know the exact center point 
-    double dir_y; // of your vision to calculate where to cast the rays.
+	double dir_x; // the dda algorithm needs to know the exact center point 
+	double dir_y; // of your vision to calculate where to cast the rays.
 
-    double camera_x; // This determines your field of view.
-    double camera_y; //  Without this plane, our engine can only shoot one laser straight ahead. The engine uses this line to spread the 800 rays across the screen.
-    // It start from the extreme left axis_y(0) and goes till the extreme right axis_x(800).
+	double camera_x; // This determines your field of view.
+	double camera_y; //  Without this plane, our engine can only shoot one laser straight ahead. The engine uses this line to spread the 800 rays across the screen.
+	// It start from the extreme left axis_y(0) and goes till the extreme right axis_x(800).
 
-    double move_speed; // what it says.
+	double move_speed; // what it says.
 
-    double rotation_speed; // degrees to turn.
+	double rotation_speed; // degrees to turn.
 
-    void *player;
+	void *player;
 }   t_player;
+
+typedef struct s_input
+{
+	int	w;
+	int	s;
+	int	a;
+	int	d;
+	int	l;
+	int	r;
+}	t_input;
 
 typedef struct s_context
 {
-    t_player    *player;
-    t_data      *img;
-    void        *mlx;
-    void        *mlx_win;
+	t_player    *player;
+	t_data      *img;
+	void        *mlx;
+	void        *mlx_win;
+	t_input		*keys;
 }   t_context;
 
 int render_frame(t_context *ctx);
