@@ -10,6 +10,11 @@ int render_frame(t_context *ctx)
     double multiplier;
     double ray_dir_x;
     double ray_dir_y;
+    int stepX;
+    int stepY;
+    int side;
+    double deltaDistX;
+    double deltaDistY;
 
     clear_display(img);
     // draw the map
@@ -18,6 +23,9 @@ int render_frame(t_context *ctx)
     // draw 800 rays
     while (x < 800)
     {
+        int hit = 0;
+        int mapX = (int)player->pypos_x;
+        int mapY = (int)player->pypos_y;
         multiplier = (2.0 * x / 800.0) - 1.0;
         ray_dir_x = player->dir_x + (player->camera_x * multiplier);
         ray_dir_y = player->dir_y + (player->camera_y * multiplier);
