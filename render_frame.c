@@ -2,6 +2,8 @@
 #include "include/map.h"
 #include "include/draw.h"
 
+int handle_key(t_context *ctx);
+
 int render_frame(t_context *ctx)
 {
     t_player *player = ctx->player;
@@ -16,6 +18,7 @@ int render_frame(t_context *ctx)
     double deltaDistX;
     double deltaDistY;
 
+    handle_key(ctx);
     clear_display(img);
     // draw the map
     draw_map(img);
