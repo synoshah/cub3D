@@ -123,8 +123,8 @@ int main(void)
 	player.dir_y = -1.0;
 	player.camera_x = 0.66;
 	player.camera_y = 0.0;
-	player.move_speed = 0.2;
-	player.rotation_speed = 0.05;
+	player.move_speed = 0.1;
+	player.rotation_speed = 0.01;
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 800, 600, "cub3D");
 	img.img = mlx_new_image(mlx, 800, 600);
@@ -145,7 +145,6 @@ int main(void)
 	mlx_hook(mlx_win, 2, 1L<<0,  handle_key_press, &ctx);
 	mlx_hook(mlx_win, 3, 1L<<1 ,handle_key_release, &ctx);
 	mlx_do_key_autorepeatoff(mlx); // Idk what this does lol.
-
 	mlx_hook(mlx_win, 17, 0, close_game, &ctx);
 	mlx_loop(mlx);
 	return 0;
