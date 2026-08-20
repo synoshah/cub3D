@@ -7,23 +7,23 @@ void	free_map(t_map *map)
 
 	if (map)
 	{
-		if (map->path_e)
-			free(map->path_e);
-		if (map->path_n)
-			free(map->path_n);
-		if (map->path_s)
-			free(map->path_s);
-		if (map->path_w)
-			free(map->path_w);
-		if (map->map != NULL)
+		if (map->textures.east)
+			free(map->textures.east);
+		if (map->textures.north)
+			free(map->textures.north);
+		if (map->textures.south)
+			free(map->textures.south);
+		if (map->textures.west)
+			free(map->textures.west);
+		if (map->grid != NULL)
 		{
 			i = 0;
-			while (i < (int)map->height && map->map[i])
+			while (i < (int)map->size.height && map->grid[i])
 			{
-				free(map->map[i]);
+				free(map->grid[i]);
 				i++;
 			}
-			free(map->map);
+			free(map->grid);
 		}
 		free(map);
 	}

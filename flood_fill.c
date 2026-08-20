@@ -1,23 +1,32 @@
 #include "cub3D.h"
+#include "map.h"
 
-void flood(char **map, int x, int y, int limit)
+// TODO: check for player.
+//		 check dup players.
+//		 Make sure player not in wall.
+// N,S,E or W
+int	flood(t_map *map, int x, int y)
 {
-    if (x <  0 || y < 0 || map[x][y] > limit)
-    {
-        write(1, "Unclosed walls\n", 15);
-        return ;
-    }
-    else if (px >= limit || py >= limit)
-    {
-        write(1, "Player initialized outside of walls\n", 35);
-        return ;
-    }
-    map[x][y] = 'V';
-    if (map[x][y] || == 'V' map[x][y] == '1')
-        return ;
-    flood(map, x + 1, y, limit);
-    flood(map, x - 1, y, limit);
-    flood(map, x, y + 1, limit);
-    flood(map, x, y - 1, limit);
+	if ((size_t)x >= map->size.width || (size_t)y >= map->size.height)
+	{
+		return (0);
+	}
+	if (is_spawn_point(map->grid[y][x]) && ((size_t)x != map->spawn.x || (size_t)y != map->spawn.y))
+	{
+		return (0);
+	}
+	if (map->grid[y][x] == '1' || map->grid[y][x] == 'V')
+		return (1);
+	if (map->grid[y][x] == ' ')
+	return (0);
+	if (map->grid[y][x] != '0'
+		&& !is_spawn_point(map->grid[y][x]))
+		return (0);
+	map->grid[y][x] = 'V';
+	return (
+		flood(map, x + 1, y)
+		&& flood(map, x - 1, y)
+		&& flood(map, x, y + 1)
+		&& flood(map, x, y - 1)
+	);
 }
-
