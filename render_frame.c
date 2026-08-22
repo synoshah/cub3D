@@ -2,12 +2,13 @@
 #include "include/map.h"
 #include "include/draw.h"
 
-// don't need handle_key here, main.c is already listening for key presses in the background
+extern int MAP[24][24];
 
 int render_frame(t_context *ctx)
 {
     t_player *player = ctx->player;
     t_data *img = ctx->img;
+    handle_key(ctx);
     int x = 0;
     double multiplier;
     double ray_dir_x;
@@ -18,11 +19,9 @@ int render_frame(t_context *ctx)
     double sideDistY;
     double deltaDistX;
     double deltaDistY;
+    int side;
 
     clear_display(img);
-    draw_map(img);
-    draw_player(img, player);
-
     // Ze Loop
     while (x < 800)
     {
@@ -57,15 +56,46 @@ int render_frame(t_context *ctx)
             stepY = 1;
             sideDistY = (mapY + 1.0 - player->pypos_y) * deltaDistY;
         }
-        int start_x = player->pypos_x * TILE_SIZE;
-        int start_y = player->pypos_y * TILE_SIZE;
-        int end_x = start_x + (ray_dir_x * 50);
-        int end_y = start_y + (ray_dir_y * 50);
-        draw_line(img, start_x, start_y, end_x, end_y, 0x00FF00); 
-
+        while (hit == 0)
+        {
+            if (sideDistX < sideDistY)
+            {
+                sideDistX = deltaDistX + sideDistX;
+                mapX += stepX;
+                side = 0;
+            }
+            else
+            {
+                sideDistY = deltaDistY + sideDistY;
+                mapY += stepY;
+                side = 1;
+            }
+            if (MAP[mapY][mapX] > 0)
+                hit = 1;
+        }
+        //calculate the real distance to the wall
+        double perpWallDist;
+        if (side == 0)
+            perpWallDist = (sideDistX - deltaDistX);
+        else
+            perpWallDist = (sideDistY - deltaDistY);
+        // calculate the height of the 3d wall slice
+        int lineHeight = (int)(600 / perpWallDist);
+        // find exactly where to draw the wall on the screen
+        int drawStart = -lineHeight / 2 + 600 / 2;
+        if (drawStart < 0)
+            drawStart = 0;
+        int drawEnd = lineHeight / 2 + 600 / 2;
+        if (drawEnd >= 600)
+            drawEnd = 600 - 1; //do not draw past the bottom of the window
+        // give the walls temp colors for fake lighting
+        int color = 0x0000FF; // Blue wall
+        if (side == 1)
+            color = 0x000088; // darker blue if it's a north or south wall
+        // draw the vertical 3d slice 
+        draw_line(img, x, drawStart, x, drawEnd, color);
         x++;
     }
     mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, img->img, 0, 0);
     return (0);
 }
-

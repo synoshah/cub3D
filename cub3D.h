@@ -59,5 +59,6 @@ typedef struct s_context
 }   t_context;
 
 int render_frame(t_context *ctx);
+int handle_key(t_context *ctx);
 
 #endif
