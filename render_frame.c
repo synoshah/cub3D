@@ -2,8 +2,6 @@
 #include "include/map.h"
 #include "include/draw.h"
 
-extern int MAP[24][24];
-
 int render_frame(t_context *ctx)
 {
     t_player *player = ctx->player;
@@ -21,8 +19,7 @@ int render_frame(t_context *ctx)
     double deltaDistY;
     int side;
 
-    clear_display(img);
-    // Ze Loop
+draw_background(img, ctx->map->colors.ceiling, ctx->map->colors.floor);    // Ze Loop
     while (x < 800)
     {
         int hit = 0;
@@ -70,7 +67,13 @@ int render_frame(t_context *ctx)
                 mapY += stepY;
                 side = 1;
             }
-            if (MAP[mapY][mapX] > 0)
+            // check if the ray is outside the map boundaries
+            if (mapX < 0 || mapY < 0 || 
+                (size_t)mapY >= ctx->map->size.height || 
+                (size_t)mapX >= ft_strlen(ctx->map->grid[mapY]))
+                hit = 1; // treat the edge of the world as a wall
+            // Check if it hit a parsed wall character
+            else if (ctx->map->grid[mapY][mapX] == '1')
                 hit = 1;
         }
         //calculate the real distance to the wall
@@ -79,7 +82,9 @@ int render_frame(t_context *ctx)
             perpWallDist = (sideDistX - deltaDistX);
         else
             perpWallDist = (sideDistY - deltaDistY);
-        // calculate the height of the 3d wall slice
+        if (perpWallDist <= 0.0001)
+            perpWallDist = 0.0001;
+        // calculate the height of the 3d wall
         int lineHeight = (int)(600 / perpWallDist);
         // find exactly where to draw the wall on the screen
         int drawStart = -lineHeight / 2 + 600 / 2;

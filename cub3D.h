@@ -51,11 +51,12 @@ typedef struct s_input
 
 typedef struct s_context
 {
-	t_player    *player;
-	t_data      *img;
-	void        *mlx;
-	void        *mlx_win;
-	t_input		*keys;
+	t_player    		*player;
+	t_data      		*img;
+	void        		*mlx;
+	void        		*mlx_win;
+	t_input				*keys;
+	struct s_map		*map;
 }   t_context;
 
 int render_frame(t_context *ctx);

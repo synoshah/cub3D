@@ -116,7 +116,47 @@ int main(void)
 	void		*mlx_win;
 	t_player 	player = {0};
 	t_data      img;
+	t_map		*map;
 
+	map = parse_cub_file("maps/map1.cub");
+	if (!map)
+	{
+		printf("failed to parse map.\n");
+		return (1);
+	}
+	// spawn in the center of the grid
+	player.pypos_x = map->spawn.x + 0.5;
+	player.pypos_y = map->spawn.y + 0.5;
+
+	// set vectors for spawn direction
+	if (map->spawn.direction == 'N')
+	{
+		player.dir_x = 0.0;
+		player.dir_y = -1.0;
+		player.camera_x = 0.66;
+		player.camera_y = 0.0;
+	}
+	else if (map->spawn.direction == 'S')
+	{
+		player.dir_x = 0.0;
+		player.dir_y = 1.0;
+		player.camera_x = -0.66;
+		player.camera_y = 0.0;
+	}
+	else if (map->spawn.direction == 'E')
+	{
+		player.dir_x = 1.0;
+		player.dir_y = 0.0;
+		player.camera_x = 0.0;
+		player.camera_y = 0.66;
+	}
+	else if (map->spawn.direction == 'W')
+	{
+		player.dir_x = -1.0;
+		player.dir_y = 0.0;
+		player.camera_x = 0.0;
+		player.camera_y = -0.66;
+	}
 	player.pypos_x = 5.0; 
 	player.pypos_y = 5.0;
 	player.dir_x = 0.0;
@@ -129,17 +169,10 @@ int main(void)
 	mlx_win = mlx_new_window(mlx, 800, 600, "cub3D");
 	img.img = mlx_new_image(mlx, 800, 600);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-
-	draw_map(&img);
-	draw_player(&img, &player);
-
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	(void)mlx_win;
-
 	// Testing new struct...
 	t_input		input = {0};
-	t_context   ctx = {&player, &img, mlx, mlx_win, &input};
-
+	t_context   ctx = {&player, &img, mlx, mlx_win, &input, map};
 	mlx_loop_hook(mlx, render_frame, &ctx);
 	// Key press and key release events
 	mlx_hook(mlx_win, 2, 1L<<0,  handle_key_press, &ctx);
