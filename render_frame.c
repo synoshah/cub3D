@@ -19,7 +19,8 @@ int render_frame(t_context *ctx)
     double deltaDistY;
     int side;
 
-draw_background(img, ctx->map->colors.ceiling, ctx->map->colors.floor);    // Ze Loop
+    draw_background(img, ctx->map->colors.ceiling, ctx->map->colors.floor);
+    // The Loop
     while (x < 800)
     {
         int hit = 0;
