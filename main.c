@@ -98,7 +98,6 @@ int	handle_key_release(int keycode, t_context *ctx)
 	if (keycode == KEY_RIGHT)
 		ctx->keys->r = 0;
 	printf("%d\n", ctx->keys->w);
-	
 	return (0);
 }
 
@@ -108,6 +107,23 @@ int close_game(t_context *player)
 	printf("Game closed\n");
 	exit(0);
 	return (0);
+}
+
+void load_texture(void *mlx, t_data texture[], char *file_path)
+{
+	int width;
+	int height;
+
+	texture->img = mlx_xpm_file_to_image(mlx, file_path, &width, &height);
+	if (!texture->img)
+	{
+		printf("could not load texture from %s\n", file_path);
+        exit(1);
+	}
+	texture->addr = mlx_get_data_addr(texture->img, 
+                                      &texture->bits_per_pixel, 
+                                      &texture->line_length, 
+                                      &texture->endian);
 }
 
 int main(void)
@@ -157,22 +173,34 @@ int main(void)
 		player.camera_x = 0.0;
 		player.camera_y = -0.66;
 	}
-	player.pypos_x = 5.0; 
-	player.pypos_y = 5.0;
 	player.dir_x = 0.0;
 	player.dir_y = -1.0;
 	player.camera_x = 0.66;
 	player.camera_y = 0.0;
 	player.move_speed = 0.1;
 	player.rotation_speed = 0.01;
+
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 800, 600, "cub3D");
 	img.img = mlx_new_image(mlx, 800, 600);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	(void)mlx_win;
-	// Testing new struct...
+
 	t_input		input = {0};
-	t_context   ctx = {&player, &img, mlx, mlx_win, &input, map};
+	t_context   ctx;
+
+	ctx.player = &player;
+    ctx.img = &img;
+    ctx.mlx = mlx;
+    ctx.mlx_win = mlx_win;
+    ctx.keys = &input;
+    ctx.map = map;
+	// paths saved in your parser.
+	load_texture(mlx, &ctx.textures[0], ctx.map->textures.north);
+	load_texture(mlx, &ctx.textures[1], ctx.map->textures.south);
+	load_texture(mlx, &ctx.textures[2], ctx.map->textures.east);
+	load_texture(mlx, &ctx.textures[3], ctx.map->textures.west);
+
 	mlx_loop_hook(mlx, render_frame, &ctx);
 	// Key press and key release events
 	mlx_hook(mlx_win, 2, 1L<<0,  handle_key_press, &ctx);

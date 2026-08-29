@@ -146,24 +146,44 @@ int render_frame(t_context *ctx)
         // determine the exact texture starting coordinate based on how much of the wall is clamped off screen
         double texPos = (drawStart - 600 / 2 + lineHeight / 2) * step;
 
-        // Fake lighting
-        int color = 0x0000FF; 
-        if (side == 1)
-            color = 0x000088; 
-            
+        // Find texture index (0 to 3) based on wall hit
+        int texture_index = 0;
+        
+        if (side == 0)
+        {
+            if (ray_dir_x > 0)
+                texture_index = 2; // East
+            else
+                texture_index = 3; // West
+        }
+        else
+        {
+            if(ray_dir_y > 0)
+                texture_index = 1;
+            else
+                texture_index = 0;
+        }
         int y = drawStart;
         while (y < drawEnd)
         {
-            // mask the coordinate with bitwise and to ensure it safely wraps between 0 and 63
+            // calculate the exact y pixel of the image while
+            // wrapping it at 64
             int texY = (int)texPos & (64 - 1);
-            (void)texY;
-            texPos += step; // advance down the image file
-            // my_pixel_put(img, x, y, color); // i think it will go here in the future
+            texPos += step;
+
+            // get pixel color from our image memory
+            int color = get_texture_pixel(&ctx->textures[texture_index], texX, texY);
+
+            // fake Lighting
+            //shifts all the binary bits one slot to the right,
+            // which divides the whole number by 2 instantly.
+            if (side == 1)
+                color = (color >> 1) & 0x7F7F7F; // darken the color by 50%
+            
+            // paint it to the screen
+            my_pixel_put(img, x, y, color);
             y++;
         }
-        // temporary solid color drawing
-        draw_line(img, x, drawStart, x, drawEnd, color);
-        
         // advance to the next ray column on the monitor
         x++;
     }
