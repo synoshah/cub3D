@@ -92,7 +92,7 @@ int render_frame(t_context *ctx)
             // check to see the ray has not flown outside the parsed map boundaries
             if (mapX < 0 || mapY < 0 || 
                 (size_t)mapY >= ctx->map->size.height || 
-                (size_t)mapX >= ft_strlen(ctx->map->grid[mapY]))
+                (size_t)mapX >= ctx->map->size.width)
                 hit = 1; 
                 
             // check the valid map coordinate for a wall

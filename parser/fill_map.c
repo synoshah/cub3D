@@ -90,5 +90,7 @@ int	load_map_grid(t_map *map, int fd)
 		free(line);
 		line = get_next_line(fd);
 	}
+	if (!found_spawn)
+		return (0);
 	return (1);
 }

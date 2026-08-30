@@ -1,5 +1,6 @@
 #include "cub3D.h"
 #include "include/map.h"
+#include "include/parser.h"
 
 int	handle_key_press(int keycode, t_context *ctx)
 {
@@ -73,15 +74,15 @@ int main(void)
 	t_data      img;
 	t_map		*map;
 
-	map = parse_cub_file("maps/map1.cub");
+	map = parse_map_file("maps/map1.cub");
 	if (!map)
 	{
 		printf("failed to parse map.\n");
 		return (1);
 	}
 	// spawn in the center of the grid
-	player.pypos_x = map->spawn.x + 0.5;
-	player.pypos_y = map->spawn.y + 0.5;
+	player.pypos_x = map->spawn.x + 0.1;
+	player.pypos_y = map->spawn.y + 0.1;
 
 	// set vectors for spawn direction
 	if (map->spawn.direction == 'N')
@@ -124,9 +125,9 @@ int main(void)
 	img.img = mlx_new_image(mlx, 800, 600);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 
-	draw_map(&img);
-	draw_player(&img, &player);
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	// draw_map(&img);
+	// draw_player(&img, &player);
+	// mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 
 	t_input		input = {0};
 	t_context   ctx;
@@ -147,8 +148,8 @@ int main(void)
 	// Key press and key release events
 	mlx_hook(mlx_win, 2, 1L<<0,  handle_key_press, &ctx);
 	mlx_hook(mlx_win, 3, 1L<<1 ,handle_key_release, &ctx);
-	mlx_do_key_autorepeatoff(mlx); // Idk what this does lol.
-	mlx_hook(mlx_win, 17, 0, close_game, &ctx);
+	mlx_do_key_autorepeatoff(mlx); // Idk what this does lol. 
+	mlx_hook(mlx_win, 17, 0, close_game, &ctx);  
 	mlx_loop(mlx);
 	return 0;
 }
