@@ -1,5 +1,4 @@
-
-#include "include/map.h"
+#include "../include/parser.h"
 
 void	free_map(t_map *map)
 {

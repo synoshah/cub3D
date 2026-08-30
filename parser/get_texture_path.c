@@ -1,4 +1,4 @@
-#include "include/map.h"
+#include "../include/parser.h"
 
 static int	validate_and_add_path(char *line, char **destinations)
 {
@@ -20,9 +20,7 @@ static int	validate_and_add_path(char *line, char **destinations)
 	return (1);
 }
 
-// TODO: add path to correct t_map
-//		check if it is a valid path/file.
-int	add_texture(t_textures *tex, int *found_textures, char *line)
+int	add_texture(t_textures *tex, t_flags *flags, char *line)
 {
 	static char	*ids[4] = {"NO", "SO", "WE", "EA"};
 	char		**destinations[4];
@@ -39,11 +37,11 @@ int	add_texture(t_textures *tex, int *found_textures, char *line)
 	{
 		if (!ft_strncmp(line, ids[i], 2))
 		{
-			if (found_textures[i])
+			if (flags->found_textures[i])
 				return (0);
 			if (!validate_and_add_path(line + 2, destinations[i]))
 				return (0);
-			found_textures[i] = 1;
+			flags->found_textures[i] = 1;
 			return (1);
 		}
 	}

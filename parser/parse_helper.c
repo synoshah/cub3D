@@ -1,5 +1,4 @@
-#include "../include/map.h"
-#include "../libft/libft.h"
+#include "../include/parser.h"
 
 int	is_texture_line(char *line)
 {
@@ -54,4 +53,3 @@ int	all_textures_found(int *found_textures)
 	}
 	return (1);
 }
-

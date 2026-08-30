@@ -1,10 +1,5 @@
+#include "../include/parser.h"
 
-#include "../include/map.h"
-#include <stdio.h>
-
-t_map	*parse_cub_file(char *filename);
-
-// TODO: Use the new structs inside map.h
 int	main(void)
 {
 	t_map	*map;
@@ -19,7 +14,7 @@ int	main(void)
 	// player.move_speed = 0.2;
 	// player.rotation_speed = 0.05;
 
-	map = parse_cub_file("maps/map3.cub");
+	map = parse_map_file("maps/map3.cub");
 	if (!map)
 	{
 		printf("Error\n");
