@@ -1,10 +1,6 @@
 #include "cub3D.h"
 #include "map.h"
 
-// TODO: check for player.
-//		 check dup players.
-//		 Make sure player not in wall.
-// N,S,E or W
 int	flood(t_map *map, int x, int y)
 {
 	if ((size_t)x >= map->size.width || (size_t)y >= map->size.height)
@@ -18,7 +14,7 @@ int	flood(t_map *map, int x, int y)
 	if (map->grid[y][x] == '1' || map->grid[y][x] == 'V')
 		return (1);
 	if (map->grid[y][x] == ' ')
-	return (0);
+		return (0);
 	if (map->grid[y][x] != '0'
 		&& !is_spawn_point(map->grid[y][x]))
 		return (0);

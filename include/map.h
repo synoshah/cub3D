@@ -28,7 +28,6 @@ typedef struct s_textures
 	char	*east;
 }	t_textures;
 
-// TODO: add starting position.
 typedef struct s_spawn
 {
 	size_t	x;
@@ -44,6 +43,16 @@ typedef struct s_map
 	t_spawn		spawn;
 	char		**grid;
 }	t_map;
+
+typedef struct s_flags
+{
+	int	found_textures[4];
+	int	in_map;
+	int	found_floor;
+	int	found_ceiling;
+	int	height;
+	int	width;
+}	t_flags;
 
 // typedef struct s_map
 // {
@@ -64,7 +73,7 @@ void	draw_player(t_data *img, t_player *player);
 void 	draw_background(t_data *img, int ceiling_color, int floor_color);
 // parser
 t_map	*parse_cub_file(char *filename);
-int		get_color(char *line);
+int		add_color(t_colors *colors, char *line, t_flags *flags);
 char	*get_tex(t_map *map, char *line);
 void	free_map(t_map *map);
 
@@ -73,6 +82,6 @@ int		is_color_line(char *line);
 int		is_blank_line(char *line);
 int		is_spawn_point(char c);
 int		all_textures_found(int *found_textures);
-int		add_texture(t_textures *tex, int *found_textures, char *line);
+int		add_texture(t_textures *tex, t_flags *flags, char *line);
 
 #endif
