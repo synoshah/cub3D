@@ -118,7 +118,7 @@ int main(void)
 	player.camera_x = 0.66;
 	player.camera_y = 0.0;
 	player.move_speed = 0.1;
-	player.rotation_speed = 0.01;
+	player.rotation_speed = 0.05;
 
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 800, 600, "cub3D");

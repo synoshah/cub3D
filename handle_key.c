@@ -11,27 +11,39 @@ int handle_key(t_context *ctx)
 
 	if (ctx->keys->w)
 	{
-		player->pypos_x = player->pypos_x + (player->dir_x * player->move_speed);
-		player->pypos_y = player->pypos_y + (player->dir_y * player->move_speed);
-		printf("Moving Forward %f, %f\n", player->pypos_x, player->pypos_y);    
+		double new_x = player->pypos_x + (player->dir_x * player->move_speed);
+        double new_y = player->pypos_y + (player->dir_y * player->move_speed);
+        if (ctx->map->grid[(int)player->pypos_y][(int)new_x] != '1')
+            player->pypos_x = new_x;
+        if (ctx->map->grid[(int)new_y][(int)player->pypos_x] != '1')
+            player->pypos_y = new_y;
 	}
 	if (ctx->keys->a)
 	{
-		player->pypos_x = player->pypos_x - (player->camera_x * player->move_speed);
-		player->pypos_y = player->pypos_y - (player->camera_y * player->move_speed);
-		printf("Moving Left %f, %f\n", player->pypos_x, player->pypos_y); 
+		double new_x = player->pypos_x - (player->camera_x * player->move_speed);
+		double new_y = player->pypos_y - (player->camera_y * player->move_speed);
+        if (ctx->map->grid[(int)player->pypos_y][(int)new_x] != '1')
+            player->pypos_x = new_x;
+        if (ctx->map->grid[(int)new_y][(int)player->pypos_x] != '1')
+            player->pypos_y = new_y;
 	}
 	if (ctx->keys->s)
 	{
-		player->pypos_x = player->pypos_x - (player->dir_x * player->move_speed);
-		player->pypos_y = player->pypos_y - (player->dir_y * player->move_speed);
-		printf("Moving Backward %f, %f\n", player->pypos_x, player->pypos_y); 
+		double new_x = player->pypos_x - (player->dir_x * player->move_speed);
+		double new_y = player->pypos_y - (player->dir_y * player->move_speed);
+        if (ctx->map->grid[(int)player->pypos_y][(int)new_x] != '1')
+            player->pypos_x = new_x;
+        if (ctx->map->grid[(int)new_y][(int)player->pypos_x] != '1')
+            player->pypos_y = new_y; 
 	}
 	if (ctx->keys->d)
 	{
-		player->pypos_x = player->pypos_x + (player->camera_x * player->move_speed);
-		player->pypos_y = player->pypos_y + (player->camera_y * player->move_speed);
-		printf("Moving Right %f, %f\n", player->pypos_x, player->pypos_y); 
+		double new_x = player->pypos_x + (player->camera_x * player->move_speed);
+		double new_y = player->pypos_y + (player->camera_y * player->move_speed);
+        if (ctx->map->grid[(int)player->pypos_y][(int)new_x] != '1')
+            player->pypos_x = new_x;
+        if (ctx->map->grid[(int)new_y][(int)player->pypos_x] != '1')
+            player->pypos_y = new_y; 
 	}
 	if (ctx->keys->r)
 	{
