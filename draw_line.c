@@ -4,6 +4,18 @@
 
 void	my_pixel_put(t_data *img, int x, int y, int color);
 
+int get_texture_pixel(t_data *texture, int x, int y)
+{
+	char *pixel_address;
+	int color;
+
+	// calculate the memory address of the pixel
+	pixel_address = texture->addr + (y * texture->line_length 
+		+ x * (texture->bits_per_pixel / 8));
+	color = *(unsigned int *)pixel_address;
+	return color;
+}
+
 void draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
 {
 	int dx = abs(x1 - x0);

@@ -35,21 +35,24 @@ int MAP[WIDTH][HEIGHT]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-void	clear_display(t_data *img)
+void draw_background(t_data *img, int ceiling_color, int floor_color)
 {
-	int	i;
-	int	j;
+	int x;
+	int y;
 
-	i = 0;
-	while (i < 800)
+	x = 0;
+	while (x < 800)
 	{
-		j = 0;
-		while (j < 600)
+		y = 0;
+		while (y < 600)
 		{
-			my_pixel_put(img, i, j, 0);
-			j++;
+			if (y < 300)
+				my_pixel_put(img, x, y, ceiling_color);
+			else
+				my_pixel_put(img, x, y, floor_color);
+			y++;
 		}
-		i++;
+		x++;
 	}
 }
 

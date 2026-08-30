@@ -37,7 +37,6 @@ int	handle_key_release(int keycode, t_context *ctx)
 	if (keycode == KEY_RIGHT)
 		ctx->keys->r = 0;
 	printf("%d\n", ctx->keys->w);
-	
 	return (0);
 }
 
@@ -49,15 +48,70 @@ int close_game(t_context *player)
 	return (0);
 }
 
+void load_texture(void *mlx, t_data texture[], char *file_path)
+{
+	int width;
+	int height;
+
+	texture->img = mlx_xpm_file_to_image(mlx, file_path, &width, &height);
+	if (!texture->img)
+	{
+		printf("could not load texture from %s\n", file_path);
+        exit(1);
+	}
+	texture->addr = mlx_get_data_addr(texture->img, 
+                                      &texture->bits_per_pixel, 
+                                      &texture->line_length, 
+                                      &texture->endian);
+}
+
 int main(void)
 {
 	void		*mlx;
 	void		*mlx_win;
 	t_player 	player = {0};
 	t_data      img;
+	t_map		*map;
 
-	player.pypos_x = 5.0; 
-	player.pypos_y = 5.0;
+	map = parse_cub_file("maps/map1.cub");
+	if (!map)
+	{
+		printf("failed to parse map.\n");
+		return (1);
+	}
+	// spawn in the center of the grid
+	player.pypos_x = map->spawn.x + 0.5;
+	player.pypos_y = map->spawn.y + 0.5;
+
+	// set vectors for spawn direction
+	if (map->spawn.direction == 'N')
+	{
+		player.dir_x = 0.0;
+		player.dir_y = -1.0;
+		player.camera_x = 0.66;
+		player.camera_y = 0.0;
+	}
+	else if (map->spawn.direction == 'S')
+	{
+		player.dir_x = 0.0;
+		player.dir_y = 1.0;
+		player.camera_x = -0.66;
+		player.camera_y = 0.0;
+	}
+	else if (map->spawn.direction == 'E')
+	{
+		player.dir_x = 1.0;
+		player.dir_y = 0.0;
+		player.camera_x = 0.0;
+		player.camera_y = 0.66;
+	}
+	else if (map->spawn.direction == 'W')
+	{
+		player.dir_x = -1.0;
+		player.dir_y = 0.0;
+		player.camera_x = 0.0;
+		player.camera_y = -0.66;
+	}
 	player.dir_x = 0.0;
 	player.dir_y = -1.0;
 	player.camera_x = 0.66;
@@ -74,9 +128,20 @@ int main(void)
 	draw_player(&img, &player);
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 
-	// Testing new struct...
 	t_input		input = {0};
-	t_context   ctx = {&player, &img, mlx, mlx_win, &input};
+	t_context   ctx;
+
+	ctx.player = &player;
+    ctx.img = &img;
+    ctx.mlx = mlx;
+    ctx.mlx_win = mlx_win;
+    ctx.keys = &input;
+    ctx.map = map;
+	// paths saved in your parser.
+	load_texture(mlx, &ctx.textures[0], ctx.map->textures.north);
+	load_texture(mlx, &ctx.textures[1], ctx.map->textures.south);
+	load_texture(mlx, &ctx.textures[2], ctx.map->textures.east);
+	load_texture(mlx, &ctx.textures[3], ctx.map->textures.west);
 
 	mlx_loop_hook(mlx, render_frame, &ctx);
 	// Key press and key release events
