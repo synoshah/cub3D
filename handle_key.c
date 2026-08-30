@@ -33,14 +33,14 @@ int handle_key(t_context *ctx)
 		player->pypos_y = player->pypos_y + (player->camera_y * player->move_speed);
 		printf("Moving Right %f, %f\n", player->pypos_x, player->pypos_y); 
 	}
-	if (ctx->keys->l)
+	if (ctx->keys->r)
 	{
 		player->dir_x = (olddir_x * cos(player->rotation_speed) - (olddir_y * sin(player->rotation_speed)));
 		player->dir_y = (olddir_x * sin(player->rotation_speed) + (olddir_y * cos(player->rotation_speed)));
 		player->camera_x = (oldcam_x * cos(player->rotation_speed) - (oldcam_y * sin(player->rotation_speed)));
 		player->camera_y = (oldcam_x * sin(player->rotation_speed) + (oldcam_y * cos(player->rotation_speed)));
 	}
-	if (ctx->keys->r)
+	if (ctx->keys->l)
 	{
 		player->dir_x = (olddir_x * cos(player->rotation_speed) + (olddir_y * sin(player->rotation_speed)));
 		player->dir_y = -(olddir_x * sin(player->rotation_speed)) + (olddir_y * cos(player->rotation_speed));		
