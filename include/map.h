@@ -67,12 +67,9 @@ typedef struct s_flags
 // 	char	*path_e;
 // }	t_map;
 
-// TODO: These 3 Need to take a map as a parameter
-void	draw_map(t_data *img);
-void	draw_player(t_data *img, t_player *player);
+// TODO: This Needs to take a map as a parameter
 void 	draw_background(t_data *img, int ceiling_color, int floor_color);
 // parser
-t_map	*parse_cub_file(char *filename);
 int		add_color(t_colors *colors, char *line, t_flags *flags);
 char	*get_tex(t_map *map, char *line);
 void	free_map(t_map *map);

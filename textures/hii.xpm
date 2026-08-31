@@ -1,0 +1,28 @@
+/* XPM */
+static char *hii_xpm[] = {
+"70 20 4 1 ",
+"  c black",
+". c #444444",
+"X c #AA0000",
+"o c #FFCC00",
+"                                                                     ",
+"   ooooooo  ooooooo  oooo  oooo  ooooooo  ooooooo  oooo  oooo        ",
+"  ooooooooo oooooooo  oo    oo  ooooooooo ooooooooo oo    oo         ",
+"  oo     oo oo    ooo  oo  oo   oo        oo         oo  oo          ",
+"  oo     oo oo     oo   oooo    ooooooooo ooooooooo   oooo           ",
+"  oo     oo oo     oo    oo            oo        oo    oo            ",
+"  oo     oo oo    ooo    oo            oo        oo    oo            ",
+"  ooooooooo oooooooo     oo     ooooooooo ooooooooo    oo            ",
+"   ooooooo  ooooooo      oo      ooooooo   ooooooo     oo            ",
+"                                                                     ",
+"  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX       ",
+"  ............................................................       ",
+"                                                                     ",
+"                                                                     ",
+"                                                                     ",
+"                                                                     ",
+"                                                                     ",
+"                                                                     ",
+"                                                                     ",
+"                                                                     "
+};

@@ -11,8 +11,8 @@ SRCS        = 	my_pixel_put.c  shapes.c  draw_line.c  map_utils/map.c \
 				parser/fill_map.c  parser/free_map.c  parser/get_texture_path.c \
 				parser/parse_color.c  parser/parse_header.c \
 			  	parser/parse_map_file.c  parser/parse_helper.c \
-				render_frame.c  handle_key.c\
-				flood_fill.c \
+				render_engine/render_frame.c  render_engine/handle_key.c level_manager.c\
+				flood_fill.c render_engine/raycaster.c render_engine/render_wall.c \
 				main.c
 
 OBJS        = $(SRCS:.c=.o)
