@@ -9,7 +9,8 @@ static int	is_valid_map_cell(char c)
 		|| c == 'S'
 		|| c == 'E'
 		|| c == 'W'
-		|| c == ' ');
+		|| c == ' '
+		|| c == 'X');
 }
 
 static int	dup_line(t_map *map, char *line, int y)

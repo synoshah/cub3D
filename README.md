@@ -33,7 +33,7 @@ Through this turn, the X value shrunk heavily from 3 down to 0.5980.
 
 Run make to run the project.
 
-To check the codebase against the 42 Norm while excluding the external minilibx library, run this at the root
+To check the codebase against the Norminette while excluding the external minilibx library, run this at the root:
 
 norminette $(find . -name "*.c" -o -name "*.h" | grep -v minilibx)
 
