@@ -10,6 +10,7 @@
 
 #include "include/image.h"
 #include "include/shapes.h"
+#include "include/game_state.h"
 
 #define KEY_W 119
 #define KEY_S 115
@@ -58,6 +59,7 @@ typedef struct s_context
 	t_input				*keys;
 	struct s_map		*map;
 	t_data				textures[4]; // 0=north, 1=south, 2=east, 3=west;
+	t_game_state		*game_state;
 }   t_context;
 
 int render_frame(t_context *ctx);

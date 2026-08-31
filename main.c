@@ -60,6 +60,8 @@ void load_texture(void *mlx, t_data texture[], char *file_path)
 		printf("could not load texture from %s\n", file_path);
         exit(1);
 	}
+	texture->width = width;
+	texture->height = height;
 	texture->addr = mlx_get_data_addr(texture->img, 
                                       &texture->bits_per_pixel, 
                                       &texture->line_length, 
@@ -125,12 +127,9 @@ int main(void)
 	img.img = mlx_new_image(mlx, 800, 600);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 
-	// draw_map(&img);
-	// draw_player(&img, &player);
-	// mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-
 	t_input		input = {0};
 	t_context   ctx;
+	t_game_state	game_state = {0};
 
 	ctx.player = &player;
     ctx.img = &img;
@@ -138,6 +137,8 @@ int main(void)
     ctx.mlx_win = mlx_win;
     ctx.keys = &input;
     ctx.map = map;
+	ctx.game_state = &game_state;
+
 	// paths saved in your parser.
 	load_texture(mlx, &ctx.textures[0], ctx.map->textures.north);
 	load_texture(mlx, &ctx.textures[1], ctx.map->textures.south);

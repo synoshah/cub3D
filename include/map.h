@@ -71,17 +71,5 @@ typedef struct s_flags
 void	draw_map(t_data *img);
 void	draw_player(t_data *img, t_player *player);
 void 	draw_background(t_data *img, int ceiling_color, int floor_color);
-// parser
-t_map	*parse_cub_file(char *filename);
-int		add_color(t_colors *colors, char *line, t_flags *flags);
-char	*get_tex(t_map *map, char *line);
-void	free_map(t_map *map);
-
-int		is_texture_line(char *line);
-int		is_color_line(char *line);
-int		is_blank_line(char *line);
-int		is_spawn_point(char c);
-int		all_textures_found(int *found_textures);
-int		add_texture(t_textures *tex, t_flags *flags, char *line);
 
 #endif
