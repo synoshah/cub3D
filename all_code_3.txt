@@ -1,0 +1,1650 @@
+
+/* ======================================== */
+/* FILE: ./cub3D.h */
+/* ======================================== */
+
+#ifndef CUB3D_H
+# define CUB3D_H
+
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include <mlx.h>
+# include <math.h>
+
+# include "include/image.h"
+# include "include/shapes.h"
+# include "include/game_state.h"
+# include "include/map.h"
+# include "include/draw.h"
+# include "include/parser.h"
+
+# define KEY_W 119
+# define KEY_S 115
+# define KEY_A 97
+# define KEY_D 100
+# define KEY_ESC 65307
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define TILE_SIZE 16
+
+typedef struct s_ray
+{
+	double	camera_x;
+	double	dir_x;
+	double	dir_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	perp_wall_dist;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	int		hit;
+	int		side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	double	wall_x;
+	double	step;
+	double	tex_pos;
+	int		tex_x;
+	int		tex_y;
+	int		tex_index;
+	int		color;
+}	t_ray;
+
+typedef struct s_player
+{
+	double	pypos_x;
+	double	pypos_y;
+	double	dir_x;
+	double	dir_y;
+	double	camera_x;
+	double	camera_y;
+	double	move_speed;
+	double	rotation_speed;
+	void	*player;
+}	t_player;
+
+typedef struct s_input
+{
+	int	w;
+	int	s;
+	int	a;
+	int	d;
+	int	l;
+	int	r;
+}	t_input;
+
+typedef struct s_context
+{
+	t_player		*player;
+	t_data			*img;
+	void			*mlx;
+	void			*mlx_win;
+	t_input			*keys;
+	struct s_map	*map;
+	t_data			textures[5];
+	t_game_state	*game_state;
+}	t_context;
+
+int		render_frame(t_context *ctx);
+int		handle_key(t_context *ctx);
+void	load_texture(void *mlx, t_data texture[], char *file_path);
+void	init_ray(t_context *ctx, t_ray *ray, int x);
+void	perform_dda(t_context *ctx, t_ray *ray);
+void	calc_wall_height(t_ray *ray);
+void	get_texture_index(t_context *ctx, t_ray *ray);
+void	calc_texture_x(t_context *ctx, t_ray *ray);
+void	draw_wall_slice(t_context *ctx, t_ray *ray, int x);
+void	render_start(t_context *ctx);
+void	render_playing(t_context *ctx);
+void	load_next_level(t_context *ctx);
+void	render_end_screen(t_context *ctx);
+void	draw_start_text(t_context *ctx);
+
+#endif
+/* ======================================== */
+/* FILE: ./draw_line.c */
+/* ======================================== */
+
+
+#include "include/image.h"
+#include <stdlib.h>
+
+void	my_pixel_put(t_data *img, int x, int y, int color);
+
+int get_texture_pixel(t_data *texture, int x, int y)
+{
+	char *pixel_address;
+	int color;
+
+	// calculate the memory address of the pixel
+	pixel_address = texture->addr + (y * texture->line_length 
+		+ x * (texture->bits_per_pixel / 8));
+	color = *(unsigned int *)pixel_address;
+	return color;
+}
+
+void draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
+{
+	int dx = abs(x1 - x0);
+	int dy = abs(y1 - y0);
+	int	sx;
+	int	sy;
+	
+	// Determine the direction of the step (-1 or 1)
+	if (x0 < x1)
+		sx = 1;
+	else
+		sx = -1;
+	if (y0 < y1)
+		sy = 1;
+	else
+		sy = -1;
+
+	// Initialize the error decision variable
+	int err = dx - dy;
+
+	while (1) {
+		// Light up the current pixel
+		my_pixel_put(img, x0, y0, color);
+
+		// Break when the destination pixel is reached
+		if (x0 == x1 && y0 == y1)
+			break;
+		// Multiply by 2 using a bit-shift for performance (e2 = 2 * err)
+		int e2 = err << 1; 
+
+		// Adjust coordinates based on the error margin
+		if (e2 > -dy) {
+			err -= dy;
+			x0 += sx;
+		}
+		if (e2 < dx) {
+			err += dx;
+			y0 += sy;
+		}
+	}
+}
+
+/* ======================================== */
+/* FILE: ./flood_fill.c */
+/* ======================================== */
+
+#include "cub3D.h"
+#include "include/map.h"
+
+int	flood(t_map *map, int x, int y)
+{
+	if ((size_t)x >= map->size.width || (size_t)y >= map->size.height)
+		return (0);
+	if (is_spawn_point(map->grid[y][x])
+		&& ((size_t)x != map->spawn.x || (size_t)y != map->spawn.y))
+		return (0);
+	if (map->grid[y][x] == '1' || map->grid[y][x] == 'V'
+		|| map->grid[y][x] == 'X')
+		return (1);
+	if (map->grid[y][x] == ' ')
+		return (0);
+	if (map->grid[y][x] != '0' && !is_spawn_point(map->grid[y][x]))
+		return (0);
+	map->grid[y][x] = 'V';
+	return (flood(map, x + 1, y) && flood(map, x - 1, y)
+		&& flood(map, x, y + 1) && flood(map, x, y - 1));
+}
+
+/* ======================================== */
+/* FILE: ./include/draw.h */
+/* ======================================== */
+
+
+#ifndef DRAW_H
+#define DRAW_H
+
+#include "image.h"
+
+void	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color);
+void	my_pixel_put(t_data *img, int x, int y, int color);
+int     get_texture_pixel(t_data *texture, int x, int y);
+
+#endif
+
+/* ======================================== */
+/* FILE: ./include/game_state.h */
+/* ======================================== */
+
+#pragma once
+
+typedef enum e_gamemode
+{
+	START,
+	PLAYING,
+	LOST,
+	WON,
+	DONE
+}	t_gamemode;
+
+typedef struct s_game_state
+{
+	int			level;
+	t_gamemode	gamemode;
+	int			imgaes;
+}	t_game_state;
+
+/* ======================================== */
+/* FILE: ./include/image.h */
+/* ======================================== */
+
+
+#ifndef IMAGE_H
+#define IMAGE_H
+
+typedef struct s_data
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int		width;
+	int		height;
+}	t_data;
+
+#endif
+/* ======================================== */
+/* FILE: ./include/map.h */
+/* ======================================== */
+
+
+#ifndef MAP_H
+#define MAP_H
+
+#include "shapes.h"
+#include <stdlib.h>
+#include "../cub3D.h"
+#include <fcntl.h>
+#include "../libft/libft.h"
+
+typedef struct s_colors
+{
+	int	floor;
+	int	ceiling;
+}	t_colors;
+
+typedef struct s_map_size
+{
+	size_t	height;
+	size_t	width;
+}	t_map_size;
+
+typedef struct s_textures
+{
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+}	t_textures;
+
+typedef struct s_spawn
+{
+	size_t	x;
+	size_t	y;
+	char	direction;
+}	t_spawn;
+
+typedef struct s_map
+{
+	t_map_size	size;
+	t_colors	colors;
+	t_textures	textures;
+	t_spawn		spawn;
+	char		**grid;
+}	t_map;
+
+typedef struct s_flags
+{
+	int	found_textures[4];
+	int	in_map;
+	int	found_floor;
+	int	found_ceiling;
+	int	height;
+	int	width;
+}	t_flags;
+
+// typedef struct s_map
+// {
+// 	size_t	height;
+// 	size_t	width;
+// 	int		floor_color;
+// 	int		celing_color;
+// 	char	**map;
+// 	char	*path_n;
+// 	char	*path_s;
+// 	char	*path_w;
+// 	char	*path_e;
+// }	t_map;
+
+// TODO: This Needs to take a map as a parameter
+void 	draw_background(t_data *img, int ceiling_color, int floor_color);
+// parser
+int		add_color(t_colors *colors, char *line, t_flags *flags);
+char	*get_tex(t_map *map, char *line);
+void	free_map(t_map *map);
+
+int		is_texture_line(char *line);
+int		is_color_line(char *line);
+int		is_blank_line(char *line);
+int		is_spawn_point(char c);
+int		all_textures_found(int *found_textures);
+int		add_texture(t_textures *tex, t_flags *flags, char *line);
+
+#endif
+/* ======================================== */
+/* FILE: ./include/parser.h */
+/* ======================================== */
+
+
+#ifndef PARSER_H
+#define PARSER_H
+
+#include "../include/map.h"
+#include <fcntl.h>
+#include "../libft/libft.h"
+
+int	parse_map_metadata(t_map *map, int fd);
+int	add_color(t_colors *colors, char *line, t_flags *flags);
+int	add_texture(t_textures *tex, t_flags *flags, char *line);
+void	free_map(t_map *map);
+int	load_map_grid(t_map *map, int fd);
+int	is_texture_line(char *line);
+int	is_color_line(char *line);
+int	is_blank_line(char *line);
+int	is_spawn_point(char c);
+int	all_textures_found(int *found_textures);
+int	flood(t_map *map, int x, int y);
+
+t_map	*parse_map_file(char *filename);
+
+#endif
+
+/* ======================================== */
+/* FILE: ./include/shapes.h */
+/* ======================================== */
+
+
+#ifndef SHAPES_H
+#define SHAPES_H
+
+#include "image.h"
+
+void	draw_hexagon(t_data *img, int x, int y, int color, int radius);
+void	draw_circle(t_data *img, int x, int y, int color, int radius);
+void	draw_square(t_data *img, int x, int y, int color, int size);
+
+#endif
+/* ======================================== */
+/* FILE: ./level_manager.c */
+/* ======================================== */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   level_manager.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/31 22:55:15 by synoshah          #+#    #+#             */
+/*   Updated: 2026/08/31 22:55:15 by synoshah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3D.h"
+
+void	reset_player_dir(t_player *player, char dir)
+{
+	player->dir_x = 0.0;
+	player->dir_y = 0.0;
+	player->camera_x = 0.0;
+	player->camera_y = 0.0;
+	if (dir == 'N')
+	{
+		player->dir_y = -1.0;
+		player->camera_x = 0.66;
+	}
+	else if (dir == 'S')
+	{
+		player->dir_y = 1.0;
+		player->camera_x = -0.66;
+	}
+	else if (dir == 'E')
+	{
+		player->dir_x = 1.0;
+		player->camera_y = 0.66;
+	}
+	else if (dir == 'W')
+	{
+		player->dir_x = -1.0;
+		player->camera_y = -0.66;
+	}
+}
+
+void	reload_textures(t_context *ctx)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 5)
+	{
+		if (ctx->textures[i].img)
+			mlx_destroy_image(ctx->mlx, ctx->textures[i].img);
+	}
+	load_texture(ctx->mlx, &ctx->textures[0], ctx->map->textures.north);
+	load_texture(ctx->mlx, &ctx->textures[1], ctx->map->textures.south);
+	load_texture(ctx->mlx, &ctx->textures[2], ctx->map->textures.east);
+	load_texture(ctx->mlx, &ctx->textures[3], ctx->map->textures.west);
+	load_texture(ctx->mlx, &ctx->textures[4], "textures/cave_exit.xpm");
+}
+
+void	load_next_level(t_context *ctx)
+{
+	ctx->game_state->level++;
+	if (ctx->game_state->level > 1)
+	{
+		ctx->game_state->gamemode = DONE;
+		return ;
+	}
+	free_map(ctx->map);
+	ctx->map = parse_map_file("maps/map3.cub");
+	if (!ctx->map)
+	{
+		printf("failed to parse map\n");
+		exit(1);
+	}
+	reload_textures(ctx);
+	ctx->player->pypos_x = ctx->map->spawn.x + 0.1;
+	ctx->player->pypos_y = ctx->map->spawn.y + 0.1;
+	reset_player_dir(ctx->player, ctx->map->spawn.direction);
+	ctx->game_state->gamemode = PLAYING;
+}
+
+void	render_end_screen(t_context *ctx)
+{
+	static void	*end_img = NULL;
+	int			w;
+	int			h;
+
+	if (!end_img)
+		end_img = mlx_xpm_file_to_image(ctx->mlx,
+				"textures/end_screen.xpm", &w, &h);
+	if (end_img)
+		mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, end_img, 0, 0);
+}
+
+/* ======================================== */
+/* FILE: ./main.c */
+/* ======================================== */
+
+#include "cub3D.h"
+#include "include/map.h"
+#include "include/parser.h"
+
+int	handle_key_press(int keycode, t_context *ctx)
+{
+	printf("%d\n", keycode);
+	if (keycode == KEY_ESC)
+		exit(0);
+	if (keycode == KEY_W)
+		ctx->keys->w = 1;
+	if (keycode == KEY_S)
+		ctx->keys->s = 1;	
+	if (keycode == KEY_A)
+		ctx->keys->a = 1;
+	if (keycode == KEY_D)
+		ctx->keys->d = 1;
+	if (keycode == KEY_LEFT)
+		ctx->keys->l = 1;
+	if (keycode == KEY_RIGHT)
+		ctx->keys->r = 1;
+	printf("%d\n", ctx->keys->w);
+	return (0);
+}
+
+int	handle_key_release(int keycode, t_context *ctx)
+{
+	if (keycode == KEY_W)
+		ctx->keys->w = 0;
+	if (keycode == KEY_S)
+		ctx->keys->s = 0;	
+	if (keycode == KEY_A)
+		ctx->keys->a = 0;
+	if (keycode == KEY_D)
+		ctx->keys->d = 0;
+	if (keycode == KEY_LEFT)
+		ctx->keys->l = 0;
+	if (keycode == KEY_RIGHT)
+		ctx->keys->r = 0;
+	printf("%d\n", ctx->keys->w);
+	return (0);
+}
+
+int close_game(t_context *player)
+{
+	(void)player;
+	printf("Game closed\n");
+	exit(0);
+	return (0);
+}
+
+void load_texture(void *mlx, t_data texture[], char *file_path)
+{
+	int width;
+	int height;
+
+	texture->img = mlx_xpm_file_to_image(mlx, file_path, &width, &height);
+	if (!texture->img)
+	{
+		printf("could not load texture from %s\n", file_path);
+        exit(1);
+	}
+	texture->width = width;
+	texture->height = height;
+	texture->addr = mlx_get_data_addr(texture->img, 
+                                      &texture->bits_per_pixel, 
+                                      &texture->line_length, 
+                                      &texture->endian);
+}
+
+int main(void)
+{
+	void		*mlx;
+	void		*mlx_win;
+	t_player 	player = {0};
+	t_data      img;
+	t_map		*map;
+
+	map = parse_map_file("maps/map1.cub");
+	if (!map)
+	{
+		printf("failed to parse map.\n");
+		return (1);
+	}
+	// spawn in the center of the grid
+	player.pypos_x = map->spawn.x + 0.1;
+	player.pypos_y = map->spawn.y + 0.1;
+
+	// set vectors for spawn direction
+	if (map->spawn.direction == 'N')
+	{
+		player.dir_x = 0.0;
+		player.dir_y = -1.0;
+		player.camera_x = 0.66;
+		player.camera_y = 0.0;
+	}
+	else if (map->spawn.direction == 'S')
+	{
+		player.dir_x = 0.0;
+		player.dir_y = 1.0;
+		player.camera_x = -0.66;
+		player.camera_y = 0.0;
+	}
+	else if (map->spawn.direction == 'E')
+	{
+		player.dir_x = 1.0;
+		player.dir_y = 0.0;
+		player.camera_x = 0.0;
+		player.camera_y = 0.66;
+	}
+	else if (map->spawn.direction == 'W')
+	{
+		player.dir_x = -1.0;
+		player.dir_y = 0.0;
+		player.camera_x = 0.0;
+		player.camera_y = -0.66;
+	}
+	player.dir_x = 0.0;
+	player.dir_y = -1.0;
+	player.camera_x = 0.66;
+	player.camera_y = 0.0;
+	player.move_speed = 0.1;
+	player.rotation_speed = 0.05;
+
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 800, 600, "cub3D");
+	img.img = mlx_new_image(mlx, 800, 600);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+
+	// draw_map(&img);
+	// draw_player(&img, &player);
+	// mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+
+	t_input		input = {0};
+	t_context   ctx;
+	t_game_state	game_state = {0};
+
+	ctx.player = &player;
+    ctx.img = &img;
+    ctx.mlx = mlx;
+    ctx.mlx_win = mlx_win;
+    ctx.keys = &input;
+    ctx.map = map;
+	ctx.game_state = &game_state;
+
+	// paths saved in your parser.
+	load_texture(mlx, &ctx.textures[0], ctx.map->textures.north);
+	load_texture(mlx, &ctx.textures[1], ctx.map->textures.south);
+	load_texture(mlx, &ctx.textures[2], ctx.map->textures.east);
+	load_texture(mlx, &ctx.textures[3], ctx.map->textures.west);
+	load_texture(mlx, &ctx.textures[4], "textures/cave_exit.xpm");
+	mlx_loop_hook(mlx, render_frame, &ctx);
+	// Key press and key release events
+	mlx_hook(mlx_win, 2, 1L<<0,  handle_key_press, &ctx);
+	mlx_hook(mlx_win, 3, 1L<<1 ,handle_key_release, &ctx);
+	mlx_do_key_autorepeatoff(mlx); // Idk what this does lol. 
+	mlx_hook(mlx_win, 17, 0, close_game, &ctx);  
+	mlx_loop(mlx);
+	return 0;
+}
+
+/* ======================================== */
+/* FILE: ./Makefile */
+/* ======================================== */
+
+NAME        = cub3D
+
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror -g
+
+MLX_DIR     = ./minilibx-linux
+MLX_FLAGS   = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
+INCLUDES    = -I. -I$(MLX_DIR) -I./libft -I./include
+
+SRCS        = 	my_pixel_put.c  shapes.c  draw_line.c  map_utils/map.c \
+				parser/fill_map.c  parser/free_map.c  parser/get_texture_path.c \
+				parser/parse_color.c  parser/parse_header.c \
+			  	parser/parse_map_file.c  parser/parse_helper.c \
+				render_engine/render_frame.c  render_engine/handle_key.c level_manager.c\
+				flood_fill.c render_engine/raycaster.c render_engine/render_wall.c \
+				main.c
+
+OBJS        = $(SRCS:.c=.o)
+
+LIBFT = ./libft/libft.a
+
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAGS) $(LIBFT) -o $(NAME)
+
+$(LIBFT):
+	make -C ./libft
+
+%.o: %.c cub3D.h
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+clean:
+	rm -f $(OBJS)
+# make clean -C ./libft 
+
+fclean: clean
+	rm -f $(NAME)
+# make fclean -C ./libft
+
+re: fclean all
+
+.PHONY: all clean fclean re
+/* ======================================== */
+/* FILE: ./map_utils/map.c */
+/* ======================================== */
+
+
+#include "include/draw.h"
+#include "include/shapes.h"
+#include "../cub3D.h"
+
+#define HEIGHT 24
+#define WIDTH 24
+
+void draw_background(t_data *img, int ceiling_color, int floor_color)
+{
+	int x;
+	int y;
+
+	x = 0;
+	while (x < 800)
+	{
+		y = 0;
+		while (y < 600)
+		{
+			if (y < 300)
+				my_pixel_put(img, x, y, ceiling_color);
+			else
+				my_pixel_put(img, x, y, floor_color);
+			y++;
+		}
+		x++;
+	}
+}
+
+/* ======================================== */
+/* FILE: ./my_pixel_put.c */
+/* ======================================== */
+
+
+#include "include/image.h"
+
+void	my_pixel_put(t_data *img, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
+/* ======================================== */
+/* FILE: ./parser/fill_map.c */
+/* ======================================== */
+
+#include "../include/parser.h"
+
+// Can add more valid chars later.
+static int	is_valid_map_cell(char c)
+{
+	return (c == '1'
+		|| c == '0'
+		|| c == 'N'
+		|| c == 'S'
+		|| c == 'E'
+		|| c == 'W'
+		|| c == ' '
+		|| c == 'X');
+}
+
+static int	dup_line(t_map *map, char *line, int y)
+{
+	map->grid[y] = ft_strdup(line);
+	if (!map->grid[y])
+		return (0);
+	return (1);
+}
+
+// sets spawn if present
+// returns 0 if dup_spawn
+// or if malloc fails
+// copies row to map->grid
+static int	store_map_row(t_map *map, char *line, int *found, int y)
+{
+	int	x;
+	int	len;
+
+	len = ft_strlen(line);
+	while (len > 0 && (line[len - 1] == '\n' || line[len - 1] == '\r'))
+		line[--len] = '\0';
+	x = 0;
+	while (line[x])
+	{
+		if (!is_valid_map_cell(line[x]) && !is_spawn_point(line[x]))
+			return (0);
+		if (is_spawn_point(line[x]))
+		{
+			if (*found)
+				return (0);
+			map->spawn.x = x;
+			map->spawn.y = y;
+			map->spawn.direction = line[x];
+			*found = 1;
+		}
+		x++;
+	}
+	return (dup_line(map, line, y));
+}
+
+static void	advance_to_map_content(char **line, int fd)
+{
+	while (*line)
+	{
+		if (!is_blank_line(*line)
+			&& !is_color_line(*line)
+			&& !is_texture_line(*line))
+		{
+			return ;
+		}
+		free(*line);
+		*(line) = get_next_line(fd);
+	}
+}
+
+int	load_map_grid(t_map *map, int fd)
+{
+	char	*line;
+	int		y;
+	int		found_spawn;
+
+	map->grid = ft_calloc(map->size.height + 1, sizeof(char *));
+	if (!map->grid)
+		return (0);
+	y = 0;
+	found_spawn = 0;
+	line = get_next_line(fd);
+	advance_to_map_content(&line, fd);
+	while (line)
+	{
+		if (!store_map_row(map, line, &found_spawn, y))
+		{
+			free(line);
+			return (0);
+		}
+		y++;
+		free(line);
+		line = get_next_line(fd);
+	}
+	if (!found_spawn)
+		return (0);
+	return (1);
+}
+
+/* ======================================== */
+/* FILE: ./parser/free_map.c */
+/* ======================================== */
+
+#include "../include/parser.h"
+
+void	free_map(t_map *map)
+{
+	int	i;
+
+	if (map)
+	{
+		if (map->textures.east)
+			free(map->textures.east);
+		if (map->textures.north)
+			free(map->textures.north);
+		if (map->textures.south)
+			free(map->textures.south);
+		if (map->textures.west)
+			free(map->textures.west);
+		if (map->grid != NULL)
+		{
+			i = 0;
+			while (i < (int)map->size.height && map->grid[i])
+			{
+				free(map->grid[i]);
+				i++;
+			}
+			free(map->grid);
+		}
+		free(map);
+	}
+}
+
+/* ======================================== */
+/* FILE: ./parser/get_texture_path.c */
+/* ======================================== */
+
+#include "../include/parser.h"
+
+static int	validate_and_add_path(char *line, char **destinations)
+{
+	char	*path;
+	int		fd;
+
+	path = ft_strtrim(line, "\n\t \r");
+	if (!path || !path[0])
+		return (0);
+	fd = open(path, 0);
+	if (fd < 0)
+	{
+		printf("File %s doesnt exits\n", path);
+		free(path);
+		return (0);
+	}
+	close(fd);
+	*destinations = path;
+	return (1);
+}
+
+int	add_texture(t_textures *tex, t_flags *flags, char *line)
+{
+	static char	*ids[4] = {"NO", "SO", "WE", "EA"};
+	char		**destinations[4];
+	int			i;
+
+	destinations[0] = &tex->north;
+	destinations[1] = &tex->south;
+	destinations[2] = &tex->west;
+	destinations[3] = &tex->east;
+	while (*line == ' ' || *line == '\t')
+		line++;
+	i = -1;
+	while (i++ < 4)
+	{
+		if (!ft_strncmp(line, ids[i], 2))
+		{
+			if (flags->found_textures[i])
+				return (0);
+			if (!validate_and_add_path(line + 2, destinations[i]))
+				return (0);
+			flags->found_textures[i] = 1;
+			return (1);
+		}
+	}
+	return (0);
+}
+
+/* ======================================== */
+/* FILE: ./parser/parse_color.c */
+/* ======================================== */
+
+#include "../include/parser.h"
+
+static int	get_color(char *line)
+{
+	char		**temp;
+	int			len;
+	signed int	red;
+	signed int	green;
+	signed int	blue;
+
+	len = 0;
+	temp = ft_split(line + 2, ',');
+	while (temp[len])
+		len++;
+	if (len != 3)
+	{
+		free_split(temp);
+		return (-1);
+	}
+	red = ft_atoi(temp[0]);
+	green = ft_atoi(temp[1]);
+	blue = ft_atoi(temp[2]);
+	free_split(temp);
+	return ((red << 16) | (green << 8) | blue);
+}
+
+int	add_color(t_colors *colors, char *line, t_flags *flags)
+{
+	int	i;
+	int	color;
+
+	i = 0;
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+	color = get_color(line);
+	if (line[i] == 'F' && !(flags->found_floor) && color != -1)
+	{
+		flags->found_floor = 1;
+		colors->floor = color;
+	}
+	else if (line[i] == 'C' && !(flags->found_ceiling) && color != -1)
+	{
+		flags->found_ceiling = 1;
+		colors->ceiling = color;
+	}
+	else
+		return (0);
+	return (1);
+}
+
+/* ======================================== */
+/* FILE: ./parser/parse_header.c */
+/* ======================================== */
+
+#include "../include/parser.h"
+
+// looks for the texture and color
+// identifiers in the file
+// sets it as found in t_flags
+// and puts its value inside t_map
+static int	apply_header_entry(t_map *map, t_flags *flags, char *line)
+{
+	if (!flags->in_map)
+	{
+		if (is_blank_line(line))
+			;
+		else if (is_texture_line(line))
+		{
+			if (!add_texture(&map->textures, flags, line))
+				return (0);
+		}
+		else if (is_color_line(line))
+		{
+			if (!add_color(&map->colors, line, flags))
+				return (0);
+		}
+		else
+			flags->in_map = 1;
+		return (1);
+	}
+	return (0);
+}
+
+// gets height and width of map.
+static int	update_map_dimensions(char *line, t_flags *flags)
+{
+	int	len;
+
+	if (line && !is_blank_line(line)
+		&& !is_texture_line(line) && !is_color_line(line))
+	{
+		len = ft_strlen(line);
+		while (len > 0 && (line[len - 1] == '\n' || line[len - 1] == '\r'))
+			line[--len] = '\0';
+		if (len > flags->width)
+			flags->width = len;
+		flags->height++;
+		return (1);
+	}
+	return (0);
+}
+
+// calls both the
+// apply_header_entry and update_map_dimensions() functions.
+// checks if the map has all the necessary information
+// and puts them into the t_flags as well as t_map structs.
+static void	scan_cub_file(t_map *map, t_flags *flags, int fd)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (apply_header_entry(map, flags, line))
+		{
+		}
+		else if (update_map_dimensions(line, flags))
+		{
+		}
+		free(line);
+		line = get_next_line(fd);
+	}
+	if (line)
+		free(line);
+}
+
+// checks the values inside t_flags
+int	parse_map_metadata(t_map *map, int fd)
+{
+	t_flags	flags;
+
+	ft_memset(&flags, 0, sizeof(flags));
+	scan_cub_file(map, &flags, fd);
+	map->size.height = flags.height + 1;
+	map->size.width = flags.width;
+	if (!all_textures_found(flags.found_textures)
+		|| !flags.found_floor || !flags.found_ceiling)
+	{
+		printf("failed to find all textures and colors\n");
+		printf("%d %d %d %d %d %d\n", flags.found_floor, flags.found_ceiling,
+			flags.found_textures[0], flags.found_textures[1],
+			flags.found_textures[2], flags.found_textures[3]);
+		return (0);
+	}
+	return (1);
+}
+
+/* ======================================== */
+/* FILE: ./parser/parse_helper.c */
+/* ======================================== */
+
+#include "../include/parser.h"
+
+int	is_texture_line(char *line)
+{
+	int	i;
+
+	if (!line)
+		return (1);
+	i = 0;
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+	return (!ft_strncmp(line + i, "NO", 2)
+		|| !ft_strncmp(line + i, "SO", 2)
+		|| !ft_strncmp(line + i, "WE", 2)
+		|| !ft_strncmp(line + i, "EA", 2));
+}
+
+int	is_color_line(char *line)
+{
+	if (!line)
+		return (1);
+	return (line[0] == 'F'
+		|| line[0] == 'C');
+}
+
+int	is_blank_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] && (line[i] == ' ' || line[i] == '\t'
+			|| line[i] == '\r' || line[i] == '\n'))
+		i++;
+	return (line[i] == '\0');
+}
+
+int	is_spawn_point(char c)
+{
+	return (c == 'N' || c == 'S'
+		|| c == 'E' || c == 'W');
+}
+
+int	all_textures_found(int *found_textures)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (!found_textures[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+/* ======================================== */
+/* FILE: ./parser/parse_main.c */
+/* ======================================== */
+
+#include "../include/parser.h"
+
+int	main(void)
+{
+	t_map	*map;
+    // t_player 	player = {0};
+
+	// player.pypos_x = 5.0; 
+	// player.pypos_y = 5.0;
+	// player.dir_x = 0.0;
+	// player.dir_y = -1.0;
+	// player.camera_x = 0.66;
+	// player.camera_y = 0.0;
+	// player.move_speed = 0.2;
+	// player.rotation_speed = 0.05;
+
+	map = parse_map_file("maps/map3.cub");
+	if (!map)
+	{
+		printf("Error\n");
+		return (1);
+	}
+	printf("==================Map Data==================\n");
+	printf("height: %ld\n", map->size.height);
+	printf("width: %ld\n", map->size.width);
+	printf("c_color: %d\n", map->colors.ceiling);
+	printf("f_color: %d\n", map->colors.floor);
+	printf("==================  MAP   ==================\n");
+	for (int i = 0; i < (int)map->size.height; i++)
+	{
+		for (int j = 0; j < (int)map->size.width; j++)
+		{
+			if (map && map->grid && map->grid[i])
+				printf("%d ", map->grid[i][j]);
+		}
+		printf("\n");
+	}
+	free_map(map);
+}
+
+/* ======================================== */
+/* FILE: ./parser/parse_map_file.c */
+/* ======================================== */
+
+#include "../include/parser.h"
+
+static int	open_and_read_header(t_map *map, char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		free(map);
+		return (0);
+	}
+	if (!parse_map_metadata(map, fd))
+	{
+		close (fd);
+		free_map(map);
+		return (0);
+	}
+	close(fd);
+	return (1);
+}
+
+static int	open_and_load_map(t_map *map, char *filename)
+{
+	int	fd;
+
+	fd = open (filename, O_RDONLY);
+	if (fd < 0)
+	{
+		free_map(map);
+		return (0);
+	}
+	if (!load_map_grid(map, fd))
+	{
+		free_map(map);
+		close(fd);
+		return (0);
+	}
+	close(fd);
+	return (1);
+}
+
+t_map	*parse_map_file(char *filename)
+{
+	t_map	*map;
+
+	map = ft_calloc(1, sizeof(t_map));
+	if (!map)
+		return (NULL);
+	if (!open_and_read_header(map, filename))
+		return (NULL);
+	if (!open_and_load_map(map, filename))
+		return (NULL);
+	if (!flood(map, (int)map->spawn.x, (int)map->spawn.y))
+	{
+		free_map(map);
+		return (NULL);
+	}
+	return (map);
+}
+
+/* ======================================== */
+/* FILE: ./render_engine/handle_key.c */
+/* ======================================== */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_key.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/31 22:59:07 by synoshah          #+#    #+#             */
+/*   Updated: 2026/08/31 22:59:07 by synoshah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3D.h"
+#include "include/map.h"
+
+static void	move_player(t_context *ctx, double move_x, double move_y)
+{
+	double	new_x;
+	double	new_y;
+
+	new_x = ctx->player->pypos_x + move_x;
+	new_y = ctx->player->pypos_y + move_y;
+	if (ctx->map->grid[(int)ctx->player->pypos_y][(int)new_x] != '1')
+		ctx->player->pypos_x = new_x;
+	if (ctx->map->grid[(int)new_y][(int)ctx->player->pypos_x] != '1')
+		ctx->player->pypos_y = new_y;
+}
+
+static void	rotate_player(t_player *p, double rot_speed)
+{
+	double	old_dir_x;
+	double	old_cam_x;
+
+	old_dir_x = p->dir_x;
+	old_cam_x = p->camera_x;
+	p->dir_x = old_dir_x * cos(rot_speed) - p->dir_y * sin(rot_speed);
+	p->dir_y = old_dir_x * sin(rot_speed) + p->dir_y * cos(rot_speed);
+	p->camera_x = old_cam_x * cos(rot_speed) - p->camera_y * sin(rot_speed);
+	p->camera_y = old_cam_x * sin(rot_speed) + p->camera_y * cos(rot_speed);
+}
+
+static void	handle_movement(t_context *ctx)
+{
+	t_player	*p;
+
+	p = ctx->player;
+	if (ctx->keys->w)
+		move_player(ctx, p->dir_x * p->move_speed,
+			p->dir_y * p->move_speed);
+	if (ctx->keys->s)
+		move_player(ctx, -p->dir_x * p->move_speed,
+			-p->dir_y * p->move_speed);
+	if (ctx->keys->a)
+		move_player(ctx, -p->camera_x * p->move_speed,
+			-p->camera_y * p->move_speed);
+	if (ctx->keys->d)
+		move_player(ctx, p->camera_x * p->move_speed,
+			p->camera_y * p->move_speed);
+	if (ctx->map->grid[(int)p->pypos_y][(int)p->pypos_x] == 'X')
+		ctx->game_state->gamemode = WON;
+}
+
+int	handle_key(t_context *ctx)
+{
+	if (ctx->game_state->gamemode == START && ctx->keys->w)
+	{
+		ctx->game_state->gamemode = PLAYING;
+		mlx_clear_window(ctx->mlx, ctx->mlx_win);
+		return (0);
+	}
+	if (ctx->game_state->gamemode != PLAYING)
+		return (0);
+	handle_movement(ctx);
+	if (ctx->keys->r)
+		rotate_player(ctx->player, ctx->player->rotation_speed);
+	if (ctx->keys->l)
+		rotate_player(ctx->player, -ctx->player->rotation_speed);
+	return (0);
+}
+
+/* ======================================== */
+/* FILE: ./render_engine/raycaster.c */
+/* ======================================== */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycaster.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/31 22:55:37 by synoshah          #+#    #+#             */
+/*   Updated: 2026/08/31 22:55:37 by synoshah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3D.h"
+
+void	init_ray_step(t_context *ctx, t_ray *ray)
+{
+	if (ray->dir_x < 0)
+	{
+		ray->step_x = -1;
+		ray->side_dist_x = (ctx->player->pypos_x - ray->map_x)
+			* ray->delta_dist_x;
+	}
+	else
+	{
+		ray->step_x = 1;
+		ray->side_dist_x = (ray->map_x + 1.0 - ctx->player->pypos_x)
+			* ray->delta_dist_x;
+	}
+	if (ray->dir_y < 0)
+	{
+		ray->step_y = -1;
+		ray->side_dist_y = (ctx->player->pypos_y - ray->map_y)
+			* ray->delta_dist_y;
+	}
+	else
+	{
+		ray->step_y = 1;
+		ray->side_dist_y = (ray->map_y + 1.0 - ctx->player->pypos_y)
+			* ray->delta_dist_y;
+	}
+}
+
+void	init_ray(t_context *ctx, t_ray *ray, int x)
+{
+	ray->camera_x = (2.0 * x / 800.0) - 1.0;
+	ray->dir_x = ctx->player->dir_x + (ctx->player->camera_x * ray->camera_x);
+	ray->dir_y = ctx->player->dir_y + (ctx->player->camera_y * ray->camera_x);
+	ray->map_x = (int)ctx->player->pypos_x;
+	ray->map_y = (int)ctx->player->pypos_y;
+	ray->delta_dist_x = fabs(1.0 / ray->dir_x);
+	ray->delta_dist_y = fabs(1.0 / ray->dir_y);
+	init_ray_step(ctx, ray);
+}
+
+void	perform_dda(t_context *ctx, t_ray *ray)
+{
+	ray->hit = 0;
+	while (ray->hit == 0)
+	{
+		if (ray->side_dist_x < ray->side_dist_y)
+		{
+			ray->side_dist_x += ray->delta_dist_x;
+			ray->map_x += ray->step_x;
+			ray->side = 0;
+		}
+		else
+		{
+			ray->side_dist_y += ray->delta_dist_y;
+			ray->map_y += ray->step_y;
+			ray->side = 1;
+		}
+		if (ray->map_x < 0 || ray->map_y < 0
+			|| (size_t)ray->map_y >= ctx->map->size.height
+			|| (size_t)ray->map_x >= ctx->map->size.width)
+			ray->hit = 1;
+		else if (ctx->map->grid[ray->map_y][ray->map_x] == '1'
+			|| ctx->map->grid[ray->map_y][ray->map_x] == 'X')
+			ray->hit = 1;
+	}
+}
+
+/* ======================================== */
+/* FILE: ./render_engine/render_frame.c */
+/* ======================================== */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_frame.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/31 22:54:50 by synoshah          #+#    #+#             */
+/*   Updated: 2026/08/31 22:54:50 by synoshah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3D.h"
+
+// Comments for context
+
+void	draw_start_text(t_context *ctx)
+{
+	mlx_string_put(ctx->mlx, ctx->mlx_win, 280, 250, 0xFFFFFF,
+		"YOU ARE ODYSSEUS, KING OF ITHACA.");
+	mlx_string_put(ctx->mlx, ctx->mlx_win, 278, 280, 0xAAAAAA,
+		"TRAPPED IN THE CAVE OF POLYPHEMUS.");
+	mlx_string_put(ctx->mlx, ctx->mlx_win, 260, 310, 0xAAAAAA,
+		"THE CYCLOPS SLEEPS. YOU MUST FIND THE EXIT.");
+	mlx_string_put(ctx->mlx, ctx->mlx_win, 290, 365, 0xFF0000,
+		"PRESS <'W'> TO WAKE AND ESCAPE!");
+}
+
+void	render_start(t_context *ctx)
+{
+	static void	*title;
+	int			w;
+	int			h;
+	int			i;
+	int			j;
+
+	if (!title)
+		title = mlx_xpm_file_to_image(ctx->mlx, "textures/hii.xpm", &w, &h);
+	i = -1;
+	while (++i < 800)
+	{
+		j = -1;
+		while (++j < 600)
+			my_pixel_put(ctx->img, i, j, 0x000000);
+	}
+	mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, ctx->img->img, 0, 0);
+	mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, title, 350, 150);
+	draw_start_text(ctx);
+}
+
+void	render_playing(t_context *ctx)
+{
+	t_ray	ray;
+	int		x;
+
+	mlx_clear_window(ctx->mlx, ctx->mlx_win);
+	draw_background(ctx->img, ctx->map->colors.ceiling,
+		ctx->map->colors.floor);
+	x = -1;
+	while (++x < 800)
+	{
+		init_ray(ctx, &ray, x);
+		perform_dda(ctx, &ray);
+		calc_wall_height(&ray);
+		get_texture_index(ctx, &ray);
+		calc_texture_x(ctx, &ray);
+		draw_wall_slice(ctx, &ray, x);
+	}
+	mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, ctx->img->img, 0, 0);
+}
+
+int	render_frame(t_context *ctx)
+{
+	handle_key(ctx);
+	if (ctx->game_state->gamemode == START)
+		render_start(ctx);
+	else if (ctx->game_state->gamemode == PLAYING)
+		render_playing(ctx);
+	else if (ctx->game_state->gamemode == WON)
+		load_next_level(ctx);
+	else if (ctx->game_state->gamemode == DONE)
+		render_end_screen(ctx);
+	return (0);
+}
+
+/* ======================================== */
+/* FILE: ./render_engine/render_wall.c */
+/* ======================================== */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_wall.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/31 22:54:56 by synoshah          #+#    #+#             */
+/*   Updated: 2026/08/31 22:54:56 by synoshah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3D.h"
+
+void	calc_wall_height(t_ray *ray)
+{
+	if (ray->side == 0)
+		ray->perp_wall_dist = ray->side_dist_x - ray->delta_dist_x;
+	else
+		ray->perp_wall_dist = ray->side_dist_y - ray->delta_dist_y;
+	if (ray->perp_wall_dist <= 0.0001)
+		ray->perp_wall_dist = 0.0001;
+	ray->line_height = (int)(600 / ray->perp_wall_dist);
+	ray->draw_start = -ray->line_height / 2 + 600 / 2;
+	if (ray->draw_start < 0)
+		ray->draw_start = 0;
+	ray->draw_end = ray->line_height / 2 + 600 / 2;
+	if (ray->draw_end >= 600)
+		ray->draw_end = 599;
+}
+
+void	get_texture_index(t_context *ctx, t_ray *ray)
+{
+	if (ctx->map->grid[ray->map_y][ray->map_x] == 'X')
+		ray->tex_index = 4;
+	else if (ray->side == 0)
+	{
+		if (ray->dir_x > 0)
+			ray->tex_index = 2;
+		else
+			ray->tex_index = 3;
+	}
+	else
+	{
+		if (ray->dir_y > 0)
+			ray->tex_index = 1;
+		else
+			ray->tex_index = 0;
+	}
+}
+
+void	calc_texture_x(t_context *ctx, t_ray *ray)
+{
+	if (ray->side == 0)
+		ray->wall_x = ctx->player->pypos_y
+			+ ray->perp_wall_dist * ray->dir_y;
+	else
+		ray->wall_x = ctx->player->pypos_x
+			+ ray->perp_wall_dist * ray->dir_x;
+	ray->wall_x -= floor(ray->wall_x);
+	ray->tex_x = (int)(ray->wall_x * 64.0);
+	if (ray->side == 0 && ray->dir_x > 0)
+		ray->tex_x = 64 - ray->tex_x - 1;
+	if (ray->side == 1 && ray->dir_y < 0)
+		ray->tex_x = 64 - ray->tex_x - 1;
+	ray->step = 1.0 * 64.0 / ray->line_height;
+	ray->tex_pos = (ray->draw_start - 600 / 2
+			+ ray->line_height / 2) * ray->step;
+}
+
+void	draw_wall_slice(t_context *ctx, t_ray *ray, int x)
+{
+	int	y;
+
+	y = ray->draw_start;
+	while (y < ray->draw_end)
+	{
+		ray->tex_y = (int)ray->tex_pos & (64 - 1);
+		ray->tex_pos += ray->step;
+		ray->color = get_texture_pixel(&ctx->textures[ray->tex_index],
+				ray->tex_x, ray->tex_y);
+		if (ray->side == 1)
+			ray->color = (ray->color >> 1) & 0x7F7F7F;
+		my_pixel_put(ctx->img, x, y, ray->color);
+
+		y++;
+	}
+}
+
+/* ======================================== */
+/* FILE: ./shapes.c */
+/* ======================================== */
+
+
+#include "include/shapes.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+void	my_pixel_put(t_data *img, int x, int y, int color);
+void 	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color);
+
+
+void	draw_circle(t_data *img, int xc, int yc, int color, int radius)
+{
+	int	y;
+	int	x;
+	int	d;
+
+	x = 0;
+	y = radius;
+	d = 3 - 2 * radius;
+	while (y >= x)
+	{
+		my_pixel_put(img, xc+x, yc + y, color);
+		my_pixel_put(img, xc+x, yc - y, color);
+		my_pixel_put(img, xc+y, yc + x, color);
+		my_pixel_put(img, xc+y, yc - x, color);
+		my_pixel_put(img, xc-x, yc + y, color);
+		my_pixel_put(img, xc-x, yc - y, color);
+		my_pixel_put(img, xc-y, yc + x, color);
+		my_pixel_put(img, xc-y, yc - x, color);
+		x++;
+		if (d > 0)
+		{
+			y--;
+			d = d + 4 * (x - y) + 10;
+		}
+		else
+			d = d + 4 * x + 6;
+	}
+}
