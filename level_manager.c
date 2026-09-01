@@ -69,7 +69,7 @@ void	load_next_level(t_context *ctx)
 	if (ctx->game_state->level == 1)
 		ctx->map = parse_map_file("maps/map2.cub");
 	else if (ctx->game_state->level == 2)
-		ctx->map = parse_map_file("maps/map2.cub");
+		ctx->map = parse_map_file("maps/map3.cub");
 	if (!ctx->map)
 	{
 		printf("failed to parse map\n");
