@@ -15,6 +15,7 @@
 # include "include/draw.h"
 # include "include/parser.h"
 
+# define KEY_X 120
 # define KEY_W 119
 # define KEY_S 115
 # define KEY_A 97
@@ -73,6 +74,7 @@ typedef struct s_input
 	int	d;
 	int	l;
 	int	r;
+	int x;
 }	t_input;
 
 typedef struct s_context

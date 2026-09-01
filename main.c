@@ -19,6 +19,8 @@ int	handle_key_press(int keycode, t_context *ctx)
 		ctx->keys->l = 1;
 	if (keycode == KEY_RIGHT)
 		ctx->keys->r = 1;
+	if (keycode == KEY_X)
+		ctx->keys->x = 1;
 	printf("%d\n", ctx->keys->w);
 	return (0);
 }
@@ -37,6 +39,8 @@ int	handle_key_release(int keycode, t_context *ctx)
 		ctx->keys->l = 0;
 	if (keycode == KEY_RIGHT)
 		ctx->keys->r = 0;
+	if (keycode == KEY_X)
+		ctx->keys->x = 0;
 	printf("%d\n", ctx->keys->w);
 	return (0);
 }

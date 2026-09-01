@@ -62,10 +62,15 @@ static void	handle_movement(t_context *ctx)
 
 int	handle_key(t_context *ctx)
 {
-	if (ctx->game_state->gamemode == START && ctx->keys->w)
+	if (ctx->game_state->gamemode == START && ctx->keys->x)
 	{
 		ctx->game_state->gamemode = PLAYING;
 		mlx_clear_window(ctx->mlx, ctx->mlx_win);
+		return (0);
+	}
+	if (ctx->game_state->gamemode == WON && ctx->keys->x)
+	{
+		load_next_level(ctx);
 		return (0);
 	}
 	if (ctx->game_state->gamemode != PLAYING)
