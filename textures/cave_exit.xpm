@@ -1,6 +1,5 @@
 /* XPM */
 static char *cave_exit[] = {
-/* columns rows colors chars-per-pixel */
 "64 64 16 1 ",
 "  c black",
 ". c #111111",

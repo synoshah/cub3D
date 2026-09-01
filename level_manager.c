@@ -54,7 +54,10 @@ void	reload_textures(t_context *ctx)
 	load_texture(ctx->mlx, &ctx->textures[1], ctx->map->textures.south);
 	load_texture(ctx->mlx, &ctx->textures[2], ctx->map->textures.east);
 	load_texture(ctx->mlx, &ctx->textures[3], ctx->map->textures.west);
-	load_texture(ctx->mlx, &ctx->textures[4], "textures/cave_exit.xpm");
+	if (ctx->game_state->level == 2)
+		load_texture(ctx->mlx, &ctx->textures[4], "textures/throne.xpm");
+	else
+		load_texture(ctx->mlx, &ctx->textures[4], "textures/cave_exit.xpm");
 }
 
 void	load_next_level(t_context *ctx)

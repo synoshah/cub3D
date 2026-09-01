@@ -82,7 +82,6 @@ void	draw_wall_slice(t_context *ctx, t_ray *ray, int x)
 		if (ray->side == 1)
 			ray->color = (ray->color >> 1) & 0x7F7F7F;
 		my_pixel_put(ctx->img, x, y, ray->color);
-
 		y++;
 	}
 }
