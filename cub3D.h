@@ -15,6 +15,7 @@
 # include "include/draw.h"
 # include "include/parser.h"
 
+# define KEY_X 120
 # define KEY_W 119
 # define KEY_S 115
 # define KEY_A 97
@@ -75,6 +76,7 @@ typedef struct s_input
 	int	r;
 	int	space;
 	int	space_prev;
+	int x;
 }	t_input;
 
 typedef struct s_context
@@ -85,7 +87,7 @@ typedef struct s_context
 	void			*mlx_win;
 	t_input			*keys;
 	struct s_map	*map;
-	t_data			textures[5];
+	t_data			textures[6];
 	t_game_state	*game_state;
 }	t_context;
 

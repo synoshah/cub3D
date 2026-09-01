@@ -54,19 +54,29 @@ void	reload_textures(t_context *ctx)
 	load_texture(ctx->mlx, &ctx->textures[1], ctx->map->textures.south);
 	load_texture(ctx->mlx, &ctx->textures[2], ctx->map->textures.east);
 	load_texture(ctx->mlx, &ctx->textures[3], ctx->map->textures.west);
-	load_texture(ctx->mlx, &ctx->textures[4], "textures/cave_exit.xpm");
+if (ctx->game_state->level == 2)
+		load_texture(ctx->mlx, &ctx->textures[4], "textures/throne.xpm");
+	else if (ctx->game_state->level == 1)
+		load_texture(ctx->mlx, &ctx->textures[4], "textures/boat.xpm");
+	else
+		load_texture(ctx->mlx, &ctx->textures[4], "textures/cave_exit.xpm");
+	if (ctx->game_state->level == 1)
+		load_texture(ctx->mlx, &ctx->textures[5], "textures/natural_green_bamboo.xpm");
 }
 
 void	load_next_level(t_context *ctx)
 {
 	ctx->game_state->level++;
-	if (ctx->game_state->level > 1)
+	if (ctx->game_state->level > 2)
 	{
 		ctx->game_state->gamemode = DONE;
 		return ;
 	}
 	free_map(ctx->map);
-	ctx->map = parse_map_file("maps/map2.cub");
+	if (ctx->game_state->level == 1)
+		ctx->map = parse_map_file("maps/map2.cub");
+	else if (ctx->game_state->level == 2)
+		ctx->map = parse_map_file("maps/map3.cub");
 	if (!ctx->map)
 	{
 		printf("failed to parse map\n");

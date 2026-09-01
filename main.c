@@ -23,6 +23,9 @@ int	handle_key_press(int keycode, t_context *ctx)
 		ctx->keys->space = 1;
 		ctx->keys->space_prev = 0;
 	}
+	if (keycode == KEY_X)
+		ctx->keys->x = 1;
+	printf("%d\n", ctx->keys->w);
 	return (0);
 }
 
@@ -45,6 +48,9 @@ int	handle_key_release(int keycode, t_context *ctx)
 		ctx->keys->space = 0;
 		ctx->keys->space_prev = 0;
 	}
+	if (keycode == KEY_X)
+		ctx->keys->x = 0;
+	printf("%d\n", ctx->keys->w);
 	return (0);
 }
 
@@ -156,6 +162,7 @@ int main(void)
 	load_texture(mlx, &ctx.textures[2], ctx.map->textures.east);
 	load_texture(mlx, &ctx.textures[3], ctx.map->textures.west);
 	load_texture(mlx, &ctx.textures[4], "textures/cave_exit.xpm");
+	ctx.textures[5].img = NULL;
 	mlx_loop_hook(mlx, render_frame, &ctx);
 	// Key press and key release events
 	mlx_hook(mlx_win, 2, 1L<<0,  handle_key_press, &ctx);
