@@ -50,9 +50,18 @@ void	render_start(t_context *ctx)
 
 void	render_playing(t_context *ctx)
 {
-	t_ray	ray;
-	int		x;
+	static int	frame = 0;
+	t_data		temp;
+	t_ray		ray;
+	int			x;
 
+	frame++;
+	if (ctx->game_state->level == 1 && frame % 40 == 0)
+	{
+		temp = ctx->textures[0];
+		ctx->textures[0] = ctx->textures[5];
+		ctx->textures[5] = temp;
+	}
 	mlx_clear_window(ctx->mlx, ctx->mlx_win);
 	draw_background(ctx->img, ctx->map->colors.ceiling,
 		ctx->map->colors.floor);

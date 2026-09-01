@@ -83,7 +83,7 @@ typedef struct s_context
 	void			*mlx_win;
 	t_input			*keys;
 	struct s_map	*map;
-	t_data			textures[5];
+	t_data			textures[6];
 	t_game_state	*game_state;
 }	t_context;
 

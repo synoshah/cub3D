@@ -149,6 +149,7 @@ int main(void)
 	load_texture(mlx, &ctx.textures[2], ctx.map->textures.east);
 	load_texture(mlx, &ctx.textures[3], ctx.map->textures.west);
 	load_texture(mlx, &ctx.textures[4], "textures/cave_exit.xpm");
+	ctx.textures[5].img = NULL;
 	mlx_loop_hook(mlx, render_frame, &ctx);
 	// Key press and key release events
 	mlx_hook(mlx_win, 2, 1L<<0,  handle_key_press, &ctx);
