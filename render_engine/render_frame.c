@@ -23,7 +23,7 @@ void	draw_start_text(t_context *ctx)
 	mlx_string_put(ctx->mlx, ctx->mlx_win, 260, 310, 0xAAAAAA,
 		"THE CYCLOPS SLEEPS. YOU MUST FIND THE EXIT.");
 	mlx_string_put(ctx->mlx, ctx->mlx_win, 290, 365, 0xFF0000,
-		"PRESS <'W'> TO WAKE AND ESCAPE!");
+		"PRESS <'space'> TO WAKE AND ESCAPE!");
 }
 
 void	render_start(t_context *ctx)
@@ -66,8 +66,43 @@ void	render_playing(t_context *ctx)
 		calc_texture_x(ctx, &ray);
 		draw_wall_slice(ctx, &ray, x);
 	}
+	draw_minimap(ctx);
 	mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, ctx->img->img, 0, 0);
 }
+
+void	darken_screen(t_data *img, int amount)
+{
+    int	x;
+    int	y;
+    int	color;
+    int	r;
+    int	g;
+    int	b;
+
+    x = 0;
+    while (x < img->width)
+    {
+        y = 0;
+        while (y < img->height)
+        {
+            color = *(unsigned int *)(img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8)));
+            r = (color >> 16) & 0xFF;
+            g = (color >> 8) & 0xFF;
+            b = color & 0xFF;
+
+            r = r * (100 - amount) / 100;
+            g = g * (100 - amount) / 100;
+            b = b * (100 - amount) / 100;
+
+            *(unsigned int *)(img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8)))
+                = (r << 16) | (g << 8) | b;
+
+            y++;
+        }
+        x++;
+    }
+}
+
 
 int	render_frame(t_context *ctx)
 {

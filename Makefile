@@ -13,7 +13,7 @@ SRCS        = 	my_pixel_put.c  shapes.c  draw_line.c  map_utils/map.c \
 			  	parser/parse_map_file.c  parser/parse_helper.c \
 				render_engine/render_frame.c  render_engine/handle_key.c level_manager.c\
 				flood_fill.c render_engine/raycaster.c render_engine/render_wall.c \
-				main.c
+				open_door.c  main.c
 
 OBJS        = $(SRCS:.c=.o)
 

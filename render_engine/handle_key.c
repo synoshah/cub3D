@@ -13,6 +13,22 @@
 #include "cub3D.h"
 #include "include/map.h"
 
+double	get_delta_time()
+{
+	static long long	last;
+	struct timeval		now;
+	long long			current_us;
+	double				dt;
+
+	gettimeofday(&now, NULL);
+	current_us = now.tv_sec * 1000000LL + now.tv_usec;
+	if (last == 0)
+		last = current_us;
+	dt = (current_us - last) / 1000000.0;
+	last = current_us;
+	return (dt);
+}
+
 static void	move_player(t_context *ctx, double move_x, double move_y)
 {
 	double	new_x;
@@ -20,9 +36,11 @@ static void	move_player(t_context *ctx, double move_x, double move_y)
 
 	new_x = ctx->player->pypos_x + move_x;
 	new_y = ctx->player->pypos_y + move_y;
-	if (ctx->map->grid[(int)ctx->player->pypos_y][(int)new_x] != '1')
+	if (ctx->map->grid[(int)ctx->player->pypos_y][(int)new_x] != '1'
+	&& ctx->map->grid[(int)ctx->player->pypos_y][(int)new_x] != 'X')
 		ctx->player->pypos_x = new_x;
-	if (ctx->map->grid[(int)new_y][(int)ctx->player->pypos_x] != '1')
+	if (ctx->map->grid[(int)new_y][(int)ctx->player->pypos_x] != '1'
+	&& ctx->map->grid[(int)new_y][(int)ctx->player->pypos_x] != '1')
 		ctx->player->pypos_y = new_y;
 }
 
@@ -39,30 +57,41 @@ static void	rotate_player(t_player *p, double rot_speed)
 	p->camera_y = old_cam_x * sin(rot_speed) + p->camera_y * cos(rot_speed);
 }
 
-static void	handle_movement(t_context *ctx)
+static void	handle_movement(t_context *ctx, double dt)
 {
 	t_player	*p;
 
 	p = ctx->player;
 	if (ctx->keys->w)
-		move_player(ctx, p->dir_x * p->move_speed,
-			p->dir_y * p->move_speed);
+		move_player(ctx, p->dir_x * p->move_speed * dt,
+			p->dir_y * p->move_speed * dt);
 	if (ctx->keys->s)
-		move_player(ctx, -p->dir_x * p->move_speed,
-			-p->dir_y * p->move_speed);
+		move_player(ctx, -p->dir_x * p->move_speed * dt,
+			-p->dir_y * p->move_speed * dt);
 	if (ctx->keys->a)
-		move_player(ctx, -p->camera_x * p->move_speed,
-			-p->camera_y * p->move_speed);
+		move_player(ctx, -p->camera_x * p->move_speed * dt,
+			-p->camera_y * p->move_speed * dt);
 	if (ctx->keys->d)
-		move_player(ctx, p->camera_x * p->move_speed,
-			p->camera_y * p->move_speed);
-	if (ctx->map->grid[(int)p->pypos_y][(int)p->pypos_x] == 'X')
+		move_player(ctx, p->camera_x * p->move_speed * dt,
+			p->camera_y * p->move_speed * dt);
+	int	front_x = (int)(p->pypos_x + p->dir_x * 0.5);
+	int	front_y = (int)(p->pypos_y + p->dir_y * 0.5);
+	if ((ctx->map->grid[front_y][front_x] == 'X'
+		|| ctx->map->grid[front_y][front_x] == '0') && ctx->keys->space && !ctx->keys->space_prev)
+	{
+		toggle_door(ctx);
 		ctx->game_state->gamemode = WON;
+	}
+	ctx->keys->space_prev = ctx->keys->space;
 }
+
 
 int	handle_key(t_context *ctx)
 {
-	if (ctx->game_state->gamemode == START && ctx->keys->w)
+	double	dt;
+
+	dt = get_delta_time();
+	if (ctx->game_state->gamemode == START && ctx->keys->space)
 	{
 		ctx->game_state->gamemode = PLAYING;
 		mlx_clear_window(ctx->mlx, ctx->mlx_win);
@@ -70,10 +99,10 @@ int	handle_key(t_context *ctx)
 	}
 	if (ctx->game_state->gamemode != PLAYING)
 		return (0);
-	handle_movement(ctx);
+	handle_movement(ctx, dt);
 	if (ctx->keys->r)
-		rotate_player(ctx->player, ctx->player->rotation_speed);
+		rotate_player(ctx->player, ctx->player->rotation_speed * dt);
 	if (ctx->keys->l)
-		rotate_player(ctx->player, -ctx->player->rotation_speed);
+		rotate_player(ctx->player, -ctx->player->rotation_speed * dt);
 	return (0);
 }

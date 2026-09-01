@@ -66,7 +66,7 @@ void	load_next_level(t_context *ctx)
 		return ;
 	}
 	free_map(ctx->map);
-	ctx->map = parse_map_file("maps/map3.cub");
+	ctx->map = parse_map_file("maps/map2.cub");
 	if (!ctx->map)
 	{
 		printf("failed to parse map\n");

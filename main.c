@@ -4,7 +4,6 @@
 
 int	handle_key_press(int keycode, t_context *ctx)
 {
-	printf("%d\n", keycode);
 	if (keycode == KEY_ESC)
 		exit(0);
 	if (keycode == KEY_W)
@@ -19,7 +18,11 @@ int	handle_key_press(int keycode, t_context *ctx)
 		ctx->keys->l = 1;
 	if (keycode == KEY_RIGHT)
 		ctx->keys->r = 1;
-	printf("%d\n", ctx->keys->w);
+	if (keycode == 32)
+	{
+		ctx->keys->space = 1;
+		ctx->keys->space_prev = 0;
+	}
 	return (0);
 }
 
@@ -37,7 +40,11 @@ int	handle_key_release(int keycode, t_context *ctx)
 		ctx->keys->l = 0;
 	if (keycode == KEY_RIGHT)
 		ctx->keys->r = 0;
-	printf("%d\n", ctx->keys->w);
+	if(keycode == 32)
+	{
+		ctx->keys->space = 0;
+		ctx->keys->space_prev = 0;
+	}
 	return (0);
 }
 
@@ -119,8 +126,8 @@ int main(void)
 	player.dir_y = -1.0;
 	player.camera_x = 0.66;
 	player.camera_y = 0.0;
-	player.move_speed = 0.1;
-	player.rotation_speed = 0.05;
+	player.move_speed = 1;
+	player.rotation_speed = 5;
 
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 800, 600, "cub3D");

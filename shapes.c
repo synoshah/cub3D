@@ -1,11 +1,31 @@
-
 #include "include/shapes.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <stdio.h>
 
-void	my_pixel_put(t_data *img, int x, int y, int color);
-void 	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color);
+void	draw_square(t_data *img, int x, int y, int color, int size)
+{
+	int	i;
+	int	j;
+	int	x_end;
+	int	y_end;
 
+	if (img == NULL || size <= 0)
+		return ;
+	x_end = x + size;
+	y_end = y + size;
+	i = x;
+	while (i < x_end)
+	{
+		j = y;
+		while (j < y_end)
+		{
+			my_pixel_put(img, i, j, color);
+			j++;
+		}
+		i++;
+	}
+}
 
 void	draw_circle(t_data *img, int xc, int yc, int color, int radius)
 {

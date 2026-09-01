@@ -73,6 +73,8 @@ typedef struct s_input
 	int	d;
 	int	l;
 	int	r;
+	int	space;
+	int	space_prev;
 }	t_input;
 
 typedef struct s_context
@@ -101,5 +103,10 @@ void	render_playing(t_context *ctx);
 void	load_next_level(t_context *ctx);
 void	render_end_screen(t_context *ctx);
 void	draw_start_text(t_context *ctx);
+
+void	toggle_door(t_context *ctx);
+void	draw_minimap(t_context *ctx);
+double	get_delta_time();
+
 
 #endif
