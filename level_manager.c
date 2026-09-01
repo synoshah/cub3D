@@ -60,13 +60,16 @@ void	reload_textures(t_context *ctx)
 void	load_next_level(t_context *ctx)
 {
 	ctx->game_state->level++;
-	if (ctx->game_state->level > 1)
+	if (ctx->game_state->level > 2)
 	{
 		ctx->game_state->gamemode = DONE;
 		return ;
 	}
 	free_map(ctx->map);
-	ctx->map = parse_map_file("maps/map3.cub");
+	if (ctx->game_state->level == 1)
+		ctx->map = parse_map_file("maps/map2.cub");
+	else if (ctx->game_state->level == 2)
+		ctx->map = parse_map_file("maps/map2.cub");
 	if (!ctx->map)
 	{
 		printf("failed to parse map\n");
