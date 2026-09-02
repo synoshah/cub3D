@@ -1,4 +1,4 @@
-#include "../include/parser.h"
+#include "cub3D.h"
 
 // Can add more valid chars later.
 static int	is_valid_map_cell(char c)

@@ -1,4 +1,4 @@
-#include "../include/parser.h"
+#include "cub3D.h"
 
 int	is_texture_line(char *line)
 {

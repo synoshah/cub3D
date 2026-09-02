@@ -1,4 +1,4 @@
-#include "../include/parser.h"
+#include "cub3D.h"
 
 static int	validate_and_add_path(char *line, char **destinations)
 {

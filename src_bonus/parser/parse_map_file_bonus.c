@@ -1,4 +1,4 @@
-#include "../include/parser.h"
+#include "cub3D.h"
 
 static int	open_and_read_header(t_map *map, char *filename)
 {
