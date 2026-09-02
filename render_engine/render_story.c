@@ -38,7 +38,7 @@ static void	level_two_text(t_context *ctx)
 		"YOU HAVE RECLAIMED THE THRONE OF ITHACA.");
 	mlx_string_put(ctx->mlx, ctx->mlx_win, 255, 280, 0xAAAAAA,
 		"THE LONG ODYSSEY IS FINALLY OVER.");
-	mlx_string_put(ctx->mlx, ctx->mlx_win, 245, 330, 0xFF0000,
+	mlx_string_put(ctx->mlx, ctx->mlx_win, 245, 330, 0x00FF00,
 		"PRESS <'X'> TO CONCLUDE YOUR JOURNEY.");
 }
 

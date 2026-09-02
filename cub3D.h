@@ -104,5 +104,6 @@ void	load_next_level(t_context *ctx);
 void	render_end_screen(t_context *ctx);
 void	draw_start_text(t_context *ctx);
 void	render_story(t_context *ctx);
+void	draw_minimap(t_context *ctx);
 
 #endif

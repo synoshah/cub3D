@@ -79,6 +79,7 @@ void	render_playing(t_context *ctx)
 		calc_texture_x(ctx, &ray);
 		draw_wall_slice(ctx, &ray, x);
 	}
+	draw_minimap(ctx);
 	mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, ctx->img->img, 0, 0);
 }
 
