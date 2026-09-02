@@ -3,7 +3,7 @@
 
 int	flood(t_map *map, int x, int y)
 {
-	if ((size_t)x >= map->size.width || (size_t)y >= map->size.height)
+	if ((size_t)y >= map->size.height || (size_t)x >= ft_strlen(map->grid[y]))
 		return (0);
 	if (is_spawn_point(map->grid[y][x])
 		&& ((size_t)x != map->spawn.x || (size_t)y != map->spawn.y))
