@@ -70,7 +70,8 @@ int	handle_key(t_context *ctx)
 	}
 	if (ctx->game_state->gamemode == WON && ctx->keys->x)
 	{
-		load_next_level(ctx);
+		if (!load_next_level(ctx))
+			close_game(ctx);
 		return (0);
 	}
 	if (ctx->game_state->gamemode != PLAYING)

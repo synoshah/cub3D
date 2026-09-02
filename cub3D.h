@@ -87,11 +87,13 @@ typedef struct s_context
 	struct s_map	*map;
 	t_data			textures[6];
 	t_game_state	*game_state;
+	void			*title_img;
+	void			*end_img;
 }	t_context;
 
 int		render_frame(t_context *ctx);
 int		handle_key(t_context *ctx);
-void	load_texture(void *mlx, t_data texture[], char *file_path);
+int		load_texture(void *mlx, t_data texture[], char *file_path);
 void	init_ray(t_context *ctx, t_ray *ray, int x);
 void	perform_dda(t_context *ctx, t_ray *ray);
 void	calc_wall_height(t_ray *ray);
@@ -100,10 +102,12 @@ void	calc_texture_x(t_context *ctx, t_ray *ray);
 void	draw_wall_slice(t_context *ctx, t_ray *ray, int x);
 void	render_start(t_context *ctx);
 void	render_playing(t_context *ctx);
-void	load_next_level(t_context *ctx);
+int		load_next_level(t_context *ctx);
 void	render_end_screen(t_context *ctx);
 void	draw_start_text(t_context *ctx);
 void	render_story(t_context *ctx);
 void	draw_minimap(t_context *ctx);
+int		close_game(t_context *ctx);
+
 
 #endif

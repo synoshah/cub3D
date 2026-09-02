@@ -1,0 +1,1435 @@
+==1389== Memcheck, a memory error detector
+==1389== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1389== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1389== Command: ./cub3D
+==1389== Parent PID: 323
+==1389== 
+==1389== 
+==1389== HEAP SUMMARY:
+==1389==     in use at exit: 92,445 bytes in 113 blocks
+==1389==   total heap usage: 3,468 allocs, 3,355 frees, 206,461 bytes allocated
+==1389== 
+==1389== 3 bytes in 1 blocks are still reachable in loss record 1 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4B4654E: strdup (strdup.c:42)
+==1389==    by 0x48A6B45: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 8 bytes in 1 blocks are still reachable in loss record 2 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4B4654E: strdup (strdup.c:42)
+==1389==    by 0x48A39AE: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4868820: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486D9E2: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113653: mlx_int_deal_shm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1138E1: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:XInitExtension
+   fun:XextAddDisplay
+   fun:XShmQueryVersion
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+   fun:main
+}
+==1389== 8 bytes in 1 blocks are still reachable in loss record 3 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4866B34: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x48689DF: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486D9E2: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113653: mlx_int_deal_shm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1138E1: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+   fun:XextAddDisplay
+   fun:XShmQueryVersion
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+   fun:main
+}
+==1389== 10 bytes in 1 blocks are still reachable in loss record 4 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4B4654E: strdup (strdup.c:42)
+==1389==    by 0x48A39AE: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x490D213: XkbUseExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A76A8: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:XInitExtension
+   fun:XkbUseExtension
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 16 bytes in 1 blocks are still reachable in loss record 5 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4CD82EE: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CD88A3: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x48B6EE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A6B68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xcb_connect_to_fd
+   fun:xcb_connect_to_display_with_auth_info
+   fun:_XConnectXCB
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 22 bytes in 1 blocks are still reachable in loss record 6 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A703E: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 24 bytes in 1 blocks are still reachable in loss record 7 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4868041: XextCreateExtension (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x48684CC: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x48689C8: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486D9E2: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113653: mlx_int_deal_shm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1138E1: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:XextCreateExtension
+   obj:/usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+   fun:XextAddDisplay
+   fun:XShmQueryVersion
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+   fun:main
+}
+==1389== 24 bytes in 1 blocks are still reachable in loss record 8 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4B4654E: strdup (strdup.c:42)
+==1389==    by 0x48A39AE: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4868820: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486850A: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x48689C8: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486D9E2: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113653: mlx_int_deal_shm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1138E1: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:XInitExtension
+   fun:XextAddDisplay
+   obj:/usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+   fun:XextAddDisplay
+   fun:XShmQueryVersion
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+   fun:main
+}
+==1389== 24 bytes in 1 blocks are still reachable in loss record 9 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48689F5: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486D9E2: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113653: mlx_int_deal_shm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1138E1: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:XextAddDisplay
+   fun:XShmQueryVersion
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+   fun:main
+}
+==1389== 24 bytes in 1 blocks are still reachable in loss record 10 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48B4A65: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BD2C6: _XReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BD77E: XSync (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113BB7: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:_XReply
+   fun:XSync
+   fun:mlx_loop
+   fun:main
+}
+==1389== 29 bytes in 1 blocks are still reachable in loss record 11 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A00CD: _XUpdateAtomCache (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A2929: XInternAtom (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1138D2: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XUpdateAtomCache
+   fun:XInternAtom
+   fun:mlx_init
+   fun:main
+}
+==1389== 32 bytes in 1 blocks are still reachable in loss record 12 of 65
+==1389==    at 0x48487A9: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4CDC15E: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CDC237: xcb_get_extension_data (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CDC2EE: xcb_prefetch_maximum_request_length (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CDC364: xcb_get_maximum_request_length (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x48A752B: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+   fun:xcb_get_extension_data
+   fun:xcb_prefetch_maximum_request_length
+   fun:xcb_get_maximum_request_length
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 32 bytes in 1 blocks are still reachable in loss record 13 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4CD51B7: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CD5A08: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CD5EB0: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CD6E44: xcb_wait_for_reply (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CDC292: xcb_get_extension_data (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CDC2EE: xcb_prefetch_maximum_request_length (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CDC364: xcb_get_maximum_request_length (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x48A752B: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+   obj:/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+   obj:/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+   fun:xcb_wait_for_reply
+   fun:xcb_get_extension_data
+   fun:xcb_prefetch_maximum_request_length
+   fun:xcb_get_maximum_request_length
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 32 bytes in 1 blocks are still reachable in loss record 14 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48687FF: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486D9E2: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113653: mlx_int_deal_shm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1138E1: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:XextAddDisplay
+   fun:XShmQueryVersion
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+   fun:main
+}
+==1389== 32 bytes in 1 blocks are still reachable in loss record 15 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48687FF: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486850A: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x48689C8: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486D9E2: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113653: mlx_int_deal_shm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1138E1: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:XextAddDisplay
+   obj:/usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+   fun:XextAddDisplay
+   fun:XShmQueryVersion
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+   fun:main
+}
+==1389== 33 bytes in 1 blocks are still reachable in loss record 16 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A00CD: _XUpdateAtomCache (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A2929: XInternAtom (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1138BB: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XUpdateAtomCache
+   fun:XInternAtom
+   fun:mlx_init
+   fun:main
+}
+==1389== 40 bytes in 1 blocks are still reachable in loss record 17 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48B71F1: _XPollfdCacheInit (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A6E71: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XPollfdCacheInit
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 48 bytes in 1 blocks are still reachable in loss record 18 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48B6E71: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A6B68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XConnectXCB
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 48 bytes in 1 blocks are still reachable in loss record 19 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48B6E87: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A6B68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XConnectXCB
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 48 bytes in 1 blocks are still reachable in loss record 20 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x49054C0: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4905542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49058AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1154B7: mlx_int_param_KeyPress (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113C25: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XkbGetMap
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:XkbKeycodeToKeysym
+   fun:mlx_int_param_KeyPress
+   fun:mlx_loop
+   fun:main
+}
+==1389== 72 bytes in 1 blocks are still reachable in loss record 21 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A6F20: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 72 bytes in 1 blocks are still reachable in loss record 22 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x49054A4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4905542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49058AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1154B7: mlx_int_param_KeyPress (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113C25: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XkbGetMap
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:XkbKeycodeToKeysym
+   fun:mlx_int_param_KeyPress
+   fun:mlx_loop
+   fun:main
+}
+==1389== 88 bytes in 1 blocks are still reachable in loss record 23 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x113F8B: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x11309C: main (main.c:131)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:main
+}
+==1389== 88 bytes in 1 blocks are still reachable in loss record 24 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x113F8B: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x111063: render_start (render_frame.c:36)
+==1389==    by 0x11141C: render_frame (render_frame.c:90)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:render_start
+   fun:render_frame
+   fun:mlx_loop
+   fun:main
+}
+==1389== 88 bytes in 1 blocks are still reachable in loss record 25 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x113F8B: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x111BEA: reload_textures (level_manager.c:54)
+==1389==    by 0x111E36: load_next_level (level_manager.c:93)
+==1389==    by 0x11198A: handle_key (handle_key.c:73)
+==1389==    by 0x1113FE: render_frame (render_frame.c:88)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:reload_textures
+   fun:load_next_level
+   fun:handle_key
+   fun:render_frame
+   fun:mlx_loop
+   fun:main
+}
+==1389== 88 bytes in 1 blocks are still reachable in loss record 26 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x113F8B: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x111C14: reload_textures (level_manager.c:55)
+==1389==    by 0x111E36: load_next_level (level_manager.c:93)
+==1389==    by 0x11198A: handle_key (handle_key.c:73)
+==1389==    by 0x1113FE: render_frame (render_frame.c:88)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:reload_textures
+   fun:load_next_level
+   fun:handle_key
+   fun:render_frame
+   fun:mlx_loop
+   fun:main
+}
+==1389== 88 bytes in 1 blocks are still reachable in loss record 27 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x113F8B: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x111C3E: reload_textures (level_manager.c:56)
+==1389==    by 0x111E36: load_next_level (level_manager.c:93)
+==1389==    by 0x11198A: handle_key (handle_key.c:73)
+==1389==    by 0x1113FE: render_frame (render_frame.c:88)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:reload_textures
+   fun:load_next_level
+   fun:handle_key
+   fun:render_frame
+   fun:mlx_loop
+   fun:main
+}
+==1389== 88 bytes in 1 blocks are still reachable in loss record 28 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x113F8B: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x111C75: reload_textures (level_manager.c:58)
+==1389==    by 0x111E36: load_next_level (level_manager.c:93)
+==1389==    by 0x11198A: handle_key (handle_key.c:73)
+==1389==    by 0x1113FE: render_frame (render_frame.c:88)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:reload_textures
+   fun:load_next_level
+   fun:handle_key
+   fun:render_frame
+   fun:mlx_loop
+   fun:main
+}
+==1389== 112 bytes in 1 blocks are still reachable in loss record 29 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48B6D72: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A6B68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_XConnectXCB
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 112 bytes in 1 blocks are still reachable in loss record 30 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A7200: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 128 bytes in 1 blocks are still reachable in loss record 31 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A712E: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 128 bytes in 1 blocks are still reachable in loss record 32 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A399E: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x490D213: XkbUseExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A76A8: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XInitExtension
+   fun:XkbUseExtension
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 128 bytes in 1 blocks are still reachable in loss record 33 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A399E: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4868820: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486D9E2: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113653: mlx_int_deal_shm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1138E1: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XInitExtension
+   fun:XextAddDisplay
+   fun:XShmQueryVersion
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+   fun:main
+}
+==1389== 128 bytes in 1 blocks are still reachable in loss record 34 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A399E: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4868820: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486850A: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x48689C8: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486D9E2: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113653: mlx_int_deal_shm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1138E1: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XInitExtension
+   fun:XextAddDisplay
+   obj:/usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+   fun:XextAddDisplay
+   fun:XShmQueryVersion
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+   fun:main
+}
+==1389== 136 bytes in 1 blocks are still reachable in loss record 35 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x11380F: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:mlx_init
+   fun:main
+}
+==1389== 136 bytes in 1 blocks are still reachable in loss record 36 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48670C3: XShmCreateImage (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113FB6: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x11309C: main (main.c:131)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XShmCreateImage
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:main
+}
+==1389== 136 bytes in 1 blocks are still reachable in loss record 37 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48670C3: XShmCreateImage (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113FB6: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x111063: render_start (render_frame.c:36)
+==1389==    by 0x11141C: render_frame (render_frame.c:90)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XShmCreateImage
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:render_start
+   fun:render_frame
+   fun:mlx_loop
+   fun:main
+}
+==1389== 136 bytes in 1 blocks are still reachable in loss record 38 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48670C3: XShmCreateImage (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113FB6: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x111BEA: reload_textures (level_manager.c:54)
+==1389==    by 0x111E36: load_next_level (level_manager.c:93)
+==1389==    by 0x11198A: handle_key (handle_key.c:73)
+==1389==    by 0x1113FE: render_frame (render_frame.c:88)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XShmCreateImage
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:reload_textures
+   fun:load_next_level
+   fun:handle_key
+   fun:render_frame
+   fun:mlx_loop
+}
+==1389== 136 bytes in 1 blocks are still reachable in loss record 39 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48670C3: XShmCreateImage (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113FB6: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x111C14: reload_textures (level_manager.c:55)
+==1389==    by 0x111E36: load_next_level (level_manager.c:93)
+==1389==    by 0x11198A: handle_key (handle_key.c:73)
+==1389==    by 0x1113FE: render_frame (render_frame.c:88)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XShmCreateImage
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:reload_textures
+   fun:load_next_level
+   fun:handle_key
+   fun:render_frame
+   fun:mlx_loop
+}
+==1389== 136 bytes in 1 blocks are still reachable in loss record 40 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48670C3: XShmCreateImage (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113FB6: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x111C3E: reload_textures (level_manager.c:56)
+==1389==    by 0x111E36: load_next_level (level_manager.c:93)
+==1389==    by 0x11198A: handle_key (handle_key.c:73)
+==1389==    by 0x1113FE: render_frame (render_frame.c:88)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XShmCreateImage
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:reload_textures
+   fun:load_next_level
+   fun:handle_key
+   fun:render_frame
+   fun:mlx_loop
+}
+==1389== 136 bytes in 1 blocks are still reachable in loss record 41 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48670C3: XShmCreateImage (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113FB6: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x111C75: reload_textures (level_manager.c:58)
+==1389==    by 0x111E36: load_next_level (level_manager.c:93)
+==1389==    by 0x11198A: handle_key (handle_key.c:73)
+==1389==    by 0x1113FE: render_frame (render_frame.c:88)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XShmCreateImage
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:reload_textures
+   fun:load_next_level
+   fun:handle_key
+   fun:render_frame
+   fun:mlx_loop
+}
+==1389== 152 bytes in 1 blocks are still reachable in loss record 42 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x490D40E: XkbUseExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A76A8: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XkbUseExtension
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 160 bytes in 1 blocks are still reachable in loss record 43 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48959EF: XCreateGC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A75A4: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:XCreateGC
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 160 bytes in 1 blocks are still reachable in loss record 44 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48959EF: XCreateGC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113A5E: mlx_new_window (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x11307C: main (main.c:130)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:XCreateGC
+   fun:mlx_new_window
+   fun:main
+}
+==1389== 168 bytes in 1 blocks are still reachable in loss record 45 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A70B2: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 176 bytes in 2 blocks are still reachable in loss record 46 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x113F8B: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x111BC3: reload_textures (level_manager.c:53)
+==1389==    by 0x111E36: load_next_level (level_manager.c:93)
+==1389==    by 0x11198A: handle_key (handle_key.c:73)
+==1389==    by 0x1113FE: render_frame (render_frame.c:88)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:reload_textures
+   fun:load_next_level
+   fun:handle_key
+   fun:render_frame
+   fun:mlx_loop
+   fun:main
+}
+==1389== 208 bytes in 1 blocks are still reachable in loss record 47 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4866AE9: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x48689DF: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x486D9E2: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113653: mlx_int_deal_shm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1138E1: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+   fun:XextAddDisplay
+   fun:XShmQueryVersion
+   fun:mlx_int_deal_shm
+   fun:mlx_init
+   fun:main
+}
+==1389== 208 bytes in 1 blocks are still reachable in loss record 48 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48B8FAE: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BBBB6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BCEC0: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BD205: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113D65: mlx_int_wait_first_expose (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113A9E: mlx_new_window (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x11307C: main (main.c:130)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XEnq
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:_XReadEvents
+   fun:XWindowEvent
+   fun:mlx_int_wait_first_expose
+   fun:mlx_new_window
+   fun:main
+}
+==1389== 256 bytes in 1 blocks are still reachable in loss record 49 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x490A55D: XkbAllocClientMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49050DE: _XkbReadGetMapReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x490541E: XkbGetUpdatedMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49054F4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4905542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49058AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1154B7: mlx_int_param_KeyPress (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113C25: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XkbAllocClientMap
+   fun:_XkbReadGetMapReply
+   fun:XkbGetUpdatedMap
+   fun:XkbGetMap
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:XkbKeycodeToKeysym
+   fun:mlx_int_param_KeyPress
+   fun:mlx_loop
+   fun:main
+}
+==1389== 272 bytes in 2 blocks are still reachable in loss record 50 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48670C3: XShmCreateImage (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==1389==    by 0x113FB6: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x111BC3: reload_textures (level_manager.c:53)
+==1389==    by 0x111E36: load_next_level (level_manager.c:93)
+==1389==    by 0x11198A: handle_key (handle_key.c:73)
+==1389==    by 0x1113FE: render_frame (render_frame.c:88)
+==1389==    by 0x113BCC: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XShmCreateImage
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:reload_textures
+   fun:load_next_level
+   fun:handle_key
+   fun:render_frame
+   fun:mlx_loop
+}
+==1389== 344 bytes in 6 blocks are still reachable in loss record 51 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x49048F5: _XkbReadGetMapReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x490541E: XkbGetUpdatedMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49054F4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4905542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49058AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1154B7: mlx_int_param_KeyPress (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113C25: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_XkbReadGetMapReply
+   fun:XkbGetUpdatedMap
+   fun:XkbGetMap
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:XkbKeycodeToKeysym
+   fun:mlx_int_param_KeyPress
+   fun:mlx_loop
+   fun:main
+}
+==1389== 512 bytes in 1 blocks are still reachable in loss record 52 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A246A: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A284E: XInternAtom (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1138BB: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:XInternAtom
+   fun:mlx_init
+   fun:main
+}
+==1389== 624 bytes in 3 blocks are still reachable in loss record 53 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48B8FAE: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BBBB6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BD40C: _XReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BD77E: XSync (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x114080: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x11309C: main (main.c:131)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XEnq
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:_XReply
+   fun:XSync
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:main
+}
+==1389== 624 bytes in 3 blocks are still reachable in loss record 54 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48B8FAE: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BBBB6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BD40C: _XReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BD77E: XSync (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x114080: mlx_int_new_xshm_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1142B2: mlx_new_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x114C87: mlx_int_parse_xpm (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x1150B4: mlx_xpm_file_to_image (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x112CEC: load_texture (main.c:61)
+==1389==    by 0x1131A1: main (main.c:151)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XEnq
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:_XReply
+   fun:XSync
+   fun:mlx_int_new_xshm_image
+   fun:mlx_new_image
+   fun:mlx_int_parse_xpm
+   fun:mlx_xpm_file_to_image
+   fun:load_texture
+   fun:main
+}
+==1389== 936 bytes in 1 blocks are still reachable in loss record 55 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x1139C0: mlx_new_window (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x11307C: main (main.c:130)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:mlx_new_window
+   fun:main
+}
+==1389== 1,120 bytes in 1 blocks are still reachable in loss record 56 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x490A619: XkbAllocClientMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4904EB7: _XkbReadGetMapReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x490541E: XkbGetUpdatedMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49054F4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4905542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49058AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1154B7: mlx_int_param_KeyPress (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113C25: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XkbAllocClientMap
+   fun:_XkbReadGetMapReply
+   fun:XkbGetUpdatedMap
+   fun:XkbGetMap
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:XkbKeycodeToKeysym
+   fun:mlx_int_param_KeyPress
+   fun:mlx_loop
+   fun:main
+}
+==1389== 2,004 bytes in 27 blocks are still reachable in loss record 57 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x49047DD: _XkbReadGetMapReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x490541E: XkbGetUpdatedMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49054F4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4905542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49058AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1154B7: mlx_int_param_KeyPress (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113C25: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_XkbReadGetMapReply
+   fun:XkbGetUpdatedMap
+   fun:XkbGetMap
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:XkbKeycodeToKeysym
+   fun:mlx_int_param_KeyPress
+   fun:mlx_loop
+   fun:main
+}
+==1389== 2,048 bytes in 1 blocks are still reachable in loss record 58 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4904914: _XkbReadGetMapReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x490541E: XkbGetUpdatedMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49054F4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4905542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49058AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1154B7: mlx_int_param_KeyPress (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113C25: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_XkbReadGetMapReply
+   fun:XkbGetUpdatedMap
+   fun:XkbGetMap
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:XkbKeycodeToKeysym
+   fun:mlx_int_param_KeyPress
+   fun:mlx_loop
+   fun:main
+}
+==1389== 2,288 bytes in 11 blocks are still reachable in loss record 59 of 65
+==1389==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48B8FAE: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BBBB6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BCF01: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48BD205: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113D65: mlx_int_wait_first_expose (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113A9E: mlx_new_window (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x11307C: main (main.c:130)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_XEnq
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:_XReadEvents
+   fun:XWindowEvent
+   fun:mlx_int_wait_first_expose
+   fun:mlx_new_window
+   fun:main
+}
+==1389== 4,096 bytes in 1 blocks are still reachable in loss record 60 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x490513E: _XkbReadGetMapReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x490541E: XkbGetUpdatedMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49054F4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x4905542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x49058AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x1154B7: mlx_int_param_KeyPress (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113C25: mlx_loop (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113313: main (main.c:163)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_XkbReadGetMapReply
+   fun:XkbGetUpdatedMap
+   fun:XkbGetMap
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so.6.4.0
+   fun:XkbKeycodeToKeysym
+   fun:mlx_int_param_KeyPress
+   fun:mlx_loop
+   fun:main
+}
+==1389== 4,704 bytes in 1 blocks are still reachable in loss record 61 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A6B31: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 9,432 bytes in 1 blocks are still reachable in loss record 62 of 65
+==1389==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4CD84FB: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CD88A3: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x48B6EE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A6B68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xcb_connect_to_fd
+   fun:xcb_connect_to_display_with_auth_info
+   fun:_XConnectXCB
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 16,384 bytes in 1 blocks are still reachable in loss record 63 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A6EBE: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 21,168 bytes in 1 blocks are still reachable in loss record 64 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x4CD8204: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x4CD88A3: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==1389==    by 0x48B6EE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x48A6B68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:xcb_connect_to_fd
+   fun:xcb_connect_to_display_with_auth_info
+   fun:_XConnectXCB
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== 21,504 bytes in 2 blocks are still reachable in loss record 65 of 65
+==1389==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1389==    by 0x48A7290: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==1389==    by 0x113827: mlx_init (in /mnt/c/Users/Faisa/OneDrive/Desktop/cub3D/cub3D)
+==1389==    by 0x113052: main (main.c:129)
+==1389== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:XOpenDisplay
+   fun:mlx_init
+   fun:main
+}
+==1389== LEAK SUMMARY:
+==1389==    definitely lost: 0 bytes in 0 blocks
+==1389==    indirectly lost: 0 bytes in 0 blocks
+==1389==      possibly lost: 0 bytes in 0 blocks
+==1389==    still reachable: 92,445 bytes in 113 blocks
+==1389==         suppressed: 0 bytes in 0 blocks
+==1389== 
+==1389== For lists of detected and suppressed errors, rerun with: -s
+==1389== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)

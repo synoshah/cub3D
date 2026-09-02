@@ -26,4 +26,5 @@ void	free_map(t_map *map)
 		}
 		free(map);
 	}
+	map = NULL;
 }

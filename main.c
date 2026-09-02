@@ -4,9 +4,8 @@
 
 int	handle_key_press(int keycode, t_context *ctx)
 {
-	printf("%d\n", keycode);
 	if (keycode == KEY_ESC)
-		exit(0);
+		close_game(ctx);
 	if (keycode == KEY_W)
 		ctx->keys->w = 1;
 	if (keycode == KEY_S)
@@ -21,7 +20,6 @@ int	handle_key_press(int keycode, t_context *ctx)
 		ctx->keys->r = 1;
 	if (keycode == KEY_X)
 		ctx->keys->x = 1;
-	printf("%d\n", ctx->keys->w);
 	return (0);
 }
 
@@ -41,19 +39,45 @@ int	handle_key_release(int keycode, t_context *ctx)
 		ctx->keys->r = 0;
 	if (keycode == KEY_X)
 		ctx->keys->x = 0;
-	printf("%d\n", ctx->keys->w);
 	return (0);
 }
 
-int close_game(t_context *player)
+void	free_textures(void *mlx, t_data textures[6])
 {
-	(void)player;
-	printf("Game closed\n");
-	exit(0);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (i < 6)
+	{
+		if (textures[i].img)
+		{
+			mlx_destroy_image(mlx, textures[i].img);
+			textures[i].img = NULL;
+		}
+		i++;
+	}
 }
 
-void load_texture(void *mlx, t_data texture[], char *file_path)
+int close_game(t_context *ctx)
+{
+	printf("Game closed\n");
+	free_textures(ctx->mlx, ctx->textures);
+	free_map(ctx->map);
+	if (ctx->title_img)
+		mlx_destroy_image(ctx->mlx, ctx->title_img);
+	if (ctx->end_img)
+		mlx_destroy_image(ctx->mlx, ctx->end_img);
+	mlx_destroy_image(ctx->mlx, ctx->img->img);
+	mlx_destroy_window(ctx->mlx, ctx->mlx_win);
+	if (ctx->mlx)
+	{
+		mlx_destroy_display(ctx->mlx);
+		free(ctx->mlx);
+	}
+	exit(0);
+}
+
+int load_texture(void *mlx, t_data texture[], char *file_path)
 {
 	int width;
 	int height;
@@ -62,14 +86,15 @@ void load_texture(void *mlx, t_data texture[], char *file_path)
 	if (!texture->img)
 	{
 		printf("could not load texture from %s\n", file_path);
-        exit(1);
+		return (0);
 	}
 	texture->width = width;
 	texture->height = height;
 	texture->addr = mlx_get_data_addr(texture->img, 
-                                      &texture->bits_per_pixel, 
-                                      &texture->line_length, 
-                                      &texture->endian);
+									  &texture->bits_per_pixel, 
+									  &texture->line_length, 
+									  &texture->endian);
+	return (1);
 }
 
 int main(void)
@@ -79,6 +104,10 @@ int main(void)
 	t_player 	player = {0};
 	t_data      img;
 	t_map		*map;
+
+	t_input			input = {0};
+	t_context   	ctx = {0};
+	t_game_state	game_state = {0};
 
 	map = parse_map_file("maps/map1.cub");
 	if (!map)
@@ -135,16 +164,12 @@ int main(void)
 	// draw_player(&img, &player);
 	// mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 
-	t_input		input = {0};
-	t_context   ctx;
-	t_game_state	game_state = {0};
-
 	ctx.player = &player;
-    ctx.img = &img;
-    ctx.mlx = mlx;
-    ctx.mlx_win = mlx_win;
-    ctx.keys = &input;
-    ctx.map = map;
+	ctx.img = &img;
+	ctx.mlx = mlx;
+	ctx.mlx_win = mlx_win;
+	ctx.keys = &input;
+	ctx.map = map;
 	ctx.game_state = &game_state;
 
 	// paths saved in your parser.
