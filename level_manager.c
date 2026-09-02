@@ -40,6 +40,25 @@ void	reset_player_dir(t_player *player, char dir)
 	}
 }
 
+void load_texture(void *mlx, t_data texture[], char *file_path)
+{
+	int width;
+	int height;
+
+	texture->img = mlx_xpm_file_to_image(mlx, file_path, &width, &height);
+	if (!texture->img)
+	{
+		printf("could not load texture from %s\n", file_path);
+        exit(1);
+	}
+	texture->width = width;
+	texture->height = height;
+	texture->addr = mlx_get_data_addr(texture->img, 
+                                      &texture->bits_per_pixel, 
+                                      &texture->line_length, 
+                                      &texture->endian);
+}
+
 void	reload_textures(t_context *ctx)
 {
 	int	i;
@@ -54,14 +73,15 @@ void	reload_textures(t_context *ctx)
 	load_texture(ctx->mlx, &ctx->textures[1], ctx->map->textures.south);
 	load_texture(ctx->mlx, &ctx->textures[2], ctx->map->textures.east);
 	load_texture(ctx->mlx, &ctx->textures[3], ctx->map->textures.west);
-if (ctx->game_state->level == 2)
+	if (ctx->game_state->level == 2)
 		load_texture(ctx->mlx, &ctx->textures[4], "textures/throne.xpm");
 	else if (ctx->game_state->level == 1)
 		load_texture(ctx->mlx, &ctx->textures[4], "textures/boat.xpm");
 	else
 		load_texture(ctx->mlx, &ctx->textures[4], "textures/cave_exit.xpm");
 	if (ctx->game_state->level == 1)
-		load_texture(ctx->mlx, &ctx->textures[5], "textures/natural_green_bamboo.xpm");
+		load_texture(ctx->mlx, &ctx->textures[5],
+			 "textures/natural_green_bamboo.xpm");
 }
 
 void	load_next_level(t_context *ctx)

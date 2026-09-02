@@ -105,5 +105,9 @@ void	render_end_screen(t_context *ctx);
 void	draw_start_text(t_context *ctx);
 void	render_story(t_context *ctx);
 void	draw_minimap(t_context *ctx);
+int		handle_key_press(int keycode, t_context *ctx);
+int		handle_key_release(int keycode, t_context *ctx);
+void	reset_player_dir(t_player *player, char dir);
+int		close_game(t_context *ctx);
 
 #endif

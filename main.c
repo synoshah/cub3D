@@ -1,170 +1,99 @@
 #include "cub3D.h"
-#include "include/map.h"
-#include "include/parser.h"
 
-int	handle_key_press(int keycode, t_context *ctx)
+int	close_game(t_context *ctx)
 {
-	printf("%d\n", keycode);
-	if (keycode == KEY_ESC)
-		exit(0);
-	if (keycode == KEY_W)
-		ctx->keys->w = 1;
-	if (keycode == KEY_S)
-		ctx->keys->s = 1;	
-	if (keycode == KEY_A)
-		ctx->keys->a = 1;
-	if (keycode == KEY_D)
-		ctx->keys->d = 1;
-	if (keycode == KEY_LEFT)
-		ctx->keys->l = 1;
-	if (keycode == KEY_RIGHT)
-		ctx->keys->r = 1;
-	if (keycode == KEY_X)
-		ctx->keys->x = 1;
-	printf("%d\n", ctx->keys->w);
-	return (0);
-}
+	int	i;
 
-int	handle_key_release(int keycode, t_context *ctx)
-{
-	if (keycode == KEY_W)
-		ctx->keys->w = 0;
-	if (keycode == KEY_S)
-		ctx->keys->s = 0;	
-	if (keycode == KEY_A)
-		ctx->keys->a = 0;
-	if (keycode == KEY_D)
-		ctx->keys->d = 0;
-	if (keycode == KEY_LEFT)
-		ctx->keys->l = 0;
-	if (keycode == KEY_RIGHT)
-		ctx->keys->r = 0;
-	if (keycode == KEY_X)
-		ctx->keys->x = 0;
-	printf("%d\n", ctx->keys->w);
-	return (0);
-}
-
-int close_game(t_context *player)
-{
-	(void)player;
-	printf("Game closed\n");
+	i = -1;
+	if (ctx->map)
+		free_map(ctx->map);
+	if (ctx->img && ctx->img->img)
+		mlx_destroy_image(ctx->mlx, ctx->img->img);
+	while (++i < 6)
+	{
+		if (ctx->textures[i].img)
+			mlx_destroy_image(ctx->mlx, ctx->textures[i].img);
+	}
+	if (ctx->mlx_win)
+		mlx_destroy_window(ctx->mlx, ctx->mlx_win);
+	if (ctx->mlx)
+	{
+		mlx_destroy_display(ctx->mlx);
+		free(ctx->mlx);
+	}
 	exit(0);
 	return (0);
 }
 
-void load_texture(void *mlx, t_data texture[], char *file_path)
+static void	init_structs(t_context *ctx, t_player *p, t_input *in,
+	t_game_state *gs)
 {
-	int width;
-	int height;
-
-	texture->img = mlx_xpm_file_to_image(mlx, file_path, &width, &height);
-	if (!texture->img)
-	{
-		printf("could not load texture from %s\n", file_path);
-        exit(1);
-	}
-	texture->width = width;
-	texture->height = height;
-	texture->addr = mlx_get_data_addr(texture->img, 
-                                      &texture->bits_per_pixel, 
-                                      &texture->line_length, 
-                                      &texture->endian);
+	ft_memset(p, 0, sizeof(t_player));
+	ft_memset(in, 0, sizeof(t_input));
+	ft_memset(gs, 0, sizeof(t_game_state));
+	ctx->player = p;
+	ctx->keys = in;
+	ctx->game_state = gs;
 }
 
-int main(int argc, char **argv)
+static int	init_map_and_player(t_context *ctx, char *file)
 {
-	void		*mlx;
-	void		*mlx_win;
-	t_player 	player = {0};
-	t_data      img;
-	t_map		*map;
+	int	len;
+
+	len = ft_strlen(file);
+	if (len < 4 || ft_strncmp(file + len - 4, ".cub", 4) != 0)
+	{
+		printf("Error\nInvalid map extension.\n");
+		return (0);
+	}
+	ctx->map = parse_map_file(file);
+	if (!ctx->map)
+		return (0);
+	ctx->player->pypos_x = ctx->map->spawn.x + 0.1;
+	ctx->player->pypos_y = ctx->map->spawn.y + 0.1;
+	ctx->player->move_speed = 0.1;
+	ctx->player->rotation_speed = 0.05;
+	reset_player_dir(ctx->player, ctx->map->spawn.direction);
+	return (1);
+}
+
+static void	setup_mlx(t_context *ctx, t_data *img)
+{
+	ctx->mlx = mlx_init();
+	ctx->mlx_win = mlx_new_window(ctx->mlx, 800, 600, "cub3D");
+	img->img = mlx_new_image(ctx->mlx, 800, 600);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+			&img->line_length, &img->endian);
+	ctx->img = img;
+	load_texture(ctx->mlx, &ctx->textures[0], ctx->map->textures.north);
+	load_texture(ctx->mlx, &ctx->textures[1], ctx->map->textures.south);
+	load_texture(ctx->mlx, &ctx->textures[2], ctx->map->textures.east);
+	load_texture(ctx->mlx, &ctx->textures[3], ctx->map->textures.west);
+	load_texture(ctx->mlx, &ctx->textures[4], "textures/cave_exit.xpm");
+	ctx->textures[5].img = NULL;
+}
+
+int	main(int argc, char **argv)
+{
+	t_context		ctx;
+	t_player		p;
+	t_input			in;
+	t_game_state	gs;
+	t_data			img;
 
 	if (argc != 2)
 	{
-		printf("Invalid number of args. Please pass a .cub map.\n");
+		printf("Error\nInvalid number of arguments.\n");
 		return (1);
 	}
-	map = parse_map_file(argv[1]);
-	if (!map)
-	{
-		printf("failed to parse map.\n");
+	init_structs(&ctx, &p, &in, &gs);
+	if (!init_map_and_player(&ctx, argv[1]))
 		return (1);
-	}
-	// spawn in the center of the grid
-	player.pypos_x = map->spawn.x + 0.1;
-	player.pypos_y = map->spawn.y + 0.1;
-
-	// set vectors for spawn direction
-	if (map->spawn.direction == 'N')
-	{
-		player.dir_x = 0.0;
-		player.dir_y = -1.0;
-		player.camera_x = 0.66;
-		player.camera_y = 0.0;
-	}
-	else if (map->spawn.direction == 'S')
-	{
-		player.dir_x = 0.0;
-		player.dir_y = 1.0;
-		player.camera_x = -0.66;
-		player.camera_y = 0.0;
-	}
-	else if (map->spawn.direction == 'E')
-	{
-		player.dir_x = 1.0;
-		player.dir_y = 0.0;
-		player.camera_x = 0.0;
-		player.camera_y = 0.66;
-	}
-	else if (map->spawn.direction == 'W')
-	{
-		player.dir_x = -1.0;
-		player.dir_y = 0.0;
-		player.camera_x = 0.0;
-		player.camera_y = -0.66;
-	}
-	player.dir_x = 0.0;
-	player.dir_y = -1.0;
-	player.camera_x = 0.66;
-	player.camera_y = 0.0;
-	player.move_speed = 0.1;
-	player.rotation_speed = 0.05;
-
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 800, 600, "cub3D");
-	img.img = mlx_new_image(mlx, 800, 600);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-
-	// draw_map(&img);
-	// draw_player(&img, &player);
-	// mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-
-	t_input		input = {0};
-	t_context   ctx;
-	t_game_state	game_state = {0};
-
-	ctx.player = &player;
-    ctx.img = &img;
-    ctx.mlx = mlx;
-    ctx.mlx_win = mlx_win;
-    ctx.keys = &input;
-    ctx.map = map;
-	ctx.game_state = &game_state;
-
-	// paths saved in your parser.
-	load_texture(mlx, &ctx.textures[0], ctx.map->textures.north);
-	load_texture(mlx, &ctx.textures[1], ctx.map->textures.south);
-	load_texture(mlx, &ctx.textures[2], ctx.map->textures.east);
-	load_texture(mlx, &ctx.textures[3], ctx.map->textures.west);
-	load_texture(mlx, &ctx.textures[4], "textures/cave_exit.xpm");
-	ctx.textures[5].img = NULL;
-	mlx_loop_hook(mlx, render_frame, &ctx);
-	// Key press and key release events
-	mlx_hook(mlx_win, 2, 1L<<0,  handle_key_press, &ctx);
-	mlx_hook(mlx_win, 3, 1L<<1 ,handle_key_release, &ctx);
-	mlx_do_key_autorepeatoff(mlx); // Idk what this does lol. 
-	mlx_hook(mlx_win, 17, 0, close_game, &ctx);  
-	mlx_loop(mlx);
-	return 0;
+	setup_mlx(&ctx, &img);
+	mlx_loop_hook(ctx.mlx, render_frame, &ctx);
+	mlx_hook(ctx.mlx_win, 2, 1L << 0, handle_key_press, &ctx);
+	mlx_hook(ctx.mlx_win, 3, 1L << 1, handle_key_release, &ctx);
+	mlx_hook(ctx.mlx_win, 17, 0, close_game, &ctx);
+	mlx_loop(ctx.mlx);
+	return (0);
 }
