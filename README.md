@@ -7,6 +7,7 @@ We have built a custom raycasting engine written in C that uses miniLibX to proj
 ## Instructions
 
 **Compile and run the Mandatory and Bonus**
+
 make
 ./cub3D maps/map.cub
 
