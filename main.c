@@ -72,7 +72,7 @@ void load_texture(void *mlx, t_data texture[], char *file_path)
                                       &texture->endian);
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
 	void		*mlx;
 	void		*mlx_win;
@@ -80,7 +80,12 @@ int main(void)
 	t_data      img;
 	t_map		*map;
 
-	map = parse_map_file("maps/map1.cub");
+	if (argc != 2)
+	{
+		printf("Invalid number of args. Please pass a .cub map.\n");
+		return (1);
+	}
+	map = parse_map_file(argv[1]);
 	if (!map)
 	{
 		printf("failed to parse map.\n");
