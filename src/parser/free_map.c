@@ -1,4 +1,4 @@
-#include "../include/parser.h"
+#include "cub3D.h"
 
 void	free_map(t_map *map)
 {
@@ -26,4 +26,5 @@ void	free_map(t_map *map)
 		}
 		free(map);
 	}
+	map = NULL;
 }

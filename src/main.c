@@ -7,6 +7,10 @@ int	close_game(t_context *ctx)
 	i = -1;
 	if (ctx->map)
 		free_map(ctx->map);
+	if (ctx->title_img)
+		mlx_destroy_image(ctx->mlx, ctx->title_img);
+	if (ctx->end_img)
+		mlx_destroy_image(ctx->mlx, ctx->end_img);
 	if (ctx->img && ctx->img->img)
 		mlx_destroy_image(ctx->mlx, ctx->img->img);
 	while (++i < 6)

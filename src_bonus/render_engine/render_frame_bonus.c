@@ -26,14 +26,13 @@ void	draw_start_text(t_context *ctx)
 
 void	render_start(t_context *ctx)
 {
-	static void	*title;
-	int			w;
-	int			h;
-	int			i;
-	int			j;
+	int	w;
+	int	h;
+	int	i;
+	int	j;
 
-	if (!title)
-		title = mlx_xpm_file_to_image(ctx->mlx, "textures/hii.xpm", &w, &h);
+	if (!ctx->title_img)
+		ctx->title_img = mlx_xpm_file_to_image(ctx->mlx, "textures/hii.xpm", &w, &h);
 	i = -1;
 	while (++i < 800)
 	{
@@ -42,7 +41,8 @@ void	render_start(t_context *ctx)
 			my_pixel_put(ctx->img, i, j, 0x000000);
 	}
 	mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, ctx->img->img, 0, 0);
-	mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, title, 350, 150);
+	if (ctx->title_img)
+		mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, ctx->title_img, 350, 150);
 	draw_start_text(ctx);
 }
 

@@ -28,7 +28,7 @@ void	reset_player_dir(t_player *player, char dir)
 	}
 }
 
-void	load_texture(void *mlx, t_data texture[], char *file_path)
+int	load_texture(void *mlx, t_data texture[], char *file_path)
 {
 	int	width;
 	int	height;
@@ -37,7 +37,7 @@ void	load_texture(void *mlx, t_data texture[], char *file_path)
 	if (!texture->img)
 	{
 		printf("Error\nCould not load texture from %s\n", file_path);
-		exit(1);
+		return (0);
 	}
 	texture->width = width;
 	texture->height = height;
@@ -45,4 +45,5 @@ void	load_texture(void *mlx, t_data texture[], char *file_path)
 			&texture->bits_per_pixel,
 			&texture->line_length,
 			&texture->endian);
+	return (1);
 }
