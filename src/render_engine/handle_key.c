@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include "cub3D.h"
 
 static void	move_player(t_context *ctx, double move_x, double move_y)
 {
@@ -23,8 +24,11 @@ static void	move_player(t_context *ctx, double move_x, double move_y)
 	{
 		if (new_x >= 0 && (size_t)new_x < ft_strlen(ctx->map->grid[(int)new_y]))
 		{
-			ctx->player->pypos_x = new_x;
-			ctx->player->pypos_y = new_y;
+			if (ctx->map->grid[(int)new_y][(int)new_x] != '1')
+			{
+				ctx->player->pypos_x = new_x;
+				ctx->player->pypos_y = new_y;
+			}
 		}
 	}
 }
