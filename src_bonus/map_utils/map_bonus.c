@@ -50,10 +50,10 @@ void	draw_minimap(t_context *ctx)
 	offset.x = 10;
 	offset.y = 10;
 	y = -1;
-	while (y++ < (int)ctx->map->size.height)
+	while (ctx->map->grid[++y])
 	{
 		x = -1;
-		while (x++ < (int)ft_strlen(ctx->map->grid[y]))
+		while (ctx->map->grid[y][++x])
 		{
 			point.x = offset.x + x * tile;
 			point.y = offset.y + y * tile;

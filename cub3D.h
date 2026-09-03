@@ -9,10 +9,10 @@
 # include <math.h>
 
 # include "include/image.h"
+# include "include/draw.h"
 # include "include/shapes.h"
 # include "include/game_state.h"
 # include "include/map.h"
-# include "include/draw.h"
 # include "include/parser.h"
 
 # define KEY_X 120
