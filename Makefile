@@ -49,7 +49,7 @@ B_SRCS      = src_bonus/my_pixel_put_bonus.c \
               src_bonus/render_engine/render_frame_bonus.c \
               src_bonus/render_engine/handle_key_bonus.c \
               src_bonus/render_engine/render_story_bonus.c \
-              src_bonus/render_engine/reload_textures_bonus.c \
+              src_bonus/reload_textures_bonus.c \
 
 OBJS        = $(SRCS:.c=.o)
 B_OBJS      = $(B_SRCS:.c=.o)

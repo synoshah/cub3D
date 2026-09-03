@@ -64,16 +64,27 @@ static int	init_map_and_player(t_context *ctx, char *file)
 static void	setup_mlx(t_context *ctx, t_data *img)
 {
 	ctx->mlx = mlx_init();
+	if (!ctx->mlx)
+		close_game(ctx);
 	ctx->mlx_win = mlx_new_window(ctx->mlx, 800, 600, "cub3D");
+	if (!ctx->mlx_win)
+		close_game(ctx);
 	img->img = mlx_new_image(ctx->mlx, 800, 600);
+	if (!img->img)
+		close_game(ctx);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
 	ctx->img = img;
-	load_texture(ctx->mlx, &ctx->textures[0], ctx->map->textures.north);
-	load_texture(ctx->mlx, &ctx->textures[1], ctx->map->textures.south);
-	load_texture(ctx->mlx, &ctx->textures[2], ctx->map->textures.east);
-	load_texture(ctx->mlx, &ctx->textures[3], ctx->map->textures.west);
-	load_texture(ctx->mlx, &ctx->textures[4], "textures/cave_exit.xpm");
+	if (!load_texture(ctx->mlx, &ctx->textures[0], ctx->map->textures.north))
+		close_game(ctx);
+	if (!load_texture(ctx->mlx, &ctx->textures[1], ctx->map->textures.south))
+		close_game(ctx);
+	if (!load_texture(ctx->mlx, &ctx->textures[2], ctx->map->textures.east))
+		close_game(ctx);
+	if (!load_texture(ctx->mlx, &ctx->textures[3], ctx->map->textures.west))
+		close_game(ctx);
+	if (!load_texture(ctx->mlx, &ctx->textures[4], "textures/cave_exit.xpm"))
+		close_game(ctx);
 	ctx->textures[5].img = NULL;
 }
 

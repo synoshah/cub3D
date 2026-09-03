@@ -1,5 +1,29 @@
 #include "cub3D.h"
 
+static int parse_component(char *component)
+{
+	int value;
+
+	while (*component == ' ' || *component == '\t')
+		component++;
+	if (*component < '0' || *component > '9')
+		return (-1);
+	value = 0;
+	while (*component >= '0' && *component <= '9')
+	{
+		value = value * 10 + (*component - '0');
+		if (value > 255)
+			return (-1);
+		component++;
+	}
+	while (*component == ' ' || *component == '\t'
+		|| *component == '\r' || *component == '\n')
+		component++;
+	if (*component != '\0')
+		return (-1);
+	return (value);
+}
+
 static int	get_color(char *line)
 {
 	char		**temp;
@@ -8,8 +32,10 @@ static int	get_color(char *line)
 	signed int	green;
 	signed int	blue;
 
+	while (*line == ' ' || *line == '\t')
+		line++;
 	len = 0;
-	temp = ft_split(line + 2, ',');
+	temp = ft_split(line + 1, ',');
 	while (temp[len])
 		len++;
 	if (len != 3)
@@ -17,10 +43,12 @@ static int	get_color(char *line)
 		free_split(temp);
 		return (-1);
 	}
-	red = ft_atoi(temp[0]);
-	green = ft_atoi(temp[1]);
-	blue = ft_atoi(temp[2]);
+	red = parse_component(temp[0]);
+	green = parse_component(temp[1]);
+	blue = parse_component(temp[2]);
 	free_split(temp);
+	if ((red < 0 || red > 255) || (green < 0 || green > 255) || (blue < 0 || blue > 255))
+		return (-1);
 	return ((red << 16) | (green << 8) | blue);
 }
 

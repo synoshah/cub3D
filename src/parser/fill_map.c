@@ -72,7 +72,7 @@ int	load_map_grid(t_map *map, int fd)
 	int		y;
 	int		found_spawn;
 
-	map->grid = ft_calloc(map->size.height + 1, sizeof(char *));
+	map->grid = ft_calloc(map->size.height, sizeof(char *));
 	if (!map->grid)
 		return (0);
 	y = 0;

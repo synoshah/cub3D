@@ -9,19 +9,26 @@ int	is_texture_line(char *line)
 	i = 0;
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
-	return (!ft_strncmp(line + i, "NO", 2)
-		|| !ft_strncmp(line + i, "SO", 2)
-		|| !ft_strncmp(line + i, "WE", 2)
-		|| !ft_strncmp(line + i, "EA", 2));
+	return ((!ft_strncmp(line + i, "NO", 2)
+			|| !ft_strncmp(line + i, "SO", 2)
+			|| !ft_strncmp(line + i, "WE", 2)
+			|| !ft_strncmp(line + i, "EA", 2))
+		&& (line[i + 2] == ' ' || line[i + 2] == '\t'));
 }
 
 int	is_color_line(char *line)
 {
+	int	i;
+
 	if (!line)
 		return (1);
-	return (line[0] == 'F'
-		|| line[0] == 'C');
+	i = 0;
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+	return ((line[i] == 'F' || line[i] == 'C')
+		&& (line[i + 1] == ' ' || line[i + 1] == '\t'));
 }
+
 
 int	is_blank_line(char *line)
 {
