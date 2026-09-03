@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_header_bonus.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbaras <fbaras@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 21:04:17 by fbaras            #+#    #+#             */
+/*   Updated: 2026/09/03 21:04:17 by fbaras           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 // looks for the texture and color
@@ -64,7 +76,7 @@ static int	scan_cub_file(t_map *map, t_flags *flags, int fd)
 	line = get_next_line(fd);
 	while (line)
 	{
-		result = apply_header_entry(map, flags, line); 
+		result = apply_header_entry(map, flags, line);
 		if (result == 0 && !update_map_dimensions(line, flags))
 			result = -1;
 		if (result < 0)

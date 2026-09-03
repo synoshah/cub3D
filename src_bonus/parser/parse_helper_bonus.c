@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_helper_bonus.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbaras <fbaras@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 21:01:57 by fbaras            #+#    #+#             */
+/*   Updated: 2026/09/03 21:01:57 by fbaras           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 int	is_texture_line(char *line)
@@ -28,7 +40,6 @@ int	is_color_line(char *line)
 	return ((line[i] == 'F' || line[i] == 'C')
 		&& (line[i + 1] == ' ' || line[i + 1] == '\t'));
 }
-
 
 int	is_blank_line(char *line)
 {

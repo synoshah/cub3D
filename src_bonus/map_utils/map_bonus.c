@@ -1,9 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_bonus.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbaras <fbaras@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 21:06:23 by fbaras            #+#    #+#             */
+/*   Updated: 2026/09/03 21:06:27 by fbaras           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "include/draw.h"
 #include "include/shapes.h"
 #include "../../cub3D.h"
-
-#define HEIGHT 24
-#define WIDTH 24
 
 void	draw_background(t_data *img, int ceiling_color, int floor_color)
 {

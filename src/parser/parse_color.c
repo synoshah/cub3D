@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_color.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbaras <fbaras@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 21:07:40 by fbaras            #+#    #+#             */
+/*   Updated: 2026/09/03 21:14:07 by fbaras           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 static int	is_digits_only(char *str)
@@ -30,7 +42,7 @@ static int	get_color(char *line)
 	temp = ft_split(line + 2, ',');
 	while (temp[len])
 		len++;
-	if (len != 3 || !is_digits_only(temp[0]) 
+	if (len != 3 || !is_digits_only(temp[0])
 		|| !is_digits_only(temp[1]) || !is_digits_only(temp[2]))
 	{
 		free_split(temp);

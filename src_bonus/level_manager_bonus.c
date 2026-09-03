@@ -46,7 +46,7 @@ void	render_end_screen(t_context *ctx)
 
 	if (!ctx->end_img)
 		ctx->end_img = mlx_xpm_file_to_image(ctx->mlx,
-			"textures/end_screen.xpm", &w, &h);
+				"textures/end_screen.xpm", &w, &h);
 	if (ctx->end_img)
 		mlx_put_image_to_window(ctx->mlx, ctx->mlx_win, ctx->end_img, 0, 0);
 }

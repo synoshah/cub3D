@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_color_bonus.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbaras <fbaras@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 21:04:43 by fbaras            #+#    #+#             */
+/*   Updated: 2026/09/03 21:04:44 by fbaras           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
-static int parse_component(char *component)
+static int	parse_component(char *component)
 {
-	int value;
+	int	value;
 
 	while (*component == ' ' || *component == '\t')
 		component++;
@@ -47,7 +59,8 @@ static int	get_color(char *line)
 	green = parse_component(temp[1]);
 	blue = parse_component(temp[2]);
 	free_split(temp);
-	if ((red < 0 || red > 255) || (green < 0 || green > 255) || (blue < 0 || blue > 255))
+	if ((red < 0 || red > 255) || (green < 0 || green > 255)
+		|| (blue < 0 || blue > 255))
 		return (-1);
 	return ((red << 16) | (green << 8) | blue);
 }
