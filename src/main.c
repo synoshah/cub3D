@@ -105,8 +105,10 @@ int	main(int argc, char **argv)
 	}
 	init_structs(&ctx, &p, &in, &gs);
 	if (!init_map_and_player(&ctx, argv[1]))
+	{
+		printf("Error\nFailed to load map.\n");
 		return (1);
-	setup_mlx(&ctx, &img);
+	}
 	if (!setup_mlx(&ctx, &img))
 		close_game(&ctx);
 	mlx_loop_hook(ctx.mlx, render_frame, &ctx);

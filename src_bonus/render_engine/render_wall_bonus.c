@@ -31,7 +31,9 @@ void	calc_wall_height(t_ray *ray)
 
 void	get_texture_index(t_context *ctx, t_ray *ray)
 {
-	if (ctx->map->grid[ray->map_y][ray->map_x] == 'X')
+	if (ray->map_y >= 0 && (size_t)ray->map_y < ctx->map->size.height
+		&& ray->map_x >= 0 && (size_t)ray->map_x < ft_strlen(ctx->map->grid[ray->map_y])
+		&& ctx->map->grid[ray->map_y][ray->map_x] == 'X')
 		ray->tex_index = 4;
 	else if (ray->side == 0)
 	{
