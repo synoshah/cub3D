@@ -51,7 +51,7 @@ void	get_texture_index(t_context *ctx, t_ray *ray)
 void	calc_texture_x(t_context *ctx, t_ray *ray)
 {
 	t_data	*tex;
-	
+
 	tex = &ctx->textures[ray->tex_index];
 	if (ray->side == 0)
 		ray->wall_x = ctx->player->pypos_y + ray->perp_wall_dist * ray->dir_y;
@@ -64,7 +64,8 @@ void	calc_texture_x(t_context *ctx, t_ray *ray)
 	if (ray->side == 1 && ray->dir_y < 0)
 		ray->tex_x = tex->width - ray->tex_x - 1;
 	ray->step = 1.0 * tex->height / ray->line_height;
-	ray->tex_pos = (ray->draw_start - 600 / 2 + ray->line_height / 2) * ray->step;
+	ray->tex_pos = (ray->draw_start - 600 / 2 + ray->line_height / 2)
+		* ray->step;
 }
 
 void	draw_wall_slice(t_context *ctx, t_ray *ray, int x)
