@@ -35,7 +35,7 @@ int	add_texture(t_textures *tex, t_flags *flags, char *line)
 	i = -1;
 	while (i++ < 4)
 	{
-		if (!ft_strncmp(line, ids[i], 2))
+		if (!ft_strncmp(line, ids[i], 2) && (line[2] == ' ' || line[2] == '\t'))
 		{
 			if (flags->found_textures[i])
 				return (0);

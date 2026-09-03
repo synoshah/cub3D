@@ -61,7 +61,6 @@ int	load_next_level(t_context *ctx)
 		ctx->map = parse_map_file("maps/map2.cub");
 	else if (ctx->game_state->level == 2)
 		ctx->map = parse_map_file("maps/map3.cub");
-	
 	if (!ctx->map)
 	{
 		printf("Error\nFailed to parse map\n");
@@ -69,7 +68,6 @@ int	load_next_level(t_context *ctx)
 	}
 	if (!reload_textures(ctx))
 		return (0);
-		
 	ctx->player->pypos_x = ctx->map->spawn.x + 0.1;
 	ctx->player->pypos_y = ctx->map->spawn.y + 0.1;
 	reset_player_dir(ctx->player, ctx->map->spawn.direction);

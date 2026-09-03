@@ -50,34 +50,39 @@ void	get_texture_index(t_context *ctx, t_ray *ray)
 
 void	calc_texture_x(t_context *ctx, t_ray *ray)
 {
+	t_data	*tex;
+	
+	tex = &ctx->textures[ray->tex_index];
 	if (ray->side == 0)
-		ray->wall_x = ctx->player->pypos_y
-			+ ray->perp_wall_dist * ray->dir_y;
+		ray->wall_x = ctx->player->pypos_y + ray->perp_wall_dist * ray->dir_y;
 	else
-		ray->wall_x = ctx->player->pypos_x
-			+ ray->perp_wall_dist * ray->dir_x;
+		ray->wall_x = ctx->player->pypos_x + ray->perp_wall_dist * ray->dir_x;
 	ray->wall_x -= floor(ray->wall_x);
-	ray->tex_x = (int)(ray->wall_x * 64.0);
+	ray->tex_x = (int)(ray->wall_x * (double)tex->width);
 	if (ray->side == 0 && ray->dir_x > 0)
-		ray->tex_x = 64 - ray->tex_x - 1;
+		ray->tex_x = tex->width - ray->tex_x - 1;
 	if (ray->side == 1 && ray->dir_y < 0)
-		ray->tex_x = 64 - ray->tex_x - 1;
-	ray->step = 1.0 * 64.0 / ray->line_height;
-	ray->tex_pos = (ray->draw_start - 600 / 2
-			+ ray->line_height / 2) * ray->step;
+		ray->tex_x = tex->width - ray->tex_x - 1;
+	ray->step = 1.0 * tex->height / ray->line_height;
+	ray->tex_pos = (ray->draw_start - 600 / 2 + ray->line_height / 2) * ray->step;
 }
 
 void	draw_wall_slice(t_context *ctx, t_ray *ray, int x)
 {
-	int	y;
+	int		y;
+	t_data	*tex;
 
 	y = ray->draw_start;
+	tex = &ctx->textures[ray->tex_index];
 	while (y < ray->draw_end)
 	{
-		ray->tex_y = (int)ray->tex_pos & (64 - 1);
+		ray->tex_y = (int)ray->tex_pos;
+		if (ray->tex_y >= tex->height)
+			ray->tex_y = tex->height - 1;
+		if (ray->tex_y < 0)
+			ray->tex_y = 0;
 		ray->tex_pos += ray->step;
-		ray->color = get_texture_pixel(&ctx->textures[ray->tex_index],
-				ray->tex_x, ray->tex_y);
+		ray->color = get_texture_pixel(tex, ray->tex_x, ray->tex_y);
 		if (ray->side == 1)
 			ray->color = (ray->color >> 1) & 0x7F7F7F;
 		my_pixel_put(ctx->img, x, y, ray->color);

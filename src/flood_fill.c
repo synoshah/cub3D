@@ -8,8 +8,7 @@ int	flood(t_map *map, int x, int y)
 	if (is_spawn_point(map->grid[y][x])
 		&& ((size_t)x != map->spawn.x || (size_t)y != map->spawn.y))
 		return (0);
-	if (map->grid[y][x] == '1' || map->grid[y][x] == 'V'
-		|| map->grid[y][x] == 'X')
+	if (map->grid[y][x] == '1' || map->grid[y][x] == 'V')
 		return (1);
 	if (map->grid[y][x] == ' ')
 		return (0);
