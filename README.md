@@ -27,3 +27,7 @@ Ray-Casting tutorial by permadi
 3 Expert Tips for Using the Unit Circle by Hannah Muniz
 
 Raycasting visualiser by "KernelOverseer"
+
+**AI Usage:**
+
+AI was mainly used for finding faults in the code and giving suggestions when it came to trimming down functions to 25 lines.
