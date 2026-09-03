@@ -105,10 +105,7 @@ int	main(int argc, char **argv)
 	}
 	init_structs(&ctx, &p, &in, &gs);
 	if (!init_map_and_player(&ctx, argv[1]))
-	{
-		printf("nigga\n");
 		return (1);
-	}
 	setup_mlx(&ctx, &img);
 	if (!setup_mlx(&ctx, &img))
 		close_game(&ctx);
