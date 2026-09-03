@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbaras <fbaras@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 21:04:43 by fbaras            #+#    #+#             */
-/*   Updated: 2026/09/03 21:04:44 by fbaras           ###   ########.fr       */
+/*   Updated: 2026/09/03 22:17:58 by synoshah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3D_bonus.h"
 
 static int	parse_component(char *component)
 {

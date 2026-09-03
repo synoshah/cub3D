@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw_line_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbaras <fbaras@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 21:13:20 by fbaras            #+#    #+#             */
-/*   Updated: 2026/09/03 21:13:21 by fbaras           ###   ########.fr       */
+/*   Updated: 2026/09/03 22:19:28 by synoshah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/draw.h"
-#include <stdlib.h>
+#include "cub3D_bonus.h"
 
 void	my_pixel_put(t_data *img, int x, int y, int color);
 

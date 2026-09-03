@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   my_pixel_put_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbaras <fbaras@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 21:06:15 by fbaras            #+#    #+#             */
-/*   Updated: 2026/09/03 21:06:16 by fbaras           ###   ########.fr       */
+/*   Updated: 2026/09/03 22:19:59 by synoshah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/image.h"
+#include "cub3D_bonus.h"
 
 void	my_pixel_put(t_data *img, int x, int y, int color)
 {

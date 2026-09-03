@@ -1,12 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 21:38:53 by synoshah          #+#    #+#             */
+/*   Updated: 2026/09/03 21:38:53 by synoshah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MAP_H
-#define MAP_H
+# define MAP_H
 
-#include "shapes.h"
-#include <stdlib.h>
-#include "../cub3D.h"
-#include <fcntl.h>
-#include "../libft/libft.h"
+# include "shapes.h"
+# include <stdlib.h>
+# include <fcntl.h>
+# include "../libft/libft.h"
 
 typedef struct s_colors
 {
@@ -54,9 +64,7 @@ typedef struct s_flags
 	int	width;
 }	t_flags;
 
-// TODO: This Needs to take a map as a parameter
-void 	draw_background(t_data *img, int ceiling_color, int floor_color);
-// parser
+void	draw_background(t_data *img, int ceiling_color, int floor_color);
 int		add_color(t_colors *colors, char *line, t_flags *flags);
 char	*get_tex(t_map *map, char *line);
 void	free_map(t_map *map);

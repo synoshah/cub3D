@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 21:45:05 by synoshah          #+#    #+#             */
+/*   Updated: 2026/09/03 22:25:00 by synoshah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 int	close_game(t_context *ctx)
@@ -7,13 +19,9 @@ int	close_game(t_context *ctx)
 	i = -1;
 	if (ctx->map)
 		free_map(ctx->map);
-	if (ctx->title_img)
-		mlx_destroy_image(ctx->mlx, ctx->title_img);
-	if (ctx->end_img)
-		mlx_destroy_image(ctx->mlx, ctx->end_img);
 	if (ctx->img && ctx->img->img)
 		mlx_destroy_image(ctx->mlx, ctx->img->img);
-	while (++i < 6)
+	while (++i < 4)
 	{
 		if (ctx->textures[i].img)
 			mlx_destroy_image(ctx->mlx, ctx->textures[i].img);
@@ -27,18 +35,6 @@ int	close_game(t_context *ctx)
 	}
 	exit(0);
 	return (0);
-}
-
-static void	init_structs(t_context *ctx, t_player *p, t_input *in,
-	t_game_state *gs)
-{
-	ft_memset(ctx, 0, sizeof(t_context));
-	ft_memset(p, 0, sizeof(t_player));
-	ft_memset(in, 0, sizeof(t_input));
-	ft_memset(gs, 0, sizeof(t_game_state));
-	ctx->player = p;
-	ctx->keys = in;
-	ctx->game_state = gs;
 }
 
 static int	init_map_and_player(t_context *ctx, char *file)
@@ -84,37 +80,41 @@ static int	setup_mlx(t_context *ctx, t_data *img)
 		close_game(ctx);
 	if (!load_texture(ctx->mlx, &ctx->textures[3], ctx->map->textures.west))
 		close_game(ctx);
-	if (!load_texture(ctx->mlx, &ctx->textures[4], "textures/cave_exit.xpm"))
-		close_game(ctx);
-	ctx->textures[5].img = NULL;
 	return (1);
+}
+
+static void	register_hooks_and_loop(t_context *ctx)
+{
+	mlx_loop_hook(ctx->mlx, render_frame, ctx);
+	mlx_hook(ctx->mlx_win, 2, 1L << 0, handle_key_press, ctx);
+	mlx_hook(ctx->mlx_win, 3, 1L << 1, handle_key_release, ctx);
+	mlx_hook(ctx->mlx_win, 17, 0, close_game, ctx);
+	mlx_loop(ctx->mlx);
 }
 
 int	main(int argc, char **argv)
 {
-	t_context		ctx;
-	t_player		p;
-	t_input			in;
-	t_game_state	gs;
-	t_data			img;
+	t_context	ctx;
+	t_player	p;
+	t_input		in;
+	t_data		img;
 
 	if (argc != 2)
 	{
 		printf("Error\nInvalid number of arguments.\n");
 		return (1);
 	}
-	init_structs(&ctx, &p, &in, &gs);
+	ft_memset(&ctx, 0, sizeof(t_context));
+	ft_memset(&p, 0, sizeof(t_player));
+	ft_memset(&in, 0, sizeof(t_input));
+	ctx.player = &p;
+	ctx.keys = &in;
 	if (!init_map_and_player(&ctx, argv[1]))
 	{
 		printf("Error\nFailed to load map.\n");
 		return (1);
 	}
-	if (!setup_mlx(&ctx, &img))
-		close_game(&ctx);
-	mlx_loop_hook(ctx.mlx, render_frame, &ctx);
-	mlx_hook(ctx.mlx_win, 2, 1L << 0, handle_key_press, &ctx);
-	mlx_hook(ctx.mlx_win, 3, 1L << 1, handle_key_release, &ctx);
-	mlx_hook(ctx.mlx_win, 17, 0, close_game, &ctx);
-	mlx_loop(ctx.mlx);
+	setup_mlx(&ctx, &img);
+	register_hooks_and_loop(&ctx);
 	return (0);
 }

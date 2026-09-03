@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 21:35:25 by synoshah          #+#    #+#             */
+/*   Updated: 2026/09/03 22:16:07 by synoshah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -11,11 +23,9 @@
 # include "include/image.h"
 # include "include/draw.h"
 # include "include/shapes.h"
-# include "include/game_state.h"
 # include "include/map.h"
 # include "include/parser.h"
 
-# define KEY_X 120
 # define KEY_W 119
 # define KEY_S 115
 # define KEY_A 97
@@ -74,7 +84,6 @@ typedef struct s_input
 	int	d;
 	int	l;
 	int	r;
-	int	x;
 }	t_input;
 
 typedef struct s_context
@@ -86,12 +95,8 @@ typedef struct s_context
 	t_input			*keys;
 	struct s_map	*map;
 	t_data			textures[6];
-	t_game_state	*game_state;
-	void			*title_img;
-	void			*end_img;
 }	t_context;
 
-int		reload_textures(t_context *ctx);
 int		render_frame(t_context *ctx);
 int		handle_key(t_context *ctx);
 int		load_texture(void *mlx, t_data texture[], char *file_path);
@@ -101,13 +106,6 @@ void	calc_wall_height(t_ray *ray);
 void	get_texture_index(t_context *ctx, t_ray *ray);
 void	calc_texture_x(t_context *ctx, t_ray *ray);
 void	draw_wall_slice(t_context *ctx, t_ray *ray, int x);
-void	render_start(t_context *ctx);
-void	render_playing(t_context *ctx);
-int		load_next_level(t_context *ctx);
-void	render_end_screen(t_context *ctx);
-void	draw_start_text(t_context *ctx);
-void	render_story(t_context *ctx);
-void	draw_minimap(t_context *ctx);
 int		handle_key_press(int keycode, t_context *ctx);
 int		handle_key_release(int keycode, t_context *ctx);
 void	reset_player_dir(t_player *player, char dir);

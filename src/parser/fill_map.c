@@ -12,7 +12,6 @@
 
 #include "cub3D.h"
 
-// Can add more valid chars later.
 static int	is_valid_map_cell(char c)
 {
 	return (c == '1'
@@ -24,18 +23,6 @@ static int	is_valid_map_cell(char c)
 		|| c == ' ');
 }
 
-static int	dup_line(t_map *map, char *line, int y)
-{
-	map->grid[y] = ft_strdup(line);
-	if (!map->grid[y])
-		return (0);
-	return (1);
-}
-
-// sets spawn if present
-// returns 0 if dup_spawn
-// or if malloc fails
-// copies row to map->grid
 static int	store_map_row(t_map *map, char *line, int *found, int y)
 {
 	int	x;
@@ -44,23 +31,23 @@ static int	store_map_row(t_map *map, char *line, int *found, int y)
 	len = ft_strlen(line);
 	while (len > 0 && (line[len - 1] == '\n' || line[len - 1] == '\r'))
 		line[--len] = '\0';
-	x = 0;
-	while (line[x])
+	x = -1;
+	while (line[++x])
 	{
 		if (!is_valid_map_cell(line[x]) && !is_spawn_point(line[x]))
 			return (0);
+		if (is_spawn_point(line[x]) && *found)
+			return (0);
 		if (is_spawn_point(line[x]))
 		{
-			if (*found)
-				return (0);
 			map->spawn.x = x;
 			map->spawn.y = y;
 			map->spawn.direction = line[x];
 			*found = 1;
 		}
-		x++;
 	}
-	return (dup_line(map, line, y));
+	map->grid[y] = ft_strdup(line);
+	return (map->grid[y] != NULL);
 }
 
 static void	advance_to_map_content(char **line, int fd)
@@ -75,6 +62,15 @@ static void	advance_to_map_content(char **line, int fd)
 		}
 		free(*line);
 		*(line) = get_next_line(fd);
+	}
+}
+
+static void	flush_gnl(char *line, int fd)
+{
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
 	}
 }
 
@@ -95,18 +91,12 @@ int	load_map_grid(t_map *map, int fd)
 	{
 		if (!store_map_row(map, line, &found_spawn, y))
 		{
-			while (line)
-			{
-				free(line);
-				line = get_next_line(fd);
-			}
+			flush_gnl(line, fd);
 			return (0);
 		}
 		y++;
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (!found_spawn)
-		return (0);
-	return (1);
+	return (found_spawn);
 }

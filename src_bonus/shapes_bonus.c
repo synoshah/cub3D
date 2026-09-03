@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shapes_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbaras <fbaras@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 21:06:50 by fbaras            #+#    #+#             */
-/*   Updated: 2026/09/03 21:06:51 by fbaras           ###   ########.fr       */
+/*   Updated: 2026/09/03 22:20:10 by synoshah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3D_bonus.h"
 #include "include/shapes.h"
 #include "include/draw.h"
 #define _USE_MATH_DEFINES

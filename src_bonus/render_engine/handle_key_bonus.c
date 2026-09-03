@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
-#include "include/map.h"
+#include "cub3D_bonus.h"
 
 static void	move_player(t_context *ctx, double move_x, double move_y)
 {
