@@ -49,11 +49,13 @@ void	draw_minimap(t_context *ctx)
 	tile = 7;
 	offset.x = 10;
 	offset.y = 10;
-	y = -1;
-	while (y++ < (int)ctx->map->size.height - 1)
+	y = 0;
+	while (y < (int)ctx->map->size.height)
 	{
-		x = -1;
-		while ((int)ft_strlen(ctx->map->grid[y]) >= 0 && x++ < (int)ft_strlen(ctx->map->grid[y]))
+		if (!ctx->map->grid[y])
+			break ;
+		x = 0;
+		while (ctx->map->grid[y][x] != '\0')
 		{
 			point.x = offset.x + x * tile;
 			point.y = offset.y + y * tile;
@@ -61,7 +63,9 @@ void	draw_minimap(t_context *ctx)
 				draw_square(ctx->img, point, 0, tile);
 			else
 				draw_square(ctx->img, point, 0x222222, tile);
+			x++;
 		}
+		y++;
 	}
 	draw_player(ctx->img, ctx->player);
 }

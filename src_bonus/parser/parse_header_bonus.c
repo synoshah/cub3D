@@ -65,13 +65,17 @@ static int	scan_cub_file(t_map *map, t_flags *flags, int fd)
 	while (line)
 	{
 		result = apply_header_entry(map, flags, line); 
-		if (result == 0)
+		if (result == 0 && !update_map_dimensions(line, flags))
+			result = -1;
+		if (result < 0)
 		{
-			if (!update_map_dimensions(line, flags))
-				return (free(line), 0);
+			while (line)
+			{
+				free(line);
+				line = get_next_line(fd);
+			}
+			return (0);
 		}
-		else if (result < 0)
-			return (free(line), 0);
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -91,10 +95,7 @@ int	parse_map_metadata(t_map *map, int fd)
 	if (!all_textures_found(flags.found_textures)
 		|| !flags.found_floor || !flags.found_ceiling)
 	{
-		printf("failed to find all textures and colors\n");
-		printf("%d %d %d %d %d %d\n", flags.found_floor, flags.found_ceiling,
-			flags.found_textures[0], flags.found_textures[1],
-			flags.found_textures[2], flags.found_textures[3]);
+		printf("Error\nFailed to find all textures and colors\n");
 		return (0);
 	}
 	return (1);

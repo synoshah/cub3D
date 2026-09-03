@@ -83,7 +83,11 @@ int	load_map_grid(t_map *map, int fd)
 	{
 		if (!store_map_row(map, line, &found_spawn, y))
 		{
-			free(line);
+			while (line)
+			{
+				free(line);
+				line = get_next_line(fd);
+			}
 			return (0);
 		}
 		y++;

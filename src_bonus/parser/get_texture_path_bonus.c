@@ -11,7 +11,7 @@ static int	validate_and_add_path(char *line, char **destinations)
 	fd = open(path, 0);
 	if (fd < 0)
 	{
-		printf("File %s doesnt exits\n", path);
+		printf("Error\nFile %s doesn't exist\n", path);
 		free(path);
 		return (0);
 	}
