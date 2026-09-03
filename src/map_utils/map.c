@@ -1,4 +1,4 @@
-#include "../cub3D.h"
+#include "cub3D.h"
 
 void	draw_background(t_data *img, int ceiling_color, int floor_color)
 {

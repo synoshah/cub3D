@@ -1,48 +1,55 @@
 #include "cub3D.h"
 
-static int	is_digits_only(char *str)
+static int parse_component(char *component)
 {
-	int	i;
+	int value;
 
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
-	if (!str[i] || str[i] == '\n')
-		return (0);
-	while (str[i] && str[i] != '\n' && str[i] != '\r' && str[i] != ' ')
+	while (*component == ' ' || *component == '\t')
+		component++;
+	if (*component < '0' || *component > '9')
+		return (-1);
+	value = 0;
+	while (*component >= '0' && *component <= '9')
 	{
-		if (str[i] < '0' || str[i] > '9')
-			return (0);
-		i++;
+		value = value * 10 + (*component - '0');
+		if (value > 255)
+			return (-1);
+		component++;
 	}
-	return (1);
+	while (*component == ' ' || *component == '\t'
+		|| *component == '\r' || *component == '\n')
+		component++;
+	if (*component != '\0')
+		return (-1);
+	return (value);
 }
 
 static int	get_color(char *line)
 {
 	char		**temp;
 	int			len;
-	signed int	r;
-	signed int	g;
-	signed int	b;
+	signed int	red;
+	signed int	green;
+	signed int	blue;
 
+	while (*line == ' ' || *line == '\t')
+		line++;
 	len = 0;
-	temp = ft_split(line + 2, ',');
+	temp = ft_split(line + 1, ',');
 	while (temp[len])
 		len++;
-	if (len != 3 || !is_digits_only(temp[0]) 
-		|| !is_digits_only(temp[1]) || !is_digits_only(temp[2]))
+	if (len != 3)
 	{
 		free_split(temp);
 		return (-1);
 	}
-	r = ft_atoi(temp[0]);
-	g = ft_atoi(temp[1]);
-	b = ft_atoi(temp[2]);
+	red = parse_component(temp[0]);
+	green = parse_component(temp[1]);
+	blue = parse_component(temp[2]);
 	free_split(temp);
-	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+	if ((red < 0 || red > 255) || (green < 0 || green > 255) || (blue < 0 || blue > 255))
 		return (-1);
-	return ((r << 16) | (g << 8) | b);
+	return ((red << 16) | (green << 8) | blue);
 }
 
 int	add_color(t_colors *colors, char *line, t_flags *flags)
