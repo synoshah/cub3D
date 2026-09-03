@@ -50,8 +50,7 @@ void	draw_minimap(t_context *ctx)
 	offset.x = 10;
 	offset.y = 10;
 	y = -1;
-	printf("%ld %ld\n", ctx->map->size.height, ctx->map->size.width);
-	while (y++ < (int)ctx->map->size.height)
+	while (y++ < (int)ctx->map->size.height - 1)
 	{
 		x = -1;
 		while ((int)ft_strlen(ctx->map->grid[y]) >= 0 && x++ < (int)ft_strlen(ctx->map->grid[y]))
