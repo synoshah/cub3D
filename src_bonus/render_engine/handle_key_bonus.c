@@ -60,9 +60,11 @@ static void	handle_movement(t_context *ctx)
 	if (ctx->keys->s)
 		move_player(ctx, -p->dir_x * p->move_speed, -p->dir_y * p->move_speed);
 	if (ctx->keys->a)
-		move_player(ctx, -p->camera_x * p->move_speed, -p->camera_y * p->move_speed);
+		move_player(ctx, -p->camera_x * p->move_speed,
+			-p->camera_y * p->move_speed);
 	if (ctx->keys->d)
-		move_player(ctx, p->camera_x * p->move_speed, p->camera_y * p->move_speed);
+		move_player(ctx, p->camera_x * p->move_speed,
+			p->camera_y * p->move_speed);
 	if (ctx->map->grid[(int)p->pypos_y][(int)p->pypos_x] == 'X')
 		ctx->game_state->gamemode = WON;
 }
@@ -83,9 +85,7 @@ int	handle_key(t_context *ctx)
 	}
 	if (ctx->game_state->gamemode != PLAYING)
 		return (0);
-		
 	handle_movement(ctx);
-	
 	if (ctx->keys->r)
 		rotate_player(ctx->player, ctx->player->rotation_speed);
 	if (ctx->keys->l)
