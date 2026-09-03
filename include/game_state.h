@@ -13,5 +13,4 @@ typedef struct s_game_state
 {
 	int			level;
 	t_gamemode	gamemode;
-	int			imgaes;
 }	t_game_state;

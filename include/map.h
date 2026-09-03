@@ -54,19 +54,6 @@ typedef struct s_flags
 	int	width;
 }	t_flags;
 
-// typedef struct s_map
-// {
-// 	size_t	height;
-// 	size_t	width;
-// 	int		floor_color;
-// 	int		celing_color;
-// 	char	**map;
-// 	char	*path_n;
-// 	char	*path_s;
-// 	char	*path_w;
-// 	char	*path_e;
-// }	t_map;
-
 // TODO: This Needs to take a map as a parameter
 void 	draw_background(t_data *img, int ceiling_color, int floor_color);
 // parser
