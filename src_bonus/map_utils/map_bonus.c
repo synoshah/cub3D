@@ -1,15 +1,14 @@
-
 #include "include/draw.h"
 #include "include/shapes.h"
-#include "../cub3D.h"
+#include "../../cub3D.h"
 
 #define HEIGHT 24
 #define WIDTH 24
 
-void draw_background(t_data *img, int ceiling_color, int floor_color)
+void	draw_background(t_data *img, int ceiling_color, int floor_color)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
 	while (x < 800)
@@ -29,45 +28,40 @@ void draw_background(t_data *img, int ceiling_color, int floor_color)
 
 void	draw_player(t_data *img, t_player *player)
 {
-	int start_x;
-	int start_y;
-	int end_x;
-	int end_y;
-	
-	start_x = 10 + (int)(player->pypos_x * 7);
-	start_y = 10 + (int)(player->pypos_y * 7);
-	end_x = start_x + (int)(player->dir_x * 5);
-	end_y = start_y + (int)(player->dir_y * 5);
-	draw_line(img, start_x, start_y, end_x, end_y, 0x00FF00);
+	t_point	start;
+	t_point	end;
+
+	start.x = 10 + (int)(player->pypos_x * 7);
+	start.y = 10 + (int)(player->pypos_y * 7);
+	end.x = start.x + (int)(player->dir_x * 5);
+	end.y = start.y + (int)(player->dir_y * 5);
+	draw_line(img, start, end, 0x00FF00);
 }
 
-void draw_minimap(t_context *ctx)
+void	draw_minimap(t_context *ctx)
 {
-	int tile;
-	int offset_x;
-	int offset_y;
-	int x;
-	int y;
+	int		tile;
+	t_point	offset;
+	t_point	point;
+	int		x;
+	int		y;
 
 	tile = 7;
-	offset_x = 10;
-	offset_y = 10;
-
-	y = 0;
-	while (y < (int)ctx->map->size.height)
+	offset.x = 10;
+	offset.y = 10;
+	y = -1;
+	while (y++ < (int)ctx->map->size.height)
 	{
-		x = 0;
-		while (x < (int)ft_strlen(ctx->map->grid[y]))
+		x = -1;
+		while (x++ < (int)ft_strlen(ctx->map->grid[y]))
 		{
+			point.x = offset.x + x * tile;
+			point.y = offset.y + y * tile;
 			if (ctx->map->grid[y][x] == 'V')
-				draw_square(ctx->img, offset_x + x * tile,
-					offset_y + y * tile, 0, tile);
+				draw_square(ctx->img, point, 0, tile);
 			else
-				draw_square(ctx->img, offset_x + x * tile,
-					offset_y + y * tile, 0x222222, tile);
-			x++;
+				draw_square(ctx->img, point, 0x222222, tile);
 		}
-		y++;
 	}
 	draw_player(ctx->img, ctx->player);
 }

@@ -32,7 +32,8 @@ int	close_game(t_context *ctx)
 static void	init_structs(t_context *ctx, t_player *p, t_input *in,
 	t_game_state *gs)
 {
-	ft_memset(ctx, 0, sizeof(t_context));	ft_memset(in, 0, sizeof(t_input));
+	ft_memset(ctx, 0, sizeof(t_context));
+	ft_memset(in, 0, sizeof(t_input));
 	ft_memset(gs, 0, sizeof(t_game_state));
 	ctx->player = p;
 	ctx->keys = in;

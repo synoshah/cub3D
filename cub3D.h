@@ -74,7 +74,7 @@ typedef struct s_input
 	int	d;
 	int	l;
 	int	r;
-	int x;
+	int	x;
 }	t_input;
 
 typedef struct s_context
@@ -91,6 +91,7 @@ typedef struct s_context
 	void			*end_img;
 }	t_context;
 
+int		reload_textures(t_context *ctx);
 int		render_frame(t_context *ctx);
 int		handle_key(t_context *ctx);
 int		load_texture(void *mlx, t_data texture[], char *file_path);

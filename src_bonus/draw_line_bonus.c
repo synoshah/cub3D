@@ -1,59 +1,56 @@
-
-#include "include/image.h"
+#include "include/draw.h"
 #include <stdlib.h>
 
 void	my_pixel_put(t_data *img, int x, int y, int color);
 
-int get_texture_pixel(t_data *texture, int x, int y)
+int	get_texture_pixel(t_data *texture, int x, int y)
 {
-	char *pixel_address;
-	int color;
+	char	*pixel_address;
+	int		color;
 
-	// calculate the memory address of the pixel
-	pixel_address = texture->addr + (y * texture->line_length 
-		+ x * (texture->bits_per_pixel / 8));
+	pixel_address = texture->addr + (y * texture->line_length
+			+ x * (texture->bits_per_pixel / 8));
 	color = *(unsigned int *)pixel_address;
-	return color;
+	return (color);
 }
 
-void draw_line(t_data *img, int x0, int y0, int x1, int y1, int color)
+static void	step_line(t_point *start, t_point end,
+		t_point delta, int *err)
 {
-	int dx = abs(x1 - x0);
-	int dy = abs(y1 - y0);
-	int	sx;
-	int	sy;
-	
-	// Determine the direction of the step (-1 or 1)
-	if (x0 < x1)
-		sx = 1;
-	else
-		sx = -1;
-	if (y0 < y1)
-		sy = 1;
-	else
-		sy = -1;
+	int	error;
 
-	// Initialize the error decision variable
-	int err = dx - dy;
+	error = 2 * *err;
+	if (error > -delta.y)
+	{
+		*err -= delta.y;
+		if (start->x < end.x)
+			start->x += 1;
+		else
+			start->x -= 1;
+	}
+	if (error < delta.x)
+	{
+		*err += delta.x;
+		if (start->y < end.y)
+			start->y += 1;
+		else
+			start->y -= 1;
+	}
+}
 
-	while (1) {
-		// Light up the current pixel
-		my_pixel_put(img, x0, y0, color);
+void	draw_line(t_data *img, t_point start, t_point end, int color)
+{
+	t_point	delta;
+	int		err;
 
-		// Break when the destination pixel is reached
-		if (x0 == x1 && y0 == y1)
-			break;
-		// Multiply by 2 using a bit-shift for performance (e2 = 2 * err)
-		int e2 = err << 1; 
-
-		// Adjust coordinates based on the error margin
-		if (e2 > -dy) {
-			err -= dy;
-			x0 += sx;
-		}
-		if (e2 < dx) {
-			err += dx;
-			y0 += sy;
-		}
+	delta.x = abs(end.x - start.x);
+	delta.y = abs(end.y - start.y);
+	err = delta.x - delta.y;
+	while (1)
+	{
+		my_pixel_put(img, start.x, start.y, color);
+		if (start.x == end.x && start.y == end.y)
+			break ;
+		step_line(&start, end, delta, &err);
 	}
 }

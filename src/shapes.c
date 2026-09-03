@@ -1,43 +1,44 @@
 #include "cub3D.h"
 #include "include/shapes.h"
+#include "include/draw.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-void	my_pixel_put(t_data *img, int x, int y, int color);
-void 	draw_line(t_data *img, int x0, int y0, int x1, int y1, int color);
-
-
-void	draw_circle(t_data *img, int xc, int yc, int color, int radius)
+static void	draw_circle_step(t_data *img, t_point point, t_point p, int color)
 {
-	int	y;
-	int	x;
-	int	d;
+	my_pixel_put (img, point.x + p.x, point.y + p.y, color);
+	my_pixel_put (img, point.x + p.x, point.y - p.y, color);
+	my_pixel_put (img, point.x + p.y, point.y + p.x, color);
+	my_pixel_put (img, point.x + p.y, point.y - p.x, color);
+	my_pixel_put (img, point.x - p.x, point.y + p.y, color);
+	my_pixel_put (img, point.x - p.x, point.y - p.y, color);
+	my_pixel_put (img, point.x - p.y, point.y + p.x, color);
+	my_pixel_put (img, point.x - p.y, point.y - p.x, color);
+}
 
-	x = 0;
-	y = radius;
+void	draw_circle(t_data *img, t_point point, int color, int radius)
+{
+	t_point	p;
+	int		d;
+
+	p.x = 0;
+	p.y = radius;
 	d = 3 - 2 * radius;
-	while (y >= x)
+	while (p.y >= p.x)
 	{
-		my_pixel_put(img, xc+x, yc + y, color);
-		my_pixel_put(img, xc+x, yc - y, color);
-		my_pixel_put(img, xc+y, yc + x, color);
-		my_pixel_put(img, xc+y, yc - x, color);
-		my_pixel_put(img, xc-x, yc + y, color);
-		my_pixel_put(img, xc-x, yc - y, color);
-		my_pixel_put(img, xc-y, yc + x, color);
-		my_pixel_put(img, xc-y, yc - x, color);
-		x++;
+		draw_circle_step(img, point, p, color);
+		p.x++;
 		if (d > 0)
 		{
-			y--;
-			d = d + 4 * (x - y) + 10;
+			p.y--;
+			d = d + 4 * (p.x - p.y) + 10;
 		}
 		else
-			d = d + 4 * x + 6;
+			d = d + 4 * p.x + 6;
 	}
 }
 
-void	draw_square(t_data *img, int x, int y, int color, int size)
+void	draw_square(t_data *img, t_point point, int color, int size)
 {
 	int	i;
 	int	j;
@@ -46,12 +47,12 @@ void	draw_square(t_data *img, int x, int y, int color, int size)
 
 	if (img == NULL || size <= 0)
 		return ;
-	x_end = x + size;
-	y_end = y + size;
-	i = x;
+	x_end = point.x + size;
+	y_end = point.y + size;
+	i = point.x;
 	while (i < x_end)
 	{
-		j = y;
+		j = point.y;
 		while (j < y_end)
 		{
 			my_pixel_put(img, i, j, color);

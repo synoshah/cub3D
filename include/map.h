@@ -73,7 +73,6 @@ void 	draw_background(t_data *img, int ceiling_color, int floor_color);
 int		add_color(t_colors *colors, char *line, t_flags *flags);
 char	*get_tex(t_map *map, char *line);
 void	free_map(t_map *map);
-
 int		is_texture_line(char *line);
 int		is_color_line(char *line);
 int		is_blank_line(char *line);
