@@ -6,7 +6,7 @@
 /*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 21:37:03 by synoshah          #+#    #+#             */
-/*   Updated: 2026/09/03 22:19:55 by synoshah         ###   ########.fr       */
+/*   Updated: 2026/09/04 13:59:58 by synoshah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ static int	init_map_and_player(t_context *ctx, char *file)
 		return (0);
 	ctx->player->pypos_x = ctx->map->spawn.x + 0.1;
 	ctx->player->pypos_y = ctx->map->spawn.y + 0.1;
-	ctx->player->move_speed = 0.1;
-	ctx->player->rotation_speed = 0.05;
+	ctx->player->move_speed = 0.03;
+	ctx->player->rotation_speed = 0.02;
 	reset_player_dir(ctx->player, ctx->map->spawn.direction);
 	return (1);
 }

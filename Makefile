@@ -4,6 +4,7 @@ BONUS_NAME  = cub3D_bonus
 CC          = cc
 CFLAGS      = -Wall -Wextra -Werror -g
 MLX_DIR     = ./minilibx-linux
+MLX_LIB     = $(MLX_DIR)/libmlx.a
 MLX_FLAGS   = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 INCLUDES    = -I. -I$(MLX_DIR) -I./libft -I./include
 LIBFT       = ./libft/libft.a
@@ -56,11 +57,14 @@ B_OBJS      = $(B_SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(MLX_LIB) $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAGS) $(LIBFT) -o $(NAME)
 
-bonus: $(LIBFT) $(B_OBJS)
+bonus: $(MLX_LIB) $(LIBFT) $(B_OBJS)
 	$(CC) $(CFLAGS) $(B_OBJS) $(MLX_FLAGS) $(LIBFT) -o $(BONUS_NAME)
+
+$(MLX_LIB):
+	make -C $(MLX_DIR)
 
 $(LIBFT):
 	make -C ./libft
@@ -71,6 +75,7 @@ $(LIBFT):
 clean:
 	rm -f $(OBJS) $(B_OBJS)
 	make clean -C ./libft
+	make clean -C $(MLX_DIR)
 
 fclean: clean
 	rm -f $(NAME) $(BONUS_NAME)
