@@ -54,7 +54,7 @@ static void	animate_bamboo_wall(t_context *ctx)
 	t_data		temp;
 
 	frame++;
-	if (ctx->game_state->level == 1 && frame % 40 == 0)
+	if (ctx->game_state->level == 1 && frame % 140 == 0)
 	{
 		temp = ctx->textures[0];
 		ctx->textures[0] = ctx->textures[5];
