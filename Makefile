@@ -56,11 +56,12 @@ OBJS        = $(SRCS:.c=.o)
 B_OBJS      = $(B_SRCS:.c=.o)
 
 all: $(NAME)
+bonus: $(BONUS_NAME)
 
 $(NAME): $(MLX_LIB) $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAGS) $(LIBFT) -o $(NAME)
 
-bonus: $(MLX_LIB) $(LIBFT) $(B_OBJS)
+$(BONUS_NAME): $(MLX_LIB) $(LIBFT) $(B_OBJS)
 	$(CC) $(CFLAGS) $(B_OBJS) $(MLX_FLAGS) $(LIBFT) -o $(BONUS_NAME)
 
 $(MLX_LIB):
