@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: synoshah <synoshah@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: fbaras <fbaras@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 21:45:05 by synoshah          #+#    #+#             */
-/*   Updated: 2026/09/04 14:00:04 by synoshah         ###   ########.fr       */
+/*   Updated: 2026/09/04 15:30:04 by fbaras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ static int	init_map_and_player(t_context *ctx, char *file)
 
 	len = ft_strlen(file);
 	if (len < 4 || ft_strncmp(file + len - 4, ".cub", 4) != 0)
-	{
-		printf("Error\nInvalid map extension.\n");
 		return (0);
-	}
 	ctx->map = parse_map_file(file);
 	if (!ctx->map)
 		return (0);
